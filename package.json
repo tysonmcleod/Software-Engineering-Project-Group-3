@@ -1,0 +1,22 @@
+{
+  "name": "software-engineering-project-group-3",
+  "version": "1.0.0",
+  "description": "npm package for 15 credit project course",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/tysonmcleod/Software-Engineering-Project-Group-3.git"
+  },
+  "author": "Johan Isaksson",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/tysonmcleod/Software-Engineering-Project-Group-3/issues"
+  },
+  "homepage": "https://github.com/tysonmcleod/Software-Engineering-Project-Group-3#readme",
+  "dependencies": {
+    "express": "^4.17.1"
+  }
+}
