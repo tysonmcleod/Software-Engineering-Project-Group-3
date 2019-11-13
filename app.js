@@ -1,11 +1,20 @@
 var createError = require('http-errors');
 var express = require('express');
+
+//Set up mongoose connection
+var mongoose = require('mongoose');
+var mongoDB = 'mongodb://localhost:27017/carpooldb';
+mongoose.connect(mongoDB, { useNewUrlParser: true });
+var db = mongoose.connection;
+db.on('error', console.error.bind(console, 'MongoDB connection error:'));
+
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
+var msgsRouter = require('./routes/chat');
 
 var app = express();
 const port = 3000;
@@ -22,6 +31,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
+app.use('/messages', msgsRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
