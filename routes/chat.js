@@ -8,12 +8,19 @@ var Messages = require('../models/messages');
 // var MongoClient = require('mongodb').MongoClient;
 // var url = "mongodb://localhost:27017/";
 
-router.get('/', function(req, res, next) {
-    res.send('respond with a resource');
-    Messages.find(function (err, messages) {
-        // if (err) return
-        console.log(messages)
-    });
+router.get('/', async (req, res) => {
+    try {
+        const messages = await Messages.find()
+        res.json(messages)
+    } catch (err) {
+        res.status(500).json({ message: err.message })
+    }
+    // res.send('respond with a resource');
+    // Messages.find(function (err, messages) {
+    //     // if (err) return
+    //     console.log(messages)
+    //     res.json(messages);
+    // });
     // res.send('All messages:');
     // Connect to the db
     // MongoClient.connect(url, function (err, db) {
