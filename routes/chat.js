@@ -1,4 +1,5 @@
 var express = require('express');
+var mongoose = require('mongoose');
 // var table = require('table');
 var router = express.Router();
 var Messages = require('../models/messages');
@@ -27,9 +28,11 @@ router.post('/', async (req, res) => {
     }
 });
 
-router.get('/', async (req, res) => {
+// Get chats of user with id
+router.get('/:id', async (req, res) => {
+    const id = req.params.id;
     try {
-        const messages = await Messages.find();
+        const messages = await Messages.find({participants: id});
         res.json(messages)
     } catch (err) {
         res.status(500).json({ message: err.message })
