@@ -4,7 +4,7 @@ var Schema = mongoose.Schema;
 
 var MessageSchema = new Schema(
     {
-        participants: [Schema.Types.ObjectId], // only 2 elements
+        participants: [String], // only 2 elements
         messages: [String],
         senders: [String]
     }
