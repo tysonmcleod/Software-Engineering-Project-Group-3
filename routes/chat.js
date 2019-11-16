@@ -11,20 +11,33 @@ router.post('/', async (req, res) => {
     const msg = req.body.message;
 
     // Check if a conversation between sender and receiver already exists
-    // ....
+    const chat = await Messages.findOne({$and: [{participants: sender}, {participants: receiver}]});
 
-    // otherwise create it from scratch
-    const chat = new Messages({
-        participants: [sender, receiver],
-        messages: [msg],
-        sender: sender
-    });
+    // if it exists then add the message
+    if (chat != null) {
+        chat.messages.push(msg);
+        chat.senders.push(sender);
 
-    try {
-        const newChat = await chat.save();
-        res.status(201).json(newChat)
-    } catch (err) {
-        res.status(400).json({ message: err.message })
+        try {
+            const savedChat = await chat.save();
+            res.status(201).json(savedChat)
+        } catch (err) {
+            res.status(400).json({ message: err.message })
+        }
+    } else {
+        // otherwise create it from scratch
+        const newChat = new Messages({
+            participants: [sender, receiver],
+            messages: [msg],
+            senders: [sender]
+        });
+
+        try {
+            const newSavedChat = await newChat.save();
+            res.status(201).json(newSavedChat)
+        } catch (err) {
+            res.status(400).json({ message: err.message })
+        }
     }
 });
 
@@ -40,7 +53,7 @@ router.get('/:id', async (req, res) => {
 });
 
 // Get chat between two users
-// TODO: later, obtain user id1 by session and get as parameter the id2
+// TODO: later, obtain user id1 by session and get id2 as parameter
 router.get('/:id1/:id2', async (req, res) => {
     const id1 = req.params.id1;
     const id2 = req.params.id2;
