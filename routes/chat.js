@@ -39,4 +39,17 @@ router.get('/:id', async (req, res) => {
     }
 });
 
+// Get chat between two users
+// TODO: later, obtain user id1 by session and get as parameter the id2
+router.get('/:id1/:id2', async (req, res) => {
+    const id1 = req.params.id1;
+    const id2 = req.params.id2;
+    try {
+        const messages = await Messages.find({$and: [{participants: id1}, {participants: id2}]});
+        res.json(messages)
+    } catch (err) {
+        res.status(500).json({ message: err.message })
+    }
+});
+
 module.exports = router;
