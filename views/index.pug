@@ -1,9 +1,7 @@
-html
-  head
-    title= title
-  body
-    h1= testString
+extends layout
 
+block content
+    h1 test
     form(method='POST' action='/')
       div.form-group
           input#from-dest.form-control(type='text', placeholder='from' name='from-dest')
@@ -29,6 +27,3 @@ html
                 td= day[0]
               else
                 td= -1
-
-  footer
-    h3= "Insert footer"
