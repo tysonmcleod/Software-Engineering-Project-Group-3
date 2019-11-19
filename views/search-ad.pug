@@ -1,0 +1,10 @@
+extends layout
+
+block content
+    h1 Create ad
+    form(method= 'POST', action='rides/finding-ads')
+      #form-group
+        label From:
+        input.form-control(name='from', type='text')
+      br
+      input.btn.btn.primary(type='submit', value='Submit')

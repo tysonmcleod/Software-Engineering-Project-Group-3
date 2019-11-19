@@ -12,8 +12,8 @@ var session = require('express-session');
 // route files
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
-var apiRouter = require('./routes/api');
-
+var advertisementsRouter = require('./routes/advertisements');
+var ridesRouter = require('./routes/rides');
 
 var app = express();
 const port = 3000;
@@ -61,8 +61,8 @@ app.use(expressValidator({
 
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
-app.use('/api', apiRouter);
-
+app.use('/advertisements', advertisementsRouter);
+app.use('/rides', ridesRouter);
 
 
 // catch 404 and forward to error handler

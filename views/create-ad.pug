@@ -1,0 +1,16 @@
+extends layout
+
+block content
+    h1 Create advertisement
+    form(method= 'POST', action='/advertisements/send-ad')
+      #form-group
+        label From:
+        input.form-control(name='from', type='text')
+      #form-group
+        label To:
+        input.form-control(name='to', type='text')
+      #form-group
+        label Username:
+        input.form-control(name='username', type='text')
+      br
+      input.btn.btn.primary(type='submit', value='Submit')
