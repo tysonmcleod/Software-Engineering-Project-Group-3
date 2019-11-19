@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 const bcrypt = require('bcryptjs');
 
 // user schema
-const UserSchema = mongoose.Schema({
+const User = new mongoose.Schema({
   firstname:{
     type: String,
     required: true
@@ -26,4 +26,7 @@ const UserSchema = mongoose.Schema({
 });
 
 // module exports to access outside of this file
-const User = module.exports = mongoose.model('User', UserSchema);
+module.exports = {
+  model: mongoose.model('User', User),
+  schema: User
+};
