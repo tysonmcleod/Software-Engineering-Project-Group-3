@@ -1,0 +1,14 @@
+html
+  head
+    title= title
+  body
+    h1= testString
+
+    <form method="post" action="/api/send">
+      <input type="text" name="user[name]">
+      <input type="text" name="user[email]">
+      <input type="submit" value="Submit">
+    </form>
+
+  footer
+    h3= "Insert footer"
