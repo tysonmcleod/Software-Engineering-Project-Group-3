@@ -1,12 +1,20 @@
-var createError = require('http-errors');
 var express = require('express');
 var mongoose = require('mongoose');
 var path = require('path');
+var bodyParser = require('body-parser');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
-
+var config = require('./config/database')
+var expressValidator = require('express-validator');
+var flash = require('connect-flash');
+var passport = require('passport');
+var session = require('express-session')
+// route files
 var indexRouter = require('./routes/index');
-var usersRouter = require('./routes/users');
+//var usersRouter = require('./routes/users');
+
+// user reg and login
+var users = require('./routes/users');
 
 var app = express();
 const port = 3000;
@@ -26,8 +34,51 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
+// Express session middleware
+app.use(session({
+  secret:'secret',
+  saveUninitialized: true,
+  resave: false,
+  cookie: {secure: true}
+}));
+
+// Express messages middleware
+app.use(require('connect-flash')());
+app.use(function (req, res, next) {
+  res.locals.messages = require('express-messages')(req, res);
+  next();
+});
+
+// Express validator middleware
+app.use(expressValidator({
+  errorFormatter: function(param, msg, value) {
+    var namespace = param.split('.')
+        , root    = namespace.shift()
+        , formParam = root;
+
+    while(namespace.length) {
+      formParam += '[' + namespace.shift() + ']';
+    }
+    return {
+      param : formParam,
+      msg   : msg,
+      value : value
+    };
+  }
+}));
+
+// Passport Config
+require('./config/passport')(passport);
+
+
+// Passport middleware
+app.use(passport.initialize());
+app.use(passport.session());
+
 app.use('/', indexRouter);
-app.use('/users', usersRouter);
+app.use('/users', users);
+
+// app.use('/users', usersRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
@@ -48,7 +99,7 @@ app.use(function(err, req, res, next) {
 app.set('port', (process.env.PORT || 8000));
 
 app.listen(app.get('port'), function(){
-	console.log('Server started on port '+app.get('port'));
+  console.log('Server started on port '+app.get('port'));
 });
 
-module.exports = app;
+module.exports = app
