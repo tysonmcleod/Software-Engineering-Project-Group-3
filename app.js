@@ -12,10 +12,6 @@ var apiRouter = require('./routes/api');
 var app = express();
 const port = 3000;
 
-var mongoDB = 'mongodb+srv://carliftadmin:carliftadmin@cluster0-dbznl.mongodb.net/carlift?retryWrites=true&w=majority';
-mongoose.connect(mongoDB, { useNewUrlParser: true, useUnifiedTopology: true });
-var db = mongoose.connection;
-db.on('error', console.error.bind(console, 'MongoDB connection error:'));
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -31,8 +27,6 @@ app.use('/', indexRouter);
 app.use('/users', usersRouter);
 app.use('/api', apiRouter);
 
-// Parse URL-encoded bodies (as sent by HTML forms)
-app.use(express.urlencoded());
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
