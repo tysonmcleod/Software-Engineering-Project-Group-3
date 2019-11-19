@@ -7,6 +7,6 @@ In project folder, write following in command-line:
 
 npm install
 
-node app.js
+nodemon app.js
 
 Web application can now be reached by http://localhost:8000

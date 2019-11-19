@@ -1,20 +1,29 @@
-var mongoose = require('mongoose');
+const mongoose = require('mongoose');
+const bcrypt = require('bcryptjs');
 
-var Schema = mongoose.Schema;
+// user schema
+const UserSchema = mongoose.Schema({
+  firstname:{
+    type: String,
+    required: true
+  },
+  lastname:{
+    type: String,
+    required: true
+  },
+  email:{
+    type: String,
+    required: true
+  },
+  username:{
+    type: String,
+    required: true
+  },
+  password:{
+    type: String,
+    required: true
+  }
+});
 
-var UserSchema = new Schema(
-    {
-        firstname: {type: String, required: true, max: 100},
-        surname: {type: String, required: true, max: 100},
-    }
-);
-
-// Virtual for user's full name
-// UserSchema
-//     .virtual('name')
-//     .get(function () {
-//         return this.surname + ', ' + this.firstname;
-//     });
-
-//Export model
-module.exports = mongoose.model('User', UserSchema);
+// module exports to access outside of this file
+const User = module.exports = mongoose.model('User', UserSchema);

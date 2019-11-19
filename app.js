@@ -4,18 +4,21 @@ var mongoose = require('mongoose');
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
+var expressValidator = require('express-validator');
+var flash = require('connect-flash');
+var bodyParser = require('body-parser');
+var session = require('express-session');
 
+// route files
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 var msgsRouter = require('./routes/chat');
+var apiRouter = require('./routes/api');
+
 
 var app = express();
 const port = 3000;
 
-var mongoDB = 'mongodb+srv://carliftadmin:carliftadmin@cluster0-dbznl.mongodb.net/carlift?retryWrites=true&w=majority';
-mongoose.connect(mongoDB, { useNewUrlParser: true, useUnifiedTopology: true });
-var db = mongoose.connection;
-db.on('error', console.error.bind(console, 'MongoDB connection error:'));
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -24,12 +27,43 @@ app.set('view engine', 'pug');
 app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
+// Express Session
+app.use(session({
+    secret: 'secret',
+    saveUninitialized: true,
+    resave: true
+}));
+
+app.use(flash());
+
+
+
+// Express Validator
+app.use(expressValidator({
+  errorFormatter: function(param, msg, value) {
+      var namespace = param.split('.')
+      , root    = namespace.shift()
+      , formParam = root;
+
+    while(namespace.length) {
+      formParam += '[' + namespace.shift() + ']';
+    }
+    return {
+      param : formParam,
+      msg   : msg,
+      value : value
+    };
+  }
+}));
 
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
 app.use('/messages', msgsRouter);
+app.use('/api', apiRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
