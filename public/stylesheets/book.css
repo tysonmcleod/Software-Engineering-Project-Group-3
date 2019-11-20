@@ -1,0 +1,15 @@
+#bookingPage {
+  width: 70%;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 20px;
+  margin-bottom: 20px;
+
+}
+
+
+#bookingPage h1 {
+  font-size: 2.4rem;
+  color: #123456;
+  margin-bottom: 20px;
+}

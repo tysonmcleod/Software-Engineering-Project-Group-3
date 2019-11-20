@@ -13,4 +13,14 @@ router.post('/', function(req, res, next) {
   res.render('index', { title: 'Express', testString: 'SENT', month: currentMonth });
 });
 
+
+router.get('/book', function(req, res){
+  res.render('book');
+})
+
+router.get('/offer', function(req, res){
+  res.render('offer');
+})
+
+
 module.exports = router;
