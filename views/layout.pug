@@ -4,6 +4,7 @@ html
     title testlayout
     link(rel='stylesheet' href='/bootstrap-4.3.1-dist/css/bootstrap.css')
     link(rel='stylesheet' href='/stylesheets/style.css')
+    link(rel='stylesheet' href='/stylesheets/chat.css')
     body
       nav.navbar.navbar-expand-md.navbar-dark.bg-dark.fixed-top
         a.navbar-brand(href='/') CarLift
@@ -16,8 +17,8 @@ html
                 | Home
                 span.sr-only (current)
             li.nav-item.active
-              a.nav-link(href='/')
-                | Something
+              a.nav-link(href='/messages/eva')
+                | Messages
                 span.sr-only (current)
             li.nav-item.active
               a.nav-link(href='/users/register')

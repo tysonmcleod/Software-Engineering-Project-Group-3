@@ -1,0 +1,8 @@
+extends layout
+
+block content
+    h1 Messages
+    form(method='GET' action='/messages/eva')
+        each chat in results
+            each msg in chat.messages
+                h3(align='middle')=msg
