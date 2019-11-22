@@ -50,12 +50,11 @@ router.post('/', async (req, res) => {
 // Get chats of user with id
 router.get('/:id', async (req, res) => {
     const id = req.params.id;
-    // console.log(res.session.username)
-    // const id = req.session.username;
+    console.log("Display all conversations of user: " + id);
     try {
         const messages = await Messages.find({participants: id});
-        // res.json(messages);
-        res.render("messages", {results: messages})
+        console.log(messages);
+        res.render("messages", {results: messages, id: id})
     } catch (err) {
         res.status(500).json({ message: err.message })
     }
@@ -66,9 +65,11 @@ router.get('/:id', async (req, res) => {
 router.get('/:id1/:id2', async (req, res) => {
     const id1 = req.params.id1;
     const id2 = req.params.id2;
+    console.log("Display messages between user: " + id1 + "and user: " + id2);
     try {
-        const messages = await Messages.find({$and: [{participants: id1}, {participants: id2}]});
-        res.json(messages)
+        const messages = await Messages.findOne({$and: [{participants: id1}, {participants: id2}]});
+        console.log(messages);
+        res.render("conversation", {results: messages, id1: id1, id2: id2})
     } catch (err) {
         res.status(500).json({ message: err.message })
     }

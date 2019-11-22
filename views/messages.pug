@@ -2,12 +2,10 @@ extends layout
 
 block content
     h1 Messages
-    form(method='GET' action='/messages/eva')
+    form(method='GET' action='/messages')
+        input.form-control(type='hidden', name='id', value=id)
         each chat in results
             each participant in chat.participants
-                if participant!='eva'
-                    a(href='/messages/eva/'+participant) #{participant}
+                if participant!=id
+                    a(href='/messages/'+id+'/'+participant) #{participant}
                     br
-
-            // each msg in chat.messages
-            //     h3(align='middle')=msg

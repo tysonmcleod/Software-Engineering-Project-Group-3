@@ -1,0 +1,12 @@
+extends layout
+
+block content
+    h1 Messages
+    form(method='GET' action='/messages')
+        input.form-control(type='hidden', name='id1', value=id1)
+        input.form-control(type='hidden', name='id2', value=id2)
+        - var i = 0
+        - while (i < results.messages.length)
+            h3=results.senders[i] + ": " + results.messages[i++]
+        // each message in results.messages
+        //     h3=message
