@@ -6,10 +6,10 @@ html
 
     form(method='POST' action='/')
       div.form-group
-          input#from-dest.form-control(type='text', placeholder='from' name='from-dest')
+        input#from-dest.form-control(type='text', placeholder='from' name='from-dest')
 
       div.form-group
-          input#from-dest.form-control(type='text', placeholder='to' name='to-dest')
+        input#from-dest.form-control(type='text', placeholder='to' name='to-dest')
 
       button.btn.btn-primary(type='submit') Submit
 
@@ -23,12 +23,12 @@ html
         th Sat
         th Sun
       each week in month
-          tr
-            each day in week
-              if day[0]
-                td= day[0]
-              else
-                td= -1
+        tr
+          each day in week
+            if day[0]
+              td= day[0]
+            else
+              td= -1
 
   footer
     h3= "Insert footer"

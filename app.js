@@ -1,28 +1,25 @@
+var createError = require('http-errors');
 var express = require('express');
 var mongoose = require('mongoose');
 var path = require('path');
-var bodyParser = require('body-parser');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
-var config = require('./config/database')
 var expressValidator = require('express-validator');
 var flash = require('connect-flash');
+var bodyParser = require('body-parser');
+var session = require('express-session');
 var passport = require('passport');
-var session = require('express-session')
+
+
 // route files
 var indexRouter = require('./routes/index');
-//var usersRouter = require('./routes/users');
+var usersRouter = require('./routes/users');
+var apiRouter = require('./routes/api');
 
-// user reg and login
-var users = require('./routes/users');
 
 var app = express();
 const port = 3000;
 
-var mongoDB = 'mongodb+srv://carliftadmin:carliftadmin@cluster0-dbznl.mongodb.net/carlift?retryWrites=true&w=majority';
-mongoose.connect(mongoDB, { useNewUrlParser: true, useUnifiedTopology: true });
-var db = mongoose.connection;
-db.on('error', console.error.bind(console, 'MongoDB connection error:'));
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -31,30 +28,26 @@ app.set('view engine', 'pug');
 app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
+app.use(bodyParser.json());
+//app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
-
-// Express session middleware
+// Express Session
 app.use(session({
-  secret:'secret',
-  saveUninitialized: true,
-  resave: false,
-  cookie: {secure: true}
+    secret: 'secret',
+    saveUninitialized: true,
+    resave: true
 }));
 
-// Express messages middleware
-app.use(require('connect-flash')());
-app.use(function (req, res, next) {
-  res.locals.messages = require('express-messages')(req, res);
-  next();
-});
+app.use(flash());
 
-// Express validator middleware
+
+// Express Validator
 app.use(expressValidator({
   errorFormatter: function(param, msg, value) {
-    var namespace = param.split('.')
-        , root    = namespace.shift()
-        , formParam = root;
+      var namespace = param.split('.')
+      , root    = namespace.shift()
+      , formParam = root;
 
     while(namespace.length) {
       formParam += '[' + namespace.shift() + ']';
@@ -67,18 +60,22 @@ app.use(expressValidator({
   }
 }));
 
-// Passport Config
+// Passport config
 require('./config/passport')(passport);
-
 
 // Passport middleware
 app.use(passport.initialize());
 app.use(passport.session());
 
-app.use('/', indexRouter);
-app.use('/users', users);
+// Global user
+app.get('*', function (req, res, next) {
+    res.locals.user = req.user || null;
+    next();
+});
 
-// app.use('/users', usersRouter);
+app.use('/', indexRouter);
+app.use('/users', usersRouter);
+app.use('/api', apiRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
@@ -86,7 +83,7 @@ app.use(function(req, res, next) {
 });
 
 // error handler
-app.use(function(err, req, res, next) {
+app.use(function(err, req, res, next) {http://localhost:8000/
   // set locals, only providing error in development
   res.locals.message = err.message;
   res.locals.error = req.app.get('env') === 'development' ? err : {};
@@ -96,10 +93,11 @@ app.use(function(err, req, res, next) {
   res.render('error');
 });
 
+
 app.set('port', (process.env.PORT || 8000));
 
 app.listen(app.get('port'), function(){
-  console.log('Server started on port '+app.get('port'));
+	console.log('Server started on port '+app.get('port'));
 });
 
-module.exports = app
+module.exports = app;
