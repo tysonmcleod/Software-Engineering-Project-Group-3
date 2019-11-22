@@ -6,7 +6,9 @@ var MessageSchema = new Schema(
     {
         participants: [String], // only 2 elements
         messages: [String],
-        senders: [String]
+        senders: [String],
+        dates: [Date],
+        lastMsgDate: Date
     }
 );
 
