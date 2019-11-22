@@ -6,7 +6,8 @@ block content
         each chat in results
             each participant in chat.participants
                 if participant!='eva'
-                    h3=participant
+                    a(href='/messages/eva/'+participant) #{participant}
+                    br
 
             // each msg in chat.messages
             //     h3(align='middle')=msg
