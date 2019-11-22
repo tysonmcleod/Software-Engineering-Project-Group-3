@@ -1,10 +1,18 @@
 extends layout
 
 block content
-    h1 Create ad
-    form(method= 'POST', action='rides/finding-ads')
+    h1 Search ad
+    form(method= 'GET', action='rides/finding-ads')
       #form-group
         label From:
         input.form-control(name='from', type='text')
+      br
+      #form-group
+        label To:
+        input.form-control(name='to', type='text')
+      br
+      #form-group
+        label Points:
+        input.form-control(name='points', type='number')
       br
       input.btn.btn.primary(type='submit', value='Submit')

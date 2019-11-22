@@ -12,12 +12,39 @@ router.get('/', (req, res) => {
 	res.render('search-ad', { title: 'Express', testString: 'We the best'});
 });
 
+router.get('/finding-ads/:id', (req, res) => {
+	const id = req.params.id
 
-router.post('/finding-ads', (req, res) => {
+	Advertisement.findById(id)
+	.then(profile => {
+		res.json({
+			confirmation: 'success',
+			data: profile
+		})
+	})
+	.catch(err => {
+		res.json({
+			confirmation: 'fail',
+			message: 'Advertisement ' + id + ' not found.'
+		})
+	})
+})
 
-	const from = req.body.from;
+router.get('/finding-ads', (req, res) => {
 
-	Advertisement.find().where('from').equals(from)
+	let filters = req.query;
+	
+	console.log(typeof req.query.points);
+	p = Number(req.query.points);
+
+	if (p != null){
+		filters = {
+			points: {$gt: p}
+		}
+	}
+
+	//Advertisement.find().where('from').equals(from)
+	Advertisement.find(filters)
 	.then(advertisements => {
 		
 		//res.render('show-ads', advertisements);
