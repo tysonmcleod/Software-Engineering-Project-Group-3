@@ -1,34 +1,44 @@
-html
-  head
-    title= title
-  body
-    h1= testString
+extends layout
 
+block content
+    h1 test
     form(method='POST' action='/')
       div.form-group
-        input#from-dest.form-control(type='text', placeholder='from' name='from-dest')
+          input#from-dest.form-control(type='text', placeholder='from' name='from-dest')
 
       div.form-group
-        input#from-dest.form-control(type='text', placeholder='to' name='to-dest')
+          input#from-dest.form-control(type='text', placeholder='to' name='to-dest')
+
+      form(method='POST' action='/')
+        button.btn.btn-primary(type='submit', name='previous', value=monthNumber) Previous
+        button.btn.btn-primary(type='submit', name='next', value=monthNumber) Next
+      h3= monthName
+      
+      table(style='width:40%', border='0')
+        tr
+          th Mon
+          th Tue
+          th Wed
+          th Thu
+          th Fri
+          th Sat
+          th Sun
+
+        -for(var week = 0; week < month.length; week++) {
+        tr
+          if week
+            td(align='center')
+              input(type="radio", name="date", value=month[week-1][6][0], id=month[week-1][6][0])
+          else
+            td(align='center')
+
+          -for(var day = 0; day <= 5; day++) {
+            if month[week][day][0]
+              td(align='center')
+                input(type="radio", name="date", value=month[week][day][0], id=month[week][day][0])
+            else
+              td(align='center')
+          -}
+        -}
 
       button.btn.btn-primary(type='submit') Submit
-
-    table(style='width:40%', border='0')
-      tr
-        th Mon
-        th Tue
-        th Wed
-        th Thu
-        th Fri
-        th Sat
-        th Sun
-      each week in month
-        tr
-          each day in week
-            if day[0]
-              td= day[0]
-            else
-              td= -1
-
-  footer
-    h3= "Insert footer"
