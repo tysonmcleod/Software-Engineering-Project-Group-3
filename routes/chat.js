@@ -10,6 +10,7 @@ router.post('/', async (req, res) => {
     const sender = req.body.sender;
     const receiver = req.body.receiver;
     const msg = req.body.message;
+    const msgDate = new Date();
 
     // Check if a conversation between sender and receiver already exists
     const chat = await Messages.findOne({$and: [{participants: sender}, {participants: receiver}]});
@@ -18,6 +19,8 @@ router.post('/', async (req, res) => {
     if (chat != null) {
         chat.messages.push(msg);
         chat.senders.push(sender);
+        chat.dates.push(msgDate);
+        chat.lastMsgDate = msgDate;
 
         try {
             const savedChat = await chat.save();
@@ -30,7 +33,9 @@ router.post('/', async (req, res) => {
         const newChat = new Messages({
             participants: [sender, receiver],
             messages: [msg],
-            senders: [sender]
+            senders: [sender],
+            dates: [msgDate],
+            lastMsgDate: msgDate
         });
 
         try {
