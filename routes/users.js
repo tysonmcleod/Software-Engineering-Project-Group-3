@@ -4,7 +4,7 @@ var bcrypt = require('bcryptjs');
 // Bring in user model
 var User = require('../models/user');
 
-
+var User = User.model;
 // register form
 
 router.get('/register', function(req,res){

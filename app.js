@@ -11,19 +11,13 @@ var session = require('express-session');
 
 // route files
 var indexRouter = require('./routes/index');
-//var usersRouter = require('./routes/users');
+var usersRouter = require('./routes/users');
+var apiRouter = require('./routes/api');
 
-// user reg and login
-var users = require('./routes/users');
-// user reg and login
 
 var app = express();
 const port = 3000;
 
-var mongoDB = 'mongodb+srv://carliftadmin:carliftadmin@cluster0-dbznl.mongodb.net/carlift?retryWrites=true&w=majority';
-mongoose.connect(mongoDB, { useNewUrlParser: true, useUnifiedTopology: true });
-var db = mongoose.connection;
-db.on('error', console.error.bind(console, 'MongoDB connection error:'));
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -66,7 +60,9 @@ app.use(expressValidator({
 }));
 
 app.use('/', indexRouter);
-app.use('/users', users);
+app.use('/users', usersRouter);
+app.use('/api', apiRouter);
+
 
 
 // catch 404 and forward to error handler
