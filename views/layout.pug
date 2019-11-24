@@ -28,7 +28,14 @@ html
               a.nav-link(href='/users/login')
                 | Login
                 span.sr-only (current)
-
+            // TODO: Remove atha username and retrieve user using the session saved username
+            // TODO: check if user is logged in, if yes then appear following li item and dissapear above login-signup,
+            // TODO: otherwise show login-signup
+            li.nav-item.active
+              a.nav-link(href='/users/profile/atha')
+                //| Profile
+                img.rounded-circle(src='https://elysator.com/wp-content/uploads/blank-profile-picture-973460_1280-e1523978675847.png' width="22" height="22")
+                span.sr-only (current)
       .container
       br
       block content
