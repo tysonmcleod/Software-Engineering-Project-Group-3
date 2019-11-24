@@ -72,6 +72,21 @@ router.get('/login', function(req,res){
   res.render('login');
 });
 
+// TODO: Retrieve user from session and remove id path parameter
+router.get('/profile/:username', async (req,res) => {
+  const username = req.params.username;
+  console.log("Display profile of user: " + username);
+
+  try {
+    const user = await User.findOne({username: username});
+    console.log(user);
+    res.render("profile", {firstname: user.firstname, lastname: user.lastname, username: user.username, email: user.email, password: user.password})
+  } catch (err) {
+    res.status(500).json({ message: err.message })
+    // TODO: render to error not found pug file
+  }
+});
+
 
 
 
