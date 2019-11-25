@@ -17,8 +17,7 @@ block content
             |
             hr
             |
-        .row.align-text-top
-            .col-md-16
+        .row.justify-content-center
                 h2.welcome Welcome to your profile page, #{firstname}!
         .row
             |
@@ -65,10 +64,9 @@ block content
                 |
             .row.offset-9
                 .col-xs-7.col-sm-7.col-md-7
-                    input.btn.btn-secondary.bt-lg.btn-block(type='submit', value='Edit')
+                    a.btn.btn-secondary.bt-lg.btn-block(href='/users/editProfile') Edit
                 //h4.password Password:
                 //#form-group
                 //    label.h4.password Password:
                 //    input.form-control(name='password', type='password', value='#{profile.password}')
-
 
