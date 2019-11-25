@@ -12,9 +12,18 @@ block content
         //include ./../js/LetterAvatar.js
     //form(method='GET' action='/users/profile')
     .main.container.clearfix
+        // FIXME: There will be a better way for this :P
         .row
+            |
+            hr
+            |
+        .row.align-text-top
             .col-md-16
                 h2.welcome Welcome to your profile page, #{firstname}!
+        .row
+            |
+            hr
+            |
         .jumbotron
             .row.offset-1
                 //.offset-sm-0.col-sm-12
@@ -22,7 +31,7 @@ block content
                 img(src='/images/blank-profile-picture.png' width="80" height="80")
                 br
                 br
-            // TODO: There will be a better way for this :P
+            // FIXME: There will be a better way for this :P too. Heeeeeeeeelp :'(
             .row
                 |
                 hr
