@@ -76,7 +76,6 @@ router.get('/login', function(req,res){
 router.get('/profile/:username', async (req,res) => {
   const username = req.params.username;
   console.log("Display profile of user: " + username);
-
   try {
     const user = await User.findOne({username: username});
     console.log(user);
