@@ -86,6 +86,10 @@ router.get('/profile/:username', async (req,res) => {
   }
 });
 
+router.get('/editProfile', async (req, res) => {
+  res.render("editProfile")
+});
+
 
 
 
