@@ -7,6 +7,8 @@ const currentMonthIndex = new Date().getMonth() + 1;
 
 
 router.get('/', function(req, res, next) {
+  console.log(req.user);
+  console.log(req.isAuthenticated());
   currentMonth = new calendar.Calendar(1).monthdays2calendar(year, currentMonthIndex);
   res.render('index', { month: currentMonth, monthName: calendar.month_name[currentMonthIndex], monthNumber: currentMonthIndex });
 });

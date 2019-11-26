@@ -37,8 +37,8 @@ app.use(express.static(path.join(__dirname, 'public')));
 // Express Session
 app.use(session({
     secret: 'secret',
-    resave: true,
-    saveUninitialized: true
+    resave: false,
+    saveUninitialized: false
 }));
 
 //Express Messages Middleware
@@ -70,7 +70,6 @@ app.use(expressValidator({
 
 // Passport config
 require('./config/passport')(passport);
-
 // Passport middleware
 app.use(passport.initialize());
 app.use(passport.session());
@@ -107,5 +106,6 @@ app.set('port', (process.env.PORT || 8000));
 app.listen(app.get('port'), function(){
 	console.log('Server started on port '+app.get('port'));
 });
+
 
 module.exports = app;

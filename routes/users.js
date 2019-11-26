@@ -81,6 +81,7 @@ router.post("/login", function (req, res, next) {
       failureRedirect: '/users/login',
       failureFlash: true
  })(req, res, next);
+
 });
 
 //Log out

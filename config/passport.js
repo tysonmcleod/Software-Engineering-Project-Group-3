@@ -25,10 +25,12 @@ module.exports = function (passport) {
         });
     }));
 
+    // use this to write any data we want to the user session
     passport.serializeUser(function (user,done) {
         done(null, user.id)
     });
 
+    // retrieve data from the user session - read data
     passport.deserializeUser(function (id,done) {
         User.model.findById(id, function (err, user) {
             done(err, user);
