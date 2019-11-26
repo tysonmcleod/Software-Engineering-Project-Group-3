@@ -32,15 +32,23 @@ app.use(bodyParser.json());
 //app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
+
+
 // Express Session
 app.use(session({
     secret: 'secret',
-    saveUninitialized: true,
-    resave: true
+    resave: true,
+    saveUninitialized: true
 }));
 
-app.use(flash());
+//Express Messages Middleware
+app.use(require('connect-flash')());
+app.use(function (req,res,next) {
+    res.locals.messages = require('express-messages')(req,res);
+    next();
+});
 
+app.use(flash());
 
 // Express Validator
 app.use(expressValidator({
