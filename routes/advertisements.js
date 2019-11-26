@@ -3,7 +3,6 @@ var router = express.Router();
 var mongoose = require('mongoose');
 var Advertisement = require('../models/Advertisement');
 var User = require('../models/user');
-var databaseConnection = require('../js/db')
 
 
 User = User.model;
@@ -18,7 +17,7 @@ router.get('/', function(req, res, next) {
 router.post('/send-ad', function(req, res, next) {
 
 
-  let awesome_user = new User({
+  let awesome_driver = new User({
     firstname:"per",
     lastname:"johansson",
     email: "perjohannson@it.se",
@@ -26,7 +25,16 @@ router.post('/send-ad', function(req, res, next) {
     password:"perra"
     });
 
-  req.body.user = awesome_user;
+  let awesome_rider = new User({
+    firstname:"johnny",
+    lastname:"johansson",
+    email: "johjohannson@it.se",
+    username:"johjoh",
+    password:"johnny"
+    });
+
+  req.body.driver = awesome_driver;
+  req.body.riders = [awesome_rider];
 
   Advertisement.create(req.body)
   .then(advertisement => {

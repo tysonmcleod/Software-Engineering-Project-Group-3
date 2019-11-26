@@ -1,0 +1,14 @@
+extends layout
+
+block content
+	h1 THE ad
+
+	div(data-objData=data)
+
+	p= "From: " + data.from + ", To: " + data.to + ", Points:" + data.points + ", Driver: " + data.driver.username + ", Riders: " + data.riders + data.id
+	br
+
+	
+	form(method= 'POST', action='update/'+data.id)
+
+		input.btn.btn.primary(type='submit', value='Hope on the ride bruh')

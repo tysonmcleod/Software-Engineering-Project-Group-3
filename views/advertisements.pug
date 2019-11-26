@@ -1,0 +1,12 @@
+extends layout
+
+block content
+	h1 Advertisements
+
+	div(data-objData=data)
+
+	each ad, i in data
+		
+		a(href='/rides/finding-ads/'+ad.id) #{"Result " + i}
+		p= "From: " + ad.from + ", To: " + ad.to + ", Points:" + ad.points + ", Driver: " + ad.driver.username + ", Riders: " + ad.riders
+		br
