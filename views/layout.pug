@@ -4,6 +4,7 @@ html
     title testlayout
     link(rel='stylesheet' href='/bootstrap-4.3.1-dist/css/bootstrap.css')
     link(rel='stylesheet' href='/stylesheets/style.css')
+    link(rel='stylesheet' href='/stylesheets/index.css')
     link(rel='stylesheet' href='/stylesheets/register.css')
     link(rel='stylesheet' href='/stylesheets/login.css')
     link(rel='stylesheet' href='/stylesheets/book.css')
@@ -14,33 +15,30 @@ html
         button.navbar-toggler(type='button', data-toggle='collapse', data-target='#navbarsExampleDefault', aria-controls='navbarsExampleDefault', aria-expanded='false', aria-label='Toggle navigation')
           span.navbar-toggler-icon
         #navbarsExampleDefault.collapse.navbar-collapse
-          ul.navbar-nav.mr-auto
-            li.nav-item.active
-              a.nav-link(href='/')
-                | Home
-                span.sr-only (current)
-            li.nav-item.active
-              a.nav-link(href='/book')
-                | Find a lift
-                span.sr-only (current)
-            li.nav-item.active
-              a.nav-link(href='/offer')
-                | Offer a lift
-                span.sr-only (current)
-            li.nav-item.active
-              a.nav-link(href='/users/register')
-                | Sign up
-                span.sr-only (current)
-            li.nav-item.active
-              a.nav-link(href='/users/login')
-                | Login
-                span.sr-only (current)
+          #navbarRight
+            ul.navbar-nav.mr-auto
+              li.nav-item.active
+                a.nav-link(href='/book')
+                  | Find a lift
+                  span.sr-only (current)
+              li.nav-item.active
+                a.nav-link(href='/offer')
+                  | Offer a lift
+                  span.sr-only (current)
+              li.nav-item.active
+                a.nav-link(href='/users/register')
+                  | Sign up
+                  span.sr-only (current)
+              li.nav-item.active
+                a.nav-link(href='/users/login')
+                  | Login
+                  span.sr-only (current)
 
       .container
       br
       block content
       br
-      hr
+
       footer.footer.mt-auto.py-3.text-center
         .container
         span.text-muted Footer content here | Copyright &copy; 2019 CarLift |

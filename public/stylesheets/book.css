@@ -4,7 +4,12 @@
   margin-right: auto;
   margin-top: 20px;
   margin-bottom: 20px;
-
+  max-width: 640px;
+  border-style: solid;
+  border-color: #b3b3b3;
+  border-width: 0.01em;
+  padding: 2rem;
+  padding-bottom: 5rem;
 }
 
 
