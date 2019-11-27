@@ -1,0 +1,37 @@
+.jumbotron {
+
+  background: #fafafa ;
+
+
+}
+
+#userDetails {
+  margin-top: 30px;
+  padding: 2rem;
+  border-style: solid;
+  border-color: #b3b3b3;
+  border-width: 0.01em;
+
+}
+
+
+#profilepageImage{
+  float: right;
+  margin-bottom: 10px;
+}
+
+#profilepageImage img{
+  border-radius: 50%;
+
+}
+
+#profilepageName{
+  padding: 3px;
+  float: right;
+
+}
+
+
+#profileButton {
+  margin-top:30px;
+}

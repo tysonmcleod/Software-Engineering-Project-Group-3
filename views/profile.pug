@@ -12,61 +12,42 @@ block content
         //include ./../js/LetterAvatar.js
     //form(method='GET' action='/users/profile')
     .main.container.clearfix
-        // FIXME: There will be a better way for this :P
-        .row
-            |
-            hr
-            |
-        .row.justify-content-center
-                h2.welcome Welcome to your profile page, #{firstname}!
-        .row
-            |
-            hr
-            |
         .jumbotron
             .row.offset-1
-                //.offset-sm-0.col-sm-12
-                //.jumbotron.text-lg-left
-                img(src='/images/blank-profile-picture.png' width="80" height="80")
-                br
-                br
-            // FIXME: There will be a better way for this :P too. Heeeeeeeeelp :'(
-            .row
-                |
-                hr
-                |
+              .col-6
+                #profilepageImage
+                  img(src='/images/blank-profile-picture.png' width="96" height="96")
             .row.offset-1
-                //img(class="round" src='/images/blank-profile-picture.png' width="80" height="80" avatar="Ev Sp")
-                //img.avatar.img-circle.hidden-xs-down(src='/blank-profile-picture.png', alt='avatar')
-                //canvas(id="user-icon" width="256" height="256")
-                .col-xs-4.col-sm-4.col-md-4
-                    h5.first-name First name:
-                .col-xs-8.col-sm-8.col-md-8
-                    h5.font-weight-bold #{firstname}
-            .row.offset-1
-                .col-xs-4.col-sm-4.col-md-4
-                    h5.last-name Last name:
-                .col-xs-8.col-sm-8.col-md-8
-                    h5.font-weight-bold #{lastname}
-            .row.offset-1
-                .col-xs-4.col-sm-4.col-md-4
-                    h5.username Username:
-                .col-xs-8.col-sm-8.col-md-8
-                    h5.font-weight-bold #{username}
-            .row.offset-1
-                .col-xs-4.col-sm-4.col-md-4
-                    h5.email Email:
-                .col-xs-8.col-sm-8.col-md-8
-                    h5.font-weight-bold #{email}
-            .row
-                |
-                hr
-                |
-            .row.offset-9
-                .col-xs-7.col-sm-7.col-md-7
-                    a.btn.btn-secondary.bt-lg.btn-block(href='/users/editProfile') Edit
-                //h4.password Password:
-                //#form-group
-                //    label.h4.password Password:
-                //    input.form-control(name='password', type='password', value='#{profile.password}')
-
+              .col-6
+                #profilepageName
+                  h5 #{firstname}
+            #userDetails
+              .row.offset-1
+                  //img(class="round" src='/images/blank-profile-picture.png' width="80" height="80" avatar="Ev Sp")
+                  //img.avatar.img-circle.hidden-xs-down(src='/blank-profile-picture.png', alt='avatar')
+                  //canvas(id="user-icon" width="256" height="256")
+                  .col-xs-4.col-sm-4.col-md-4
+                      h5.first-name First name:
+                  .col-xs-8.col-sm-8.col-md-8
+                      h5.font-weight-bold #{firstname}
+              .row.offset-1
+                  .col-xs-4.col-sm-4.col-md-4
+                      h5.last-name Last name:
+                  .col-xs-8.col-sm-8.col-md-8
+                      h5.font-weight-bold #{lastname}
+              .row.offset-1
+                  .col-xs-4.col-sm-4.col-md-4
+                      h5.username Username:
+                  .col-xs-8.col-sm-8.col-md-8
+                      h5.font-weight-bold #{username}
+              .row.offset-1
+                  .col-xs-4.col-sm-4.col-md-4
+                      h5.email Email:
+                  .col-xs-8.col-sm-8.col-md-8
+                      h5.font-weight-bold #{email}
+              #profileButton
+              a.btn.btn-secondary.bt-lg.btn-block(href='/users/editProfile') Edit
+                  //h4.password Password:
+                  //#form-group
+                  //    label.h4.password Password:
+                  //    input.form-control(name='password', type='password', value='#{profile.password}')

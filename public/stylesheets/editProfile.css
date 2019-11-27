@@ -1,0 +1,28 @@
+#updateProfileInfo{
+  border-style: solid;
+  border-color: #b3b3b3;
+  border-width: 0.01em;
+  margin-top: 30px;
+  margin-bottom: 30px;
+  padding: 2rem;
+
+}
+
+
+#updateProfileInfo h3{
+  margin-bottom: 15px;
+}
+
+
+#editProfilePic{
+  border-style: solid;
+  border-color: #b3b3b3;
+  border-width: 0.01em;
+  padding: 2rem;
+
+}
+
+
+#editProfilePic h3{
+  margin-bottom: 15px;
+}
