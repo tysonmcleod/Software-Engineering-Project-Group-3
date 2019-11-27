@@ -24,7 +24,7 @@ function createMarker(location) {
 function initMap() {
     map = new google.maps.Map(document.getElementById('map'), {
         center: uppsala,
-        zoom: 15
+        zoom: 10
     });
 
     geocoder = new google.maps.Geocoder;
@@ -68,29 +68,43 @@ function placeMarker(geocoder, location) {
 
 function formToMap(field) {
 	if(field === 'to') {
-		var address = document.getElementById('to-dest').value;
-		geocoder.geocode({'address': address}, function(results, status) {
-			if(status === 'OK') {
-                var marker = createMarker(results[0].geometry.location);
+        var address = document.getElementById('to-dest').value;
+        if(address) {
+            geocoder.geocode({'address': address}, function(results, status) {
+                if(status === 'OK') {
+                    var marker = createMarker(results[0].geometry.location);
 
-                if(markers[1]) {
-                    markers[1].setMap(null);
+                    if(markers[1]) {
+                        markers[1].setMap(null);
+                    }
+                    markers[1] = marker;
                 }
-                markers[1] = marker;
-			}
-		});
+            });
+        } else {
+            if(markers[1]) {
+                markers[1].setMap(null);
+                markers[1] = null
+            }
+        }
 	} else if(field === 'from') {
         var address = document.getElementById('from-dest').value;
-		geocoder.geocode({'address': address}, function(results, status) {
-			if(status === 'OK') {
-                var marker = createMarker(results[0].geometry.location);
-                
-                if(markers[0]) {
-                    markers[0].setMap(null);
+        if(address) {
+            geocoder.geocode({'address': address}, function(results, status) {
+                if(status === 'OK') {
+                    var marker = createMarker(results[0].geometry.location);
+                    
+                    if(markers[0]) {
+                        markers[0].setMap(null);
+                    }
+                    markers[0] = marker;
                 }
-                markers[0] = marker;
-			}
-		});
+            });
+        } else {
+            if(markers[0]) {
+                markers[0].setMap(null);
+                markers[0] = null;
+            }
+        }   
 	} else {
 		console.log('Else');
 	}
