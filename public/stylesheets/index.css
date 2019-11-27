@@ -1,0 +1,13 @@
+#indexPage {
+  width: 70%;
+  margin-top: 5%;
+  margin-bottom: 5%;
+  margin-left:auto;
+  margin-right:auto;
+  border-style: solid;
+  border-color: #b3b3b3;
+  border-width: 0.01em;
+  padding: 2rem;
+  padding-bottom: 5rem;
+
+}
