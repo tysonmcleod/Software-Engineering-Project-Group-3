@@ -12,7 +12,6 @@ var session = require('express-session');
 // route files
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
-var advertisementsRouter = require('./routes/advertisements');
 var ridesRouter = require('./routes/rides');
 
 var app = express();
@@ -70,7 +69,6 @@ app.use(expressValidator({
 
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
-app.use('/advertisements', advertisementsRouter);
 app.use('/rides', ridesRouter);
 
 

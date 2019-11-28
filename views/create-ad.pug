@@ -2,7 +2,7 @@ extends layout
 
 block content
     h1 Create advertisement
-    form(method= 'POST', action='/advertisements/send-ad')
+    form(method= 'POST', action='send-ad')
       #form-group
         label From:
         input.form-control(name='from', type='text', placeholder='from')

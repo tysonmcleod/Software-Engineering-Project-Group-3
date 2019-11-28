@@ -8,8 +8,49 @@ User = User.model;
 
 
 router.get('/', (req, res) => {
-	console.log(req);
 	res.render('search-ad');
+});
+
+router.get('/create-ad', function(req, res, next) {
+  res.render('create-ad');
+});
+
+
+router.post('/send-ad', function(req, res, next) {
+
+
+  let awesome_driver = new User({
+    firstname:"per",
+    lastname:"johansson",
+    email: "perjohannson@it.se",
+    username:"perjoh",
+    password:"perra"
+    });
+
+  let awesome_rider = new User({
+    firstname:"johnny",
+    lastname:"johansson",
+    email: "johjohannson@it.se",
+    username:"johjoh",
+    password:"johnny"
+    });
+
+  req.body.driver = awesome_driver;
+  req.body.riders = [awesome_rider];
+
+  Advertisement.create(req.body)
+  .then(advertisement => {
+    res.json({
+      confirmation: 'success',
+      data: advertisement
+    })
+    .catch(err => {
+      res.json({
+        confirmation: 'fail',
+        message: err.message
+      })
+    })
+  })
 });
 
 router.post('/finding-ads/testing/:id', (req, res) => {
@@ -151,7 +192,7 @@ router.get('/finding-ads/:id', (req, res) => {
 	Advertisement.findById(id)
 	.then(profile => {
 		console.log(profile)
-		res.render("show-ad", {	data: profile});
+		res.render("display-one-advertisement", {	data: profile});
 		/*
 		res.json({
 			confirmation: 'success',
@@ -191,7 +232,7 @@ router.get('/finding-ads', (req, res) => {
 	.then(advertisements => {
 		console.log(advertisements)
 		//console.log(JSON.stringify(advertisements))
-		res.render("advertisements", {	data: advertisements	});
+		res.render("display-all-advertisements", {	data: advertisements	});
 		/*res.json({		
 			confirmation: 'success',
 			data: advertisements
