@@ -12,24 +12,118 @@ router.get('/', (req, res) => {
 	res.render('search-ad');
 });
 
+router.post('/finding-ads/testing/:id', (req, res) => {
+	var id = req.params.id;
+	var profileUsername = 'johjoh';
+	//var result = Advertisement.findById(id, {lean: true});
+
+	Advertisement.findById(id)
+	.then(advertisements => {
+		res.redirect("/rides/finding-ads/" + id);
+		
+		index = 0;
+		console.log(advertisements.riders)
+		var temp = []
+		for (i of advertisements.riders){
+			if( i.username == profileUsername){
+				advertisements.riders.splice(index, 1);
+			}
+			index = index + 1;
+		}
+		console.log(advertisements);
+		
+		advertisements.save(function(error) {
+                    if (error) {
+                        console.log(error);
+                    } else {
+                        // send the records
+                        res.redirect("/rides/finding-ads/" + id);
+                    }
+                });
+                
+	})
+	.catch(err => {
+    		res.json({
+    		   	confirmation: 'fail',
+    			message: err.message
+    		})
+    	})
+
+});
+
+router.post('/finding-ads/remove-rider/:id', (req, res) => {
+	var id = req.params.id;
+	var profileUsername = 'johjoh';
+	Advertisement.findById(id)
+	.then(advertisements => {
+		var temp = [];
+		console.log("hipp");
+		var index = 0;
+		for (i of profile.riders){
+			if( i.username == profileUsername){
+				console.log(i.username + "index: " + index);
+				temp = profile.riders
+				temp.splice(index, 1);
+			}
+			index = index + 1;
+		}
+
+
+		console.log('temp=' + temp);
+		update = {riders: []}
+		console.log("id: " + id);
+    	Advertisement.findOneAndUpdate(id, update, {new:true}, {useAndModify: false})
+    	.then(advertisements => {
+    		res.redirect("/rides/finding-ads/" + id)
+    	})
+    	.catch(err => {
+    		res.json({
+    		   	confirmation: 'fail',
+    			message: err.message
+    		})
+    	})
+    	
+    })
+	.catch(err => {
+		res.json({
+			confirmation: 'fail',
+			message: 'Advertisement ' + id + ' not found.'
+		})
+	})
+});
+
 router.post('/finding-ads/update/:id', (req, res) => {
 	var id = req.params.id;
 	let awesome_rider = new User({
 	    firstname:"bob",
 	    lastname:"bobson",
 	    email: "bobo@it.se",
-	    username:"bobo",
+	    username:"bob",
 	    password:"bobby"
     });
 
+
+
 	Advertisement.findById(id)
 	.then(profile => {
-		console.log(profile.riders);
-		profile.riders.push(awesome_rider);
-		console.log(profile.riders);
-		var newShit = {riders: profile.riders}
-		
-    	Advertisement.findOneAndUpdate(id, newShit, {new:true})
+		found = false;
+		for (i of profile.riders){
+			if( i.username == awesome_rider.username){
+				found = true;
+			}
+		}
+		if(!(found)){
+			console.log("adding rider...");
+			console.log(profile.riders);
+			profile.riders.push(awesome_rider);
+			console.log(profile.riders);
+			var newRiders = {riders: profile.riders};
+		}
+		else{
+			var newRiders = {'riders': profile.riders};
+		}
+		console.log("Adding: " + newRiders.riders);
+    	Advertisement.findOneAndUpdate({"_id": id}, newRiders, {returnNewDocument:true}, {useAndModify:false})
     	.then(profile => {
     		res.json({
     			confirmation: 'success',
