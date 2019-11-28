@@ -4,32 +4,6 @@ block content
     .main.container.clearfix
       h2 My account
 
-      #updateProfileInfo
-        h3 Update information
-
-        table.table-bordered.table
-          tbody
-            tr.tableStyle
-              th(scope='row') First name
-              td firstname
-              td
-                input.btn.btn-secondary.bt-lg.btn-block(type='submit', value='Update')
-            tr
-              th(scope='row') Last name
-              td lastname
-              td
-                input.btn.btn-secondary.bt-lg.btn-block(type='submit', value='Update')
-            tr
-              th(scope='row') Username
-              td username
-              td
-                input.btn.btn-secondary.bt-lg.btn-block(type='submit', value='Update')
-            tr
-              th(scope='row') Email
-              td email
-              td
-                input.btn.btn-secondary.bt-lg.btn-block(type='submit', value='Update')
-
       #editProfilePic
         h3 Update profile picture
         #editProfilePicBoxLol
@@ -38,3 +12,30 @@ block content
             img(src='/images/blank-profile-picture.png' width="96" height="96")
           .col
             input.btn.btn-secondary.bt-lg.btn-block(type='submit', value='Update')
+
+      #updateProfileInfo
+        h3 Update information
+
+        table.table-bordered.table
+          tbody
+            tr.tableStyle
+              th(scope='row') First name
+              td #{firstname}
+              td
+                input.btn.btn-secondary.bt-lg.btn-block(type='submit', value='Update')
+            tr
+              th(scope='row') Last name
+              td #{lastname}
+              td
+                input.btn.btn-secondary.bt-lg.btn-block(type='submit', value='Update')
+            tr
+              th(scope='row') Username
+              td #{username}
+              td
+                input.btn.btn-secondary.bt-lg.btn-block(type='submit', value='Update')
+            tr
+              th(scope='row') Email
+              td #{email}
+              td
+                input.btn.btn-secondary.bt-lg.btn-block(type='submit', value='Update')
+
