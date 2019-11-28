@@ -1,0 +1,36 @@
+#loginPage {
+  width: 70%;
+  max-width: 500px;
+  margin-top: 5%;
+  margin-bottom: 5%;
+  margin-left:auto;
+  margin-right:auto;
+  border-style: solid;
+  border-color: #b3b3b3;
+  border-width: 0.01em;
+  padding: 2rem;
+  padding-bottom: 5rem;
+
+}
+
+
+#loginPage label {
+  margin-top: 10px;
+  margin-bottom: 10px;
+
+}
+
+#loginH1 {
+  text-align: center;
+  width: 100%;
+  color: pink;
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
+
+
+
+#loginSubmit {
+  margin-top: 15px;
+
+}

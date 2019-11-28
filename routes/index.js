@@ -39,6 +39,14 @@ router.post('/', function(req, res, next) {
   }
 });
 
+router.get('/book', function(req, res){
+  res.render('book');
+})
+
+router.get('/offer', function(req, res){
+  res.render('offer');
+})
+
 // Function for handling change of year
 function calendarWrap(month) {
   if(month == 13) {
@@ -51,5 +59,6 @@ function calendarWrap(month) {
     return(month);
   }
 }
+
 
 module.exports = router;
