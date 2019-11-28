@@ -6,17 +6,14 @@ block content
 
     h1 test
     div(id='map')
-    form(method='POST' action='/')
-      div.form-group
+    form(method='GET' action='/rides/show-ads')
+      #form-group
           input#from-dest.form-control(type='text', placeholder='from', name='from-dest', onchange=`formToMap('from')`)
 
-      div.form-group
+      #form-group
           input#to-dest.form-control(type='text', placeholder='to', name='to-dest', onchange=`formToMap('to')`)
       
 
-      form(method='POST' action='/')
-        button.btn.btn-primary(type='submit', name='previous', value=monthNumber) Previous
-        button.btn.btn-primary(type='submit', name='next', value=monthNumber) Next
       h3= monthName
       
       table(style='width:40%', border='0')

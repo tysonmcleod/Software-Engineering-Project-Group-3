@@ -1,12 +1,30 @@
 extends layout
 
 block content
-	h1 Advertisements
 
 	div(data-objData=data)
 
+	h1 Filter results
+
+	form(method= 'GET', action='/rides/update-results')
+
+		#form-group
+		label From:
+		input.form-control(name='from', type='text', value=from)
+		br
+		#form-group
+		label To:
+		input.form-control(name='to', type='text', value=to)
+		br
+		#form-group
+		label Points:
+		input.form-control(name='points', type='number',value=points)
+		br
+
+		input.btn.btn.primary(type='submit', value='Filter')
+	br
 	each ad, i in data
 		
-		a(href='/rides/finding-ads/'+ad.id) #{"Result " + i}
-		p= "From: " + ad.from + ", To: " + ad.to + ", Points:" + ad.points + ", Driver: " + ad.driver.username + ", Riders: " + ad.riders
+		a(href='/rides/finding-ads/'+ad.id) #{"Result " + i + ": "} 
+		p= "From: " + ad.from + ", To: " + ad.to + ", Points:" + ad.points + ", Driver: " + ad.driver.username
 		br

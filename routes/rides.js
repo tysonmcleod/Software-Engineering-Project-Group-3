@@ -15,6 +15,114 @@ router.get('/create-ad', function(req, res, next) {
   res.render('create-ad');
 });
 
+router.get('/show-ads', function(req, res, next) {
+
+ 	let filters = {};
+ 	for (const key in req.query) {
+  		console.log(key, req.query[key])
+  		console.log("From" + req.query['from-dest'])
+	}
+
+	//console.log(req.body.to-dest);  BEWARE '-' char doesnt seem to be allowed in req.body expression
+	
+	if(req.query['from-dest'] != ''){
+		filters.from = req.query['from-dest'];
+	}
+	else if(req.query.from != ''){
+		filters.from = req.query.from;
+	}
+	if(req.query['to-dest'] != ''){
+		filters.to = req.query['to-dest'];
+	}
+
+	Advertisement.find(filters)
+	.then(advertisements => {
+		console.log(advertisements)
+		res.render("display-all-advertisements", {	data: advertisements, from: req.query['from-dest'], to: req.query['to-dest']});
+	})
+	.catch(err => {
+		res.json({
+			confirmation: 'fail',
+			message: err.message
+		})
+	});
+});
+
+
+router.get('/update-results', function(req, res, next) {
+
+ 	let filters = {};
+
+
+	if(req.query.points != ''){
+		filters.points = req.query.points;
+	}
+	if(req.query.from != ''){
+		filters.from = req.query.from;
+	}
+	if(req.query.to != ''){
+		filters.to = req.query.to;
+	}
+
+	console.log(filters);
+
+	Advertisement.find(filters)
+	.then(advertisements => {
+		console.log(advertisements)
+		res.render("display-all-advertisements", {	data: advertisements, from: filters.from, to:filters.to, points: filters.points});
+	})
+	.catch(err => {
+		res.json({
+			confirmation: 'fail',
+			message: err.message
+		})
+	});
+
+});
+
+router.post('/hop-on-ride/:id', async (req, res) => {
+	const id = req.params.id;
+	const testUser = new User({
+	    firstname:"johnny",
+	    lastname:"johansson",
+	    email: "johjohannson@it.se",
+	    username:"johjoh",
+    	password:"johnny"
+    });
+	
+	let ad = await Advertisement.findById(id);
+	console.log(ad.rider);
+
+	if(ad.rider == null){
+		const update = {rider: testUser};
+		const query = {_id: id};
+		await Advertisement.findOneAndUpdate(query, update, {useAndModify: false});
+	}
+	else{
+	}
+	res.redirect("/rides/finding-ads/" + id);
+});
+
+router.post('/hop-off-ride/:id', async (req, res) => {
+	const id = req.params.id;
+	const update = { rider: null};
+	
+	let ad = await Advertisement.findById(id);
+	console.log(ad.rider);
+
+	if(ad.rider == null){
+		//res.send("nothing to do");
+	}
+	else{
+		const query = {_id: id};
+		await Advertisement.findOneAndUpdate(query, update, {useAndModify: false});
+	}
+	res.redirect("/rides/finding-ads/" + id);
+});
+
+
+
+
 
 router.post('/send-ad', function(req, res, next) {
 
@@ -36,7 +144,7 @@ router.post('/send-ad', function(req, res, next) {
     });
 
   req.body.driver = awesome_driver;
-  req.body.riders = [awesome_rider];
+  req.body.rider = awesome_rider;
 
   Advertisement.create(req.body)
   .then(advertisement => {

@@ -5,21 +5,24 @@ block content
 
 	div(data-objData=data)
 
-	p= "From: " + data.from + ", To: " + data.to + ", Points:" + data.points + ", Driver: " + data.driver.username  + ", Riders: " + data.riders
+	p= "From: " + data.from + ", To: " + data.to + ", Points:" + data.points + ", Driver: " + data.driver.username
+	if data.rider
+		p="Rider: "+data.rider.username
 	br
-	p="Riders: "
-	each rider, i in data.riders
-		p= "Rider " + i + ": " + rider.username
-		br
+	//-
+		p="Riders: "
+		each rider, i in data.riders
+			p= "Rider " + i + ": " + rider.username
+			br
 
 	
-	form(method= 'POST', action='update/'+data.id)
+	form(method= 'POST', action='/rides/hop-on-ride/'+data.id)
 
 		input.btn.btn.primary(type='submit', value='Hope on the ride bruh')
 
-	form(method= 'POST', action='remove-rider/'+data.id)
+	form(method= 'POST', action='/rides/hop-off-ride/'+data.id)
 
-		input.btn.btn.primary(type='submit', value='Hope off the ride bruh')
+		input.btn.btn.primrary(type='submit', value='Hope off the ride bruh')
 
 
 	form(method= 'POST', action='testing/'+data.id)

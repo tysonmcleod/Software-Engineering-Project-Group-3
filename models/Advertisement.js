@@ -6,7 +6,7 @@ const Advertisement = new mongoose.Schema({
 	'to': {type:String, trim:true, default:''},
 	'points': {type:Number, trim:true, default:0},
 	'driver': User.schema,
-	'riders': [User.schema]
+	'rider': {type:User.schema, defualt: null}
 })
 
 module.exports = mongoose.model('Advertisement', Advertisement)
