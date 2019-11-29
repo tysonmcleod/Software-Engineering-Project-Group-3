@@ -72,7 +72,58 @@ router.get('/login', function(req,res){
   res.render('login');
 });
 
+// TODO: Retrieve user from session and remove id path parameter and therefore not search in database :)
+router.get('/profile/:username', async (req,res) => {
+  const username = req.params.username;
+  console.log("Display profile of user: " + username);
+  try {
+    const user = await User.findOne({username: username});
+    console.log(user);
+    res.render("profile", {firstname: user.firstname, lastname: user.lastname, username: user.username, email: user.email, password: user.password})
+  } catch (err) {
+    res.status(500).json({ message: err.message })
+    // TODO: render to error not found pug file
+  }
+});
 
+// TODO: Retrieve user from session and remove id path parameter and therefore not search in database :)
+router.get('/editProfile/:username', async (req, res) => {
+  const username = req.params.username;
+  console.log("Display profile of user: " + username);
+  try {
+    const user = await User.findOne({username: username});
+    console.log(user);
+    res.render("editProfile", {firstname: user.firstname, lastname: user.lastname, username: user.username, email: user.email, password: user.password})
+  } catch (err) {
+    res.status(500).json({ message: err.message })
+    // TODO: render to error not found pug file
+  }
+});
+
+router.post('/update', async (req, res) => {
+  const firstname = req.body.firstname;
+  const lastname = req.body.lastname;
+  const email = req.body.email;
+  const username = req.body.username;
+
+  let updatedUser = {
+    firstname:firstname,
+    lastname:lastname,
+    email:email
+  };
+
+  console.log("Update profile of user: " + username);
+  console.log(updatedUser);
+
+  try {
+    const user = await User.findOneAndUpdate({username: username}, updatedUser, {new: true});
+    console.log(user);
+    res.render("profile", {firstname: user.firstname, lastname: user.lastname, username: user.username, email: user.email, password: user.password})
+  } catch (err) {
+    res.status(500).json({ message: err.message })
+    // TODO: render to error not found pug file
+  }
+});
 
 
 /* GET users listing.
