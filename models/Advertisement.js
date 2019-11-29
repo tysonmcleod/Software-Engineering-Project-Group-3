@@ -10,5 +10,5 @@ const Advertisement = new mongoose.Schema({
 	'date': {type:String, trim:true, default:''}
 })
 
-module.exports = mongoose.model('Advertisement', Advertisement)
+module.exports = mongoose.model('Advertisement', Advertisement);
 

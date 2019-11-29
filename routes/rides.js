@@ -6,7 +6,6 @@ var User = require('../models/user');
 
 User = User.model;
 
-
 router.get('/', function(req, res, next) {
 
  	let filter = {};
@@ -131,6 +130,24 @@ router.post('/send-ad', function(req, res, next) {
         	message: err.message
       	})
    	})
+});
+
+router.get('/show-users-ads/:username', (req, res) => {
+	const username = req.params.username;
+	const query = {username: username};
+	User.find(query)
+	.then(user => {
+		res.json({
+			confirmation: 'success',
+			message: user
+		})
+	})
+	.catch(err => {
+		res.json({
+			confirmation: 'fail',
+			message: 'Advertisement ' + id + ' not found.'
+		})
+	})
 });
 
 
