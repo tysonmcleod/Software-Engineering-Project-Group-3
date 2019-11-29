@@ -11,7 +11,7 @@ block content
           .col
             img(src='/images/blank-profile-picture.png' width="96" height="96")
           .col
-            input.btn.btn-secondary.bt-lg.btn-block(type='submit', value='Update')
+            input.btn.btn-secondary.bt-lg.btn-block(type='submit', value='Upload')
 
       #updateProfileInfo
         h3 Update information
@@ -20,22 +20,23 @@ block content
           tbody
             tr.tableStyle
               th(scope='row') First name
-              td #{firstname}
               td
-                input.btn.btn-secondary.bt-lg.btn-block(type='submit', value='Update')
+                input.form-control(name='firstname', type='text', value=firstname)
             tr
               th(scope='row') Last name
-              td #{lastname}
               td
-                input.btn.btn-secondary.bt-lg.btn-block(type='submit', value='Update')
+                input.form-control(name='lastname', type='text', value=lastname)
             tr
               th(scope='row') Username
-              td #{username}
               td
-                input.btn.btn-secondary.bt-lg.btn-block(type='submit', value='Update')
+                input.form-control(name='username', type='text', value=username)
             tr
               th(scope='row') Email
-              td #{email}
               td
-                input.btn.btn-secondary.bt-lg.btn-block(type='submit', value='Update')
+                input.form-control(name='email', type='text', value=email)
+        .row.offset-7
+          .col-6
+            a.btn.btn-secondary.bt-lg.btn-block(href='/users/profile/atha') Back
+          .col-6
+            input.btn.btn-secondary.bt-lg.btn-block(type='submit', value='Save')
 
