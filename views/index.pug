@@ -4,19 +4,15 @@ block content
     script(type='text/javascript', src='/javascripts/map.js')
     script(async, defer, type='text/javascript', src=`https://maps.googleapis.com/maps/api/js?key=${apiKey}&callback=initMap`)
 
-    h1 test
     div(id='map')
-    form(method='POST' action='/')
-      div.form-group
-          input#from-dest.form-control(type='text', placeholder='from', name='from-dest', onchange=`formToMap('from')`)
+    form(method='GET' action='/rides')
+      #form-group
+          input#from-dest.form-control(type='text', placeholder='Från', name='from-dest', onchange=`formToMap('from')`)
 
-      div.form-group
-          input#to-dest.form-control(type='text', placeholder='to', name='to-dest', onchange=`formToMap('to')`)
+      #form-group
+          input#to-dest.form-control(type='text', placeholder='Till', name='to-dest', onchange=`formToMap('to')`)
       
 
-      form(method='POST' action='/')
-        button.btn.btn-primary(type='submit', name='previous', value=monthNumber) Previous
-        button.btn.btn-primary(type='submit', name='next', value=monthNumber) Next
       h3= monthName
       
       table(style='width:40%', border='0')
@@ -46,4 +42,4 @@ block content
           -}
         -}
 
-      button.btn.btn-primary(type='submit') Submit
+      button.btn.btn-primary(type='submit') Fortsätt
