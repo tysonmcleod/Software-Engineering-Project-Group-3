@@ -100,7 +100,30 @@ router.get('/editProfile/:username', async (req, res) => {
   }
 });
 
+router.post('/update', async (req, res) => {
+  const firstname = req.body.firstname;
+  const lastname = req.body.lastname;
+  const email = req.body.email;
+  const username = req.body.username;
 
+  let updatedUser = {
+    firstname:firstname,
+    lastname:lastname,
+    email:email
+  };
+
+  console.log("Update profile of user: " + username);
+  console.log(updatedUser);
+
+  try {
+    const user = await User.findOneAndUpdate({username: username}, updatedUser, {new: true});
+    console.log(user);
+    res.render("profile", {firstname: user.firstname, lastname: user.lastname, username: user.username, email: user.email, password: user.password})
+  } catch (err) {
+    res.status(500).json({ message: err.message })
+    // TODO: render to error not found pug file
+  }
+});
 
 
 /* GET users listing.
