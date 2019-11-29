@@ -6,7 +6,7 @@ block content
 
 	h1 Filter results
 
-	form(method= 'GET', action='/rides/show-ads')
+	form(method= 'GET', action='/rides')
 
 		#form-group
 		label From:
@@ -28,7 +28,6 @@ block content
 	br
 	if data
 		each ad, i in data
-				
 			a(href='/rides/show-ads/'+ad.id) #{"Result " + i + ": "} 
-			p= "From: " + ad.from + ", To: " + ad.to + ", Points:" + ad.points + ", Driver: " + ad.driver.username
+			p= "From: " + ad.from + ", To: " + ad.to + ", Points:" + ad.points 
 			br

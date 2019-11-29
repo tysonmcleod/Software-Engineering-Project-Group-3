@@ -5,7 +5,7 @@ block content
     script(async, defer, type='text/javascript', src=`https://maps.googleapis.com/maps/api/js?key=${apiKey}&callback=initMap`)
 
     div(id='map')
-    form(method='GET' action='/rides/show-ads')
+    form(method='GET' action='/rides')
       #form-group
           input#from-dest.form-control(type='text', placeholder='Från', name='from-dest', onchange=`formToMap('from')`)
 

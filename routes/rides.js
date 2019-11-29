@@ -7,15 +7,7 @@ var User = require('../models/user');
 User = User.model;
 
 
-router.get('/', (req, res) => {
-	res.render('search-ad');
-});
-
-router.get('/create-ad', function(req, res, next) {
-  res.render('create-ad');
-});
-
-router.get('/show-ads', function(req, res, next) {
+router.get('/', function(req, res, next) {
 
  	let filter = {};
 
@@ -44,13 +36,15 @@ router.get('/show-ads', function(req, res, next) {
 	if(req.query.date){
 		filter.date = req.query.date;
 	}
-	console.log(filter);
 	if(Object.keys(filter).length === 0){
 		res.render("display-all-advertisements", {	filter: filter});
 	}
+	console.log('efd');
 	Advertisement.find(filter)
 	.then(advertisements => {
+		console.log('edl');
 		res.render("display-all-advertisements", {	data: advertisements, filter: filter});
+		console.log('edl2');
 	})
 	.catch(err => {
 		res.json({
@@ -60,6 +54,16 @@ router.get('/show-ads', function(req, res, next) {
 	});
 });
 
+router.get('/create-ad', function(req, res, next) {
+  res.render('create-ad');
+});
+
+router.get('/destroy-the-ride/:id', async (req, res) => {
+	
+	const id = req.params.id;
+	await Advertisement.findByIdAndRemove(id, {useAndModify: false});
+	res.redirect("/rides");
+});
 
 router.post('/hop-on-ride/:id', async (req, res) => {
 	const id = req.params.id;

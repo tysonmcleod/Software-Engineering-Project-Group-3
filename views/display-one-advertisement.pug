@@ -4,7 +4,7 @@ block content
 	h1 THE ad
 
 	div(data-objData=data)
-
+	
 	p= "From: " + data.from + ", To: " + data.to + ", Points:" + data.points + ", Driver: " + data.driver.username
 	if data.rider
 		p="Rider: "+data.rider.username
@@ -23,3 +23,7 @@ block content
 	form(method= 'POST', action='/rides/hop-off-ride/'+data.id)
 
 		input.btn.btn.primrary(type='submit', value='Hope off the ride bruh')
+
+	form(method= 'GET', action='/rides/destroy-the-ride/'+data.id)
+
+		input.btn.btn.primrary(type='submit', value='Destroy the ride bruh')
