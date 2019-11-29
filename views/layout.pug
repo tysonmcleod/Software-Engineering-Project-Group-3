@@ -9,6 +9,8 @@ html
     link(rel='stylesheet' href='/stylesheets/login.css')
     link(rel='stylesheet' href='/stylesheets/book.css')
     link(rel='stylesheet' href='/stylesheets/offer.css')
+    link(rel='stylesheet' href='/stylesheets/profile.css')
+    link(rel='stylesheet' href='/stylesheets/editProfile.css')
     body
       nav.navbar.navbar-expand-md.navbar-dark.bg-dark.fixed-top
         a.navbar-brand(href='/') CarLift
@@ -23,13 +25,13 @@ html
                   | Find a lift
                   span.sr-only (current)
               li.nav-item.active
-                a.nav-link(href='/offer')
-                  | Offer a lift
-                  span.sr-only (current)
+              a.nav-link(href='/offer')
+                | Offer a lift
+                span.sr-only (current)
               li.nav-item.active
-                a.nav-link(href='/users/register')
-                  | Sign up
-                  span.sr-only (current)
+              a.nav-link(href='/users/register')
+                | Sign up
+                span.sr-only (current)
               li.nav-item.active
                 a.nav-link(href='/users/login')
                   | Login
@@ -42,6 +44,17 @@ html
                 a.nav-link(href='/rides')
                   | Search all ads
                   span.sr-only (current)
+              i.nav-item.active
+                a.nav-link(href='/users/login')
+                | Login
+                span.sr-only (current)
+              li.nav-item.active
+                a.nav-link(href='/users/profile/atha')
+                img.rounded-circle(src='/images/blank-profile-picture.png' width="22" height="22")
+                span.sr-only (current)
+            // TODO: Remove atha username and retrieve user using the session saved username
+            // TODO: check if user is logged in, if yes then appear following li item and disappear above login-signup,
+            // TODO: otherwise show login-signup
 
       .container
       br
