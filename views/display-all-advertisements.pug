@@ -29,5 +29,5 @@ block content
 	if data
 		each ad, i in data
 			a(href='/rides/show-ads/'+ad.id) #{"Result " + i + ": "} 
-			p= "From: " + ad.from + ", To: " + ad.to + ", Points:" + ad.points 
+			p= "From: " + ad.from + ", To: " + ad.to + ", Available seats:" + ad.available_seats 
 			br

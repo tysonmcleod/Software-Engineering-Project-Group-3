@@ -1,0 +1,30 @@
+extends layout
+
+block content
+	h1="ad nr: " + data.id
+
+	div(data-objData=data)
+	
+	p= "From: " + data.from + ", To: " + data.to + "Available seats: " + data.available_seats
+	if data.confirmed_riders
+		p="Confirmed Riders: "
+		br
+		each c_rider, p in data.confirmed_riders
+			p=c_rider
+			form(method= 'POST', action='/rides/disjoin-ride/'+data.id+'/'+c_rider)
+				input.btn.btn-secondary.bt-lg.btn-block(type='submit', value='Remove from ride')
+			br
+	br
+	if data.interested_riders
+		p="Interested Riders: "
+		br
+		each p_rider, i in data.interested_riders
+			p=p_rider
+			if data.available_seats != 0
+				form(method= 'POST', action='/rides/join-ride/'+data.id+'/'+p_rider)
+					input.btn.btn-secondary.bt-lg.btn-block(type='submit', value='Add to ride')
+	br
+	form(method= 'POST', action='/rides/destroy-the-ride/' + data.id)
+				input.btn.btn-secondary.bt-lg.btn-block(type='submit', value='Remove advertisement')
+
+

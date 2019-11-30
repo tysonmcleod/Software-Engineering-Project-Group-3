@@ -38,12 +38,10 @@ router.get('/', function(req, res, next) {
 	if(Object.keys(filter).length === 0){
 		res.render("display-all-advertisements", {	filter: filter});
 	}
-	console.log('efd');
+	
 	Advertisement.find(filter)
 	.then(advertisements => {
-		console.log('edl');
 		res.render("display-all-advertisements", {	data: advertisements, filter: filter});
-		console.log('edl2');
 	})
 	.catch(err => {
 		res.json({
@@ -60,13 +58,13 @@ router.get('/create-ad', function(req, res, next) {
 router.get('/destroy-the-ride/:id', async (req, res) => {
 	
 	const id = req.params.id;
-	await Advertisement.findByIdAndRemove(id, {useAndModify: false});
-	res.redirect("/rides");
+	const ad = await Advertisement.findByIdAndRemove(id, {useAndModify: false});
+	res.redirect("/rides/manage-users-ads/" + ad.driver);
 });
 
 router.post('/hop-on-ride/:id', async (req, res) => {
 	const id = req.params.id;
-	const testUser = "johndoe";
+	const testUser = "augaug";
 	
 	let ad = await Advertisement.findById(id);
 
@@ -80,13 +78,12 @@ router.post('/hop-on-ride/:id', async (req, res) => {
       	});
     }
     res.redirect("/rides/show-ads/" + id);
-
 });
 
 router.post('/hop-off-ride/:id', async (req, res) => {
 	const id = req.params.id;
 	const update = { rider: null};
-	const testUser = "johndoe";
+	const testUser = "augaug";
 
 	let ad = await Advertisement.findById(id);
 
@@ -103,22 +100,52 @@ router.post('/hop-off-ride/:id', async (req, res) => {
 });
 
 
+router.post('/join-ride/:id/:username', async (req, res) => {
+	const id = req.params.id;
+	const new_rider = req.params.username;
+	
+	let ad = await Advertisement.findById(id);
+
+	if(!ad.confirmed_riders.includes(new_rider)){
+		ad.confirmed_riders.push(new_rider);
+		ad.interested_riders.pull(new_rider);
+		ad.available_seats = ad.available_seats + 1;
+		ad.save(function(err){
+          if(err){
+            console.log(err);
+            return;
+          }
+      	});
+    }
+    res.redirect("/rides/manage-users-ads/" + ad.driver +"/" + id);
+});
+
+router.post('/disjoin-ride/:id/:username', async (req, res) => {
+	const id = req.params.id;
+	const new_rider = req.params.username;
+	
+	let ad = await Advertisement.findById(id);
+
+	if(ad.confirmed_riders.includes(new_rider)){
+		ad.confirmed_riders.pull(new_rider);
+		ad.available_seats = ad.available_seats + -1
+		ad.save(function(err){
+          if(err){
+            console.log(err);
+            return;
+          }
+      	});
+    }
+    res.redirect("/rides/manage-users-ads/" + ad.driver +"/" + id);
+});
+
 
 
 
 router.post('/send-ad', function(req, res, next) {
-
-
-	let test_driver = new User({
-		firstname:"John",
-		lastname:"Doe",
-		email: "JohnDoe@john.doe",
-		username:"johndoe",
-  		password:"johndoe"
-    });
-
-
-  req.body.driver = test_driver;
+	if(req.body.available_seats == undefined){
+		req.body.available_seats = 0;
+	}
 
 	Advertisement.create(req.body)
 	.then(advertisement => {
@@ -132,15 +159,31 @@ router.post('/send-ad', function(req, res, next) {
    	})
 });
 
-router.get('/show-users-ads/:username', (req, res) => {
+router.get('/manage-users-ads/:username', (req, res) => {
 	const username = req.params.username;
-	const query = {username: username};
-	User.find(query)
-	.then(user => {
+	const query = {driver: username};
+	Advertisement.find({$or: [{confirmed_riders: username}, {interested_riders: username}]})
+	.then(advertisement => {
+		res.render("manage-users-advertisements", {	data: advertisement, username: username});
+	})
+	.catch(err => {
 		res.json({
-			confirmation: 'success',
-			message: user
+			confirmation: 'fail',
+			message: 'Advertisement ' + id + ' not found.'
 		})
+	})
+});
+
+
+
+
+router.get('/manage-users-ads/:username/:id', (req, res) => {
+	const id = req.params.id;
+	const username = req.params.username;
+	
+	Advertisement.findById(id)
+	.then(advertisement => {
+		res.render("manage-one-advertisement", {	data: advertisement, username: username});
 	})
 	.catch(err => {
 		res.json({
@@ -165,6 +208,8 @@ router.get('/show-ads/:id', (req, res) => {
 		})
 	})
 });
+
+
 
 
 module.exports = router;

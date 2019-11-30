@@ -19,4 +19,12 @@ block content
         label Date:
         input.form-control(name='date', type='date')
       br
+      #form-group
+        label Username:
+        input.form-control(name='driver', type='text', placeholder='username')
+      br
+      #form-group
+        label Available seats:
+        input.form-control(name='available_seats', type='number', placeholder='0')
+      br
       input.btn.btn.primary(type='submit', value='Add ride')
