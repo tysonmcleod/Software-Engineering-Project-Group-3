@@ -1,25 +1,38 @@
 extends layout
 
 block content
-    h1 Register
-    form(method= 'POST', action='/users/register')
-      #form-group
-        label First Name:
-        input.form-control(name='firstname', type='text')
-      #form-group
-        label Surname:
-        input.form-control(name='lastname', type='text')
-      #form-group
-        label Email:
-        input.form-control(name='email', type='text')
-      #form-group
-        label Username:
-        input.form-control(name='username', type='text')
-      #form-group
-        label Password:
-        input.form-control(name='password', type='password')
-      #form-group
-        label Confirm:
-        input.form-control(name='password2', type='password')
-      br
-      input.btn.btn.primary(type='submit', value='Submit')
+  #registerPage
+    #registerH1
+      h1 Sign Up
+    #registerText
+      p Fill in this form to create an account.
+    .row.justify-content-center
+      form(method= 'POST', action='/users/register')
+        .row
+          .col-xs-6.col-sm-6.col-md-6
+            #form-group
+              label First Name:
+              input.form-control(name='firstname', type='text')
+          .col-xs-6.col-sm-6.col-md-6
+            #form-group
+              label Surname:
+              input.form-control(name='lastname', type='text')
+        .row
+          .col-xs-6.col-sm-6.col-md-6
+            #form-group
+              label Email:
+              input.form-control(name='email', type='text')
+
+          .col-xs-6.col-sm-6.col-md-6
+            #form-group
+              label Username:
+              input.form-control(name='username', type='text')
+        #form-group
+          label Password:
+          input.form-control(name='password', type='password')
+        #form-group
+          label Confirm password:
+          input.form-control(name='password2', type='password')
+        br
+        .col-md-6.offset-md-4
+        input.btn.btn-secondary.bt-lg.btn-block(type='submit', value='Submit')

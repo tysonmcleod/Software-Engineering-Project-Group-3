@@ -13,8 +13,7 @@ var session = require('express-session');
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 var msgsRouter = require('./routes/chat');
-var apiRouter = require('./routes/api');
-
+var ridesRouter = require('./routes/rides');
 
 var app = express();
 const port = 3000;
@@ -40,7 +39,16 @@ app.use(session({
 
 app.use(flash());
 
+//Start database
 
+var mongoDB = 'mongodb+srv://carliftadmin:carliftadmin@cluster0-dbznl.mongodb.net/carlift?retryWrites=true&w=majority';
+mongoose.connect(mongoDB, { useNewUrlParser: true, useUnifiedTopology: true });
+var db = mongoose.connection;
+db.on('error', console.error.bind(console, 'MongoDB connection error:'));
+db.once('open', function(callback) {
+  //The code in this asynchronous callback block is executed after connecting to MongoDB.
+      console.log('Successfully connected to MongoDB.');
+  });
 
 // Express Validator
 app.use(expressValidator({
@@ -63,8 +71,7 @@ app.use(expressValidator({
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
 app.use('/messages', msgsRouter);
-app.use('/api', apiRouter);
-
+app.use('/rides', ridesRouter);
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
   next(createError(404));
