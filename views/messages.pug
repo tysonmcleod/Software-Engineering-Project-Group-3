@@ -1,11 +1,15 @@
 extends layout
 
 block content
-    h1 Messages
-    form(method='GET' action='/messages')
-        input.form-control(type='hidden', name='id', value=id)
-        each chat in results
-            each participant in chat.participants
-                if participant!=id
-                    a(href='/messages/'+id+'/'+participant) #{participant}
-                    br
+    .main.container.clearfix
+        h2 Messages
+        form(method='GET' action='/messages')
+            table.table-bordered.table
+                tbody
+                    each chat in results
+                        each participant in chat.participants
+                            if participant != id
+                                tr.tableStyle
+                                    th(scope='row')
+                                        a(href='/messages/' + id + '/' + participant) #{participant}
+                                    td #{chat.messages[chat.messages.length - 1]}
