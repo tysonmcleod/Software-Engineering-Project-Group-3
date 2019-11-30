@@ -3,13 +3,12 @@ extends layout
 block content
     .main.container.clearfix
         h2 Messages
-        form(method='GET' action='/messages')
-            table.table-bordered.table
-                tbody
-                    each chat in results
-                        each participant in chat.participants
-                            if participant != id
-                                tr.tableStyle
-                                    th(scope='row')
-                                        a(href='/messages/' + id + '/' + participant) #{participant}
-                                    td #{chat.messages[chat.messages.length - 1]}
+        table.table-bordered.table
+            tbody
+                each chat in results
+                    each participant in chat.participants
+                        if participant != id
+                            tr.tableStyle
+                                th(scope='row')
+                                    a(href='/messages/' + id + '/' + participant) #{participant}
+                                td #{chat.messages[chat.messages.length - 1]}
