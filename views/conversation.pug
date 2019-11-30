@@ -1,11 +1,20 @@
 extends layout
 
 block content
-
-    form(method='GET' action='/messages')
-        input.form-control(type='hidden', name='owner', value=owner)
-        input.form-control(type='hidden', name='other', value=other)
-        h1 #{other}
-        - var i = 0
-        - while (i < results.messages.length)
-            h3=results.senders[i] + ": " + results.messages[i++]
+    .main.container.clearfix
+        h2 #{other}
+        form(method= 'POST', action='/messages/')
+            table.table-bordered.table
+                tbody
+                    - var i = 0
+                    - while (i < results.messages.length)
+                        tr.tableStyle
+                            th(scope='row')=results.senders[i]
+                            td=results.messages[i++]
+            .row
+                .col-10
+                    textarea(name='message', rows=4, cols=60, onfocus="this.value=''") Type a message...
+                    input.form-control(name='sender', type='text', value=owner, hidden=true)
+                    input.form-control(name='receiver', type='text', value=other, hidden=true)
+                .col-2
+                    input.btn.btn-secondary.bt-lg.btn-block(type='submit', value='Send')
