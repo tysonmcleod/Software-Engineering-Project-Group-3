@@ -66,40 +66,40 @@ router.get('/destroy-the-ride/:id', async (req, res) => {
 
 router.post('/hop-on-ride/:id', async (req, res) => {
 	const id = req.params.id;
-	const testUser = new User({
-	    firstname:"John",
-	    lastname:"Doe",
-	    email: "JohnDoe@john.doe",
-	    username:"johndoe",
-    	password:"johndoe"
-    });
+	const testUser = "johndoe";
 	
 	let ad = await Advertisement.findById(id);
 
-	if(ad.rider == null){
-		const update = {rider: testUser};
-		const query = {_id: id};
-		await Advertisement.findOneAndUpdate(query, update, {useAndModify: false});
-	}
-	else{
-	}
-	res.redirect("/rides/show-ads/" + id);
+	if(!ad.interested_riders.includes(testUser)){
+		ad.interested_riders.push(testUser);
+		ad.save(function(err){
+          if(err){
+            console.log(err);
+            return;
+          }
+      	});
+    }
+    res.redirect("/rides/show-ads/" + id);
+
 });
 
 router.post('/hop-off-ride/:id', async (req, res) => {
 	const id = req.params.id;
 	const update = { rider: null};
-	
+	const testUser = "johndoe";
+
 	let ad = await Advertisement.findById(id);
 
-	if(ad.rider == null){
-		//res.send("nothing to do");
+	if(ad.interested_riders.includes(testUser)){
+		ad.interested_riders.pull(testUser);
+		ad.save(function(err){
+        if(err){
+            console.log(err);
+            return;
+        }
+     	});
 	}
-	else{
-		const query = {_id: id};
-		await Advertisement.findOneAndUpdate(query, update, {useAndModify: false});
-	}
-	res.redirect("/rides/show-ads/" + id);
+    res.redirect("/rides/show-ads/" + id);
 });
 
 

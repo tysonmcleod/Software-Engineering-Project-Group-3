@@ -6,13 +6,16 @@ block content
 	div(data-objData=data)
 	
 	p= "From: " + data.from + ", To: " + data.to + ", Points:" + data.points + ", Driver: " + data.driver.username
-	if data.rider
-		p="Rider: "+data.rider.username
+	if data.confirmed_riders
+		p="Rider: "+ data.confirmed_riders
+	br
+	if data.interested_riders
+		p="Candidate Rider: "+ data.interested_riders
 	br
 	//-
 		p="Riders: "
 		each rider, i in data.riders
-			p= "Rider " + i + ": " + rider.username
+			p= "Rider " + i + ": " + rider
 			br
 
 	
