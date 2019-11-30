@@ -12,6 +12,9 @@ const googleMapsClient = require('@google/maps').createClient({
 });
 
 router.get('/', function(req, res, next) {
+  console.log(req.user);
+  console.log(req.isAuthenticated());
+
   googleMapsClient.findPlace({
     input: 'Museum',
     inputtype: 'textquery',
@@ -41,11 +44,11 @@ router.post('/', function(req, res, next) {
 
 router.get('/book', function(req, res){
   res.render('book');
-})
+});
 
 router.get('/offer', function(req, res){
   res.render('offer');
-})
+});
 
 // Function for handling change of year
 function calendarWrap(month) {
@@ -59,6 +62,5 @@ function calendarWrap(month) {
     return(month);
   }
 }
-
 
 module.exports = router;
