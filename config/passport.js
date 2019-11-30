@@ -4,7 +4,7 @@ var bcrypt = require('bcrypt');
 
 module.exports = function (passport) {
     // Local Strategy
-    passport.use(new LocalStrategy({usernameField: 'username', passwordField: 'password'},function (username, password, done) {
+    passport.use(new LocalStrategy(function (username, password, done) {
         // Match Username
         let query = {username:username};
         User.model.findOne(query, function (err, user) {
@@ -36,5 +36,4 @@ module.exports = function (passport) {
             done(err, user);
         });
     });
-}
-
+};

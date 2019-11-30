@@ -6,6 +6,13 @@
   border-width: 0.01em;
   padding: 2rem;
   padding-bottom: 5rem;
+  max-width: 640px;
+  margin-left:auto;
+  margin-right:auto;
+  border-color: #b3b3b3;
+  border-width: 0.01em;
+  padding: 2rem;
+  padding-bottom: 5rem;
 
 }
 

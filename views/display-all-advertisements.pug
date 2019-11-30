@@ -1,0 +1,33 @@
+extends layout
+
+block content
+
+	div(data-objData=data)
+
+	h1 Filter results
+
+	form(method= 'GET', action='/rides')
+
+		#form-group
+		label From:
+		input.form-control(name='from', type='text', value=filter.from)
+		br
+		#form-group
+		label To:
+		input.form-control(name='to', type='text', value=filter.to)
+		br
+		#form-group
+		label Points:
+		input.form-control(name='points', type='number',value=filter.points)
+		br
+		label Date:
+		input.form-control(name='date', type='date', value=filter.date)
+		br
+
+		input.btn.btn.primary(type='submit', value='Filtrera')
+	br
+	if data
+		each ad, i in data
+			a(href='/rides/show-ads/'+ad.id) #{"Result " + i + ": "} 
+			p= "From: " + ad.from + ", To: " + ad.to + ", Points:" + ad.points 
+			br

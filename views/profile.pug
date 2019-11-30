@@ -1,0 +1,41 @@
+extends layout
+
+block content
+    .main.container.clearfix
+        .jumbotron
+            .row.offset-1
+              .col-6
+                #profilepageImage
+                  img(src='/images/blank-profile-picture.png' width="96" height="96")
+            .row.offset-1
+              .col-6
+                #profilepageName
+                  h5 #{firstname}
+            #userDetails
+              .row.offset-1
+                  .col-xs-4.col-sm-4.col-md-4
+                      h5.first-name First name:
+                  .col-xs-8.col-sm-8.col-md-8
+                      h5.font-weight-bold #{firstname}
+              .row.offset-1
+                  .col-xs-4.col-sm-4.col-md-4
+                      h5.last-name Last name:
+                  .col-xs-8.col-sm-8.col-md-8
+                      h5.font-weight-bold #{lastname}
+              .row.offset-1
+                  .col-xs-4.col-sm-4.col-md-4
+                      h5.username Username:
+                  .col-xs-8.col-sm-8.col-md-8
+                      h5.font-weight-bold #{username}
+              .row.offset-1
+                  .col-xs-4.col-sm-4.col-md-4
+                      h5.email Email:
+                  .col-xs-8.col-sm-8.col-md-8
+                      h5.font-weight-bold #{email}
+              #profileButton
+              // TODO: remove username from path and use session saved user in users.js
+              a.btn.btn-secondary.bt-lg.btn-block(href='/users/editProfile/atha') Edit
+                  //h4.password Password:
+                  //#form-group
+                  //    label.h4.password Password:
+                  //    input.form-control(name='password', type='password', value='#{profile.password}')
