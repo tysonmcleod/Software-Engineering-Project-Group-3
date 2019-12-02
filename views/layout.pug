@@ -42,12 +42,9 @@ html
                     | Logout
                     span.sr-only (current)
                 li.nav-item.active
-                  a.nav-link(href='/users/profile/atha')
+                  a.nav-link(href='/users/profile')
                     img.rounded-circle(src='/images/blank-profile-picture.png' width="22" height="22")
                     span.sr-only (current)
-                    // TODO: Remove atha username and retrieve user using the session saved username
-                    // TODO: check if user is logged in, if yes then appear following li item and disappear above login-signup,
-                    // TODO: otherwise show login-signup
               else
                 li.nav-item.active
                   a.nav-link(href='/users/login')

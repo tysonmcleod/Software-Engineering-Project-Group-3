@@ -93,32 +93,20 @@ router.get('/logout',function (req, res) {
   res.redirect('/');
 });
 
-// TODO: Retrieve user from session and remove id path parameter and therefore not search in database :)
-router.get('/profile/:username', async (req,res) => {
-  const username = req.params.username;
-  console.log("Display profile of user: " + username);
-  try {
-    const user = await User.findOne({username: username});
-    console.log(user);
-    res.render("profile", {firstname: user.firstname, lastname: user.lastname, username: user.username, email: user.email, password: user.password})
-  } catch (err) {
-    res.status(500).json({ message: err.message })
-    // TODO: render to error not found pug file
-  }
+// Get profile of logged in user
+router.get('/profile', async (req,res) => {
+  const user = res.locals.user;
+  console.log("Display profile of user: " + user.username);
+  console.log(user);
+  res.render("profile", {firstname: user.firstname, lastname: user.lastname, username: user.username, email: user.email, password: user.password})
 });
 
-// TODO: Retrieve user from session and remove id path parameter and therefore not search in database :)
-router.get('/editProfile/:username', async (req, res) => {
-  const username = req.params.username;
-  console.log("Display profile of user: " + username);
-  try {
-    const user = await User.findOne({username: username});
-    console.log(user);
-    res.render("editProfile", {firstname: user.firstname, lastname: user.lastname, username: user.username, email: user.email, password: user.password})
-  } catch (err) {
-    res.status(500).json({ message: err.message })
-    // TODO: render to error not found pug file
-  }
+// Edit profile of loggen in user through profile page
+router.get('/editProfile', async (req, res) => {
+  const user = res.locals.user;
+  console.log("Display profile of user: " + user.username);
+  console.log(user);
+  res.render("editProfile", {firstname: user.firstname, lastname: user.lastname, username: user.username, email: user.email, password: user.password})
 });
 
 router.post('/update', async (req, res) => {
