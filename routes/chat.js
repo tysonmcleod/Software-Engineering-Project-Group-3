@@ -47,7 +47,7 @@ router.post('/', async (req, res) => {
 });
 
 // Get chats of user that is logged in
-router.get('/', async (req, res) => {
+router.get('/all', async (req, res) => {
     const user = res.locals.user;
     const username = user.username;
     console.log("Display all conversations of user: " + username);
@@ -61,7 +61,6 @@ router.get('/', async (req, res) => {
 });
 
 // Get chat between two users
-// TODO: later, obtain user id1 by session and get id2 as parameter
 router.get('/:id1/:id2', async (req, res) => {
     const id1 = req.params.id1;
     const id2 = req.params.id2;
