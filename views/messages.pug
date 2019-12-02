@@ -7,8 +7,8 @@ block content
             tbody
                 each chat in results
                     each participant in chat.participants
-                        if participant != id
+                        if participant != username
                             tr.tableStyle
                                 th(scope='row')
-                                    a(href='/messages/' + id + '/' + participant) #{participant}
+                                    a(href='/messages/' + username + '/' + participant) #{participant}
                                 td #{chat.messages[chat.messages.length - 1]}

@@ -1,9 +1,6 @@
 var express = require('express');
-var mongoose = require('mongoose');
-// var table = require('table');
 var router = express.Router();
 var Messages = require('../models/messages');
-// var databaseConnection = require('../js/db');
 
 // Create message
 router.post('/', async (req, res) => {
@@ -49,14 +46,15 @@ router.post('/', async (req, res) => {
     }
 });
 
-// Get chats of user with id
-router.get('/:id', async (req, res) => {
-    const id = req.params.id;
-    console.log("Display all conversations of user: " + id);
+// Get chats of user that is logged in
+router.get('/', async (req, res) => {
+    const user = res.locals.user;
+    const username = user.username;
+    console.log("Display all conversations of user: " + username);
     try {
-        const messages = await Messages.find({participants: id});
+        const messages = await Messages.find({participants: username});
         console.log(messages);
-        res.render("messages", {results: messages, id: id})
+        res.render("messages", {results: messages, username: username})
     } catch (err) {
         res.status(500).json({ message: err.message })
     }
