@@ -25,13 +25,9 @@ html
                   | Find a lift
                   span.sr-only (current)
               li.nav-item.active
-              a.nav-link(href='/offer')
-                | Offer a lift
-                span.sr-only (current)
-              li.nav-item.active
-              a.nav-link(href='/users/register')
-                | Sign up
-                span.sr-only (current)
+                a.nav-link(href='/offer')
+                  | Offer a lift
+                  span.sr-only (current)
               li.nav-item.active
                 a.nav-link(href='/rides/create-ad')
                   | Create ad
@@ -40,24 +36,31 @@ html
                 a.nav-link(href='/rides')
                   | Search all ads
                   span.sr-only (current)
-              li.nav-item.active
-                a.nav-link(href='/messages/eva')
-                  | Messages
-                  span.sr-only (current)
-              li.nav-item.active
-                a.nav-link(href='/users/login')
-                  | Login
-                  span.sr-only (current)
-              li.nav-item.active
-                a.nav-link(href='/users/profile/atha')
-                  img.rounded-circle(src='/images/blank-profile-picture.png' width="22" height="22")
-                  span.sr-only (current)
-                  // TODO: Remove atha username and retrieve user using the session saved username
-                  // TODO: check if user is logged in, if yes then appear following li item and disappear above login-signup,
-                  // TODO: otherwise show login-signup
+              if user
+                li.nav-item.active
+                  a.nav-link(href='/users/logout')
+                    | Logout
+                    span.sr-only (current)
+                li.nav-item.active
+                  a.nav-link(href='/messages/eva')
+                    | Messages
+                    span.sr-only (current)
+                li.nav-item.active
+                  a.nav-link(href='/users/profile/atha')
+                    img.rounded-circle(src='/images/blank-profile-picture.png' width="22" height="22")
+                    span.sr-only (current)
+              else
+                li.nav-item.active
+                  a.nav-link(href='/users/login')
+                    | Login
+                    span.sr-only (current)
+                li.nav-item.active
+                  a.nav-link(href='/users/register')
+                    | Sign up
+                    span.sr-only (current)
 
       .container
-      br
+      != messages('message',locals)
       block content
       br
 

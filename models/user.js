@@ -27,6 +27,6 @@ const User = new mongoose.Schema({
 
 // module exports to access outside of this file
 module.exports = {
-  model: mongoose.model('User', User),
-  schema: User
-};
+  model: mongoose.model('User', User), schema: User};
+
+

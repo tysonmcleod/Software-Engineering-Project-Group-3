@@ -1,6 +1,9 @@
 var express = require('express');
 var router = express.Router();
 var bcrypt = require('bcryptjs');
+var passport = require('passport');
+var bodyParser = require('body-parser');
+
 // Bring in user model
 var User = require('../models/user');
 
@@ -13,7 +16,6 @@ router.get('/register', function(req,res){
 
 
 // register process
-
 router.post('/register', function(req,res){
   const firstname = req.body.firstname;
   const lastname = req.body.lastname;
@@ -23,7 +25,6 @@ router.post('/register', function(req,res){
   const password2 = req.body.password2;
 
   // validation
-
   req.checkBody('firstname', 'Your first name is required').notEmpty();
   req.checkBody('lastname', 'Your surname name is required').notEmpty();
   req.checkBody('email', 'Invalid Email Address').isEmail();
@@ -67,9 +68,29 @@ router.post('/register', function(req,res){
   }
 });
 
-
+// Login Form
 router.get('/login', function(req,res){
   res.render('login');
+});
+
+
+// Login Process
+router.post("/login", function (req, res, next) {
+  passport.authenticate('local', {
+      successRedirect: '/',
+      failureRedirect: '/users/login',
+      failureFlash: true
+ })(req, res, next);
+
+});
+
+//Log out
+router.get('/logout',function (req, res) {
+  console.log('Logout user:');
+  console.log(res.locals.user);
+  req.logout();
+  req.flash('success','You are logged out');
+  res.redirect('/');
 });
 
 // TODO: Retrieve user from session and remove id path parameter and therefore not search in database :)
@@ -125,10 +146,4 @@ router.post('/update', async (req, res) => {
   }
 });
 
-
-/* GET users listing.
-router.get('/', function(req, res, next) {
-  res.send('respond with a resource');
-});
-*/
 module.exports = router;

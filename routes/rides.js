@@ -58,7 +58,7 @@ router.get('/create-ad', function(req, res, next) {
 });
 
 router.get('/destroy-the-ride/:id', async (req, res) => {
-	
+
 	const id = req.params.id;
 	await Advertisement.findByIdAndRemove(id, {useAndModify: false});
 	res.redirect("/rides");
@@ -73,7 +73,7 @@ router.post('/hop-on-ride/:id', async (req, res) => {
 	    username:"johndoe",
     	password:"johndoe"
     });
-	
+
 	let ad = await Advertisement.findById(id);
 
 	if(ad.rider == null){
@@ -89,7 +89,7 @@ router.post('/hop-on-ride/:id', async (req, res) => {
 router.post('/hop-off-ride/:id', async (req, res) => {
 	const id = req.params.id;
 	const update = { rider: null};
-	
+
 	let ad = await Advertisement.findById(id);
 
 	if(ad.rider == null){
@@ -153,7 +153,7 @@ router.get('/show-users-ads/:username', (req, res) => {
 
 router.get('/show-ads/:id', (req, res) => {
 	const id = req.params.id
-	
+
 	Advertisement.findById(id)
 	.then(advertisement => {
 		res.render("display-one-advertisement", {	data: advertisement});
