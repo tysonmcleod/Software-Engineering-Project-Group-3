@@ -11,36 +11,8 @@ block content
 
         #form-group
             input#to-dest.form-control(type='text', placeholder='Till', name='to-dest', onchange=`formToMap('to')`)
-
-
-        h3= monthName
-
-        table(style='width:40%', border='0')
-            tr
-                th Mon
-                th Tue
-                th Wed
-                th Thu
-                th Fri
-                th Sat
-                th Sun
-
-            -for (var week = 0; week < month.length; week++) {
-                tr
-                    if week
-                        td(align='center')
-                            input(type="radio", name="date", value=month[week - 1][6][0], id=month[week - 1][6][0])
-                    else
-                        td(align='center')
-
-                    -for (var day = 0; day <= 5; day++) {
-
-                        if month[week][day][0]
-                          td(align='center')
-                            input(type="radio", name="date", value=month[week][day][0], id=month[week][day][0])
-                        else
-                          td(align='center')
-                    -}
-            -}
+        
+        #form-group
+            input#date.form-control(type='date', min=`${today}`, name='date')
 
         button.btn.btn-primary(type='submit') Fortsätt
