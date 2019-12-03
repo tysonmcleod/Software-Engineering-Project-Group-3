@@ -61,7 +61,7 @@ router.get('/create-ad', function(req, res, next) {
 });
 
 router.get('/destroy-the-ride/:id', async (req, res) => {
-	
+
 	const id = req.params.id;
 	const ad = await Advertisement.findByIdAndRemove(id, {useAndModify: false});
 	res.redirect("/rides/manage-users-ads/" + ad.driver);
@@ -77,8 +77,10 @@ router.post('/update-ride/:id', async (req, res) => {
 
 router.post('/hop-on-ride/:id', async (req, res) => {
 	const id = req.params.id;
+
 	const testUser = "augaug";
 	
+
 	let ad = await Advertisement.findById(id);
 
 	if(!ad.interested_riders.includes(testUser)){
@@ -96,7 +98,9 @@ router.post('/hop-on-ride/:id', async (req, res) => {
 router.post('/hop-off-ride/:id', async (req, res) => {
 	const id = req.params.id;
 	const update = { rider: null};
+
 	const testUser = "augaug";
+
 
 	let ad = await Advertisement.findById(id);
 
@@ -214,7 +218,7 @@ router.get('/manage-users-ads/:username/:id', (req, res) => {
 
 router.get('/show-ads/:id', (req, res) => {
 	const id = req.params.id
-	
+
 	Advertisement.findById(id)
 	.then(advertisement => {
 		res.render("display-one-advertisement", {	data: advertisement});

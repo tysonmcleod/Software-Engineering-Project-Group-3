@@ -1,6 +1,9 @@
 var express = require('express');
 var router = express.Router();
 var bcrypt = require('bcryptjs');
+var passport = require('passport');
+var bodyParser = require('body-parser');
+
 // Bring in user model
 var User = require('../models/user');
 
@@ -13,8 +16,9 @@ router.get('/register', function(req,res){
 
 
 // register process
-
+// changed from NOT async function to async function
 router.post('/register', async function(req,res){
+
   const firstname = req.body.firstname;
   const lastname = req.body.lastname;
   const email = req.body.email;
@@ -23,7 +27,6 @@ router.post('/register', async function(req,res){
   const password2 = req.body.password2;
 
   // validation
-
   req.checkBody('firstname', 'Your first name is required').notEmpty();
   req.checkBody('lastname', 'Your surname name is required').notEmpty();
   req.checkBody('email', 'Invalid Email Address').isEmail();
@@ -78,37 +81,45 @@ router.post('/register', async function(req,res){
   }
 });
 
-
+// Login Form
 router.get('/login', function(req,res){
   res.render('login');
 });
 
-// TODO: Retrieve user from session and remove id path parameter and therefore not search in database :)
-router.get('/profile/:username', async (req,res) => {
-  const username = req.params.username;
-  console.log("Display profile of user: " + username);
-  try {
-    const user = await User.findOne({username: username});
-    console.log(user);
-    res.render("profile", {firstname: user.firstname, lastname: user.lastname, username: user.username, email: user.email, password: user.password})
-  } catch (err) {
-    res.status(500).json({ message: err.message })
-    // TODO: render to error not found pug file
-  }
+
+// Login Process
+router.post("/login", function (req, res, next) {
+  passport.authenticate('local', {
+      successRedirect: '/',
+      failureRedirect: '/users/login',
+      failureFlash: true
+ })(req, res, next);
+
 });
 
-// TODO: Retrieve user from session and remove id path parameter and therefore not search in database :)
-router.get('/editProfile/:username', async (req, res) => {
-  const username = req.params.username;
-  console.log("Display profile of user: " + username);
-  try {
-    const user = await User.findOne({username: username});
-    console.log(user);
-    res.render("editProfile", {firstname: user.firstname, lastname: user.lastname, username: user.username, email: user.email, password: user.password})
-  } catch (err) {
-    res.status(500).json({ message: err.message })
-    // TODO: render to error not found pug file
-  }
+//Log out
+router.get('/logout',function (req, res) {
+  console.log('Logout user:');
+  console.log(res.locals.user);
+  req.logout();
+  req.flash('success','You are logged out');
+  res.redirect('/');
+});
+
+// Get profile of logged in user
+router.get('/profile', async (req,res) => {
+  const user = res.locals.user;
+  console.log("Display profile of user: " + user.username);
+  console.log(user);
+  res.render("profile", {firstname: user.firstname, lastname: user.lastname, username: user.username, email: user.email, password: user.password})
+});
+
+// Edit profile of loggen in user through profile page
+router.get('/editProfile', async (req, res) => {
+  const user = res.locals.user;
+  console.log("Display profile of user: " + user.username);
+  console.log(user);
+  res.render("editProfile", {firstname: user.firstname, lastname: user.lastname, username: user.username, email: user.email, password: user.password})
 });
 
 router.post('/update', async (req, res) => {
@@ -136,10 +147,4 @@ router.post('/update', async (req, res) => {
   }
 });
 
-
-/* GET users listing.
-router.get('/', function(req, res, next) {
-  res.send('respond with a resource');
-});
-*/
 module.exports = router;
