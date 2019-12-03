@@ -20,18 +20,20 @@ html
 
           #navbarRight
             ul.navbar-nav.mr-auto
-              li.nav-item.active
-                a.nav-link(href='/rides/create-ad')
-                  | Create ad
-                  span.sr-only (current)
+              if user
+                li.nav-item.active
+                  a.nav-link(href='/rides/create-ad')
+                    | Create ad
+                    span.sr-only (current)
               li.nav-item.active
                 a.nav-link(href='/rides')
                   | Search all ads
                   span.sr-only (current)
-              i.nav-item.active
-                a.nav-link(href='/rides/manage-users-ads/augaug')
-                  | Journeys
-                  span.sr-only (current)
+              if user
+                i.nav-item.active
+                  a.nav-link(href='/rides/manage-users-ads')
+                    | Journeys
+                    span.sr-only (current)
               if user
                 li.nav-item.active
                   a.nav-link(href='/users/logout')

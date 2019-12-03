@@ -14,10 +14,10 @@ block content
 	br
 
 	
-	form(method= 'POST', action='/rides/hop-on-ride/'+data.id)
+	form(method= 'GET', action='/rides/hop-on-ride/'+data.id)
 
-		input.btn.btn.primary(type='submit', value='Hope on the ride bruh')
+		input.btn.btn.primary(type='submit', value='Apply for ride')
 
-	form(method= 'POST', action='/rides/hop-off-ride/'+data.id)
+	form(method= 'GET', action='/rides/hop-off-ride/'+data.id)
 
-		input.btn.btn.primrary(type='submit', value='Hope off the ride bruh')
+		input.btn.btn.primrary(type='submit', value='Discharge from ride')

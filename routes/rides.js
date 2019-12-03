@@ -3,6 +3,8 @@ var router = express.Router();
 var mongoose = require('mongoose');
 var Advertisement = require('../models/Advertisement');
 var User = require('../models/user');
+var bcrypt = require('bcryptjs');
+var passport = require('passport');
 
 User = User.model;
 
@@ -75,11 +77,11 @@ router.post('/update-ride/:id', async (req, res) => {
 	//res.redirect("/rides/manage-users-ads/" + ad.driver);
 });
 
-router.post('/hop-on-ride/:id', async (req, res) => {
+router.get('/hop-on-ride/:id', async (req, res) => {
 	const id = req.params.id;
-
-	const testUser = "augaug";
-	
+	const testUser2 = res.locals.user;
+	console.log(res.locals.user);
+	const testUser = testUser2.username;
 
 	let ad = await Advertisement.findById(id);
 
@@ -95,11 +97,11 @@ router.post('/hop-on-ride/:id', async (req, res) => {
     res.redirect("/rides/show-ads/" + id);
 });
 
-router.post('/hop-off-ride/:id', async (req, res) => {
+router.get('/hop-off-ride/:id', async (req, res) => {
 	const id = req.params.id;
 	const update = { rider: null};
-
-	const testUser = "augaug";
+	const testUser2 = res.locals.user;
+	const testUser = testUser2.username;
 
 
 	let ad = await Advertisement.findById(id);
@@ -178,14 +180,15 @@ router.post('/send-ad', function(req, res, next) {
    	})
 });
 
-router.get('/manage-users-ads/:username', (req, res) => {
-	const username = req.params.username;
+router.get('/manage-users-ads', async (req, res) => {
+	const user = res.locals.user;
+	console.log(user.username);
+	const username = user.username;
 	const query = {driver: username};
 	Advertisement.find({$or: [{confirmed_riders: username}, {interested_riders: username}, {driver: username}]})
 	.sort('date')
 	.sort('departure')
 	.then(advertisement => {
-		console.log(advertisement)
 		res.render("manage-users-advertisements", {	data: advertisement, username: username});
 	})
 	.catch(err => {
@@ -199,9 +202,10 @@ router.get('/manage-users-ads/:username', (req, res) => {
 
 
 
-router.get('/manage-users-ads/:username/:id', (req, res) => {
+router.get('/manage-users-ads/:id', async (req, res) => {
 	const id = req.params.id;
-	const username = req.params.username;
+	const test = res.locals.user;
+	const username = test.username;
 	
 	Advertisement.findById(id)
 	.then(advertisement => {
