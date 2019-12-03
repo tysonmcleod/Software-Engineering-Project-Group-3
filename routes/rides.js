@@ -63,18 +63,27 @@ router.get('/create-ad', function(req, res, next) {
 });
 
 router.get('/destroy-the-ride/:id', async (req, res) => {
-
 	const id = req.params.id;
 	const ad = await Advertisement.findByIdAndRemove(id, {useAndModify: false});
-	res.redirect("/rides/manage-users-ads/" + ad.driver);
+	res.redirect("/rides/manage-users-ads");
 });
 
 router.get('/update-ride/:id', async (req, res) => {
 	
 	const id = req.params.id;
-	res.send(id);
+
+	const updateObj = {from: req.query.from};
+	updateObj.to = req.query.to;
+	updateObj.date = req.query.date;
+	updateObj.available_seats = req.query.available_seats;
+	updateObj.departure = req.query.departure;
+	updateObj.arrival = req.query.arrival;
+
+	console.log(updateObj);
+	const newad = await Advertisement.findByIdAndUpdate(id, updateObj, {new: true});
 	//const ad = await Advertisement.findByIdAndRemove(id, {useAndModify: false});
-	//res.redirect("/rides/manage-users-ads/" + ad.driver);
+	console.log(newad);
+	res.redirect("/rides/manage-users-ads/" + id);
 });
 
 router.get('/hop-on-ride/:id', async (req, res) => {
@@ -168,6 +177,7 @@ router.get('/send-ad', async function(req, res, next) {
 	const user3 = res.locals.user;
 	const user2 = user3.username;
 	console.log("cool" + user2);
+	console.log(req.body);
 	req.body.driver = user2;
 	console.log("hey" + req.body.driver);
 	Advertisement.create(req.body)
