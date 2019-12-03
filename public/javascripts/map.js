@@ -1,5 +1,6 @@
 var uppsala = {lat: 59.85882, lng: 17.63889};
 var markers = [null, null];
+var geocoder = null;
 
 function createMarker(location) {
     var marker = new google.maps.Marker({
@@ -24,17 +25,21 @@ function createMarker(location) {
 function initMap() {
     map = new google.maps.Map(document.getElementById('map'), {
         center: uppsala,
-        zoom: 10
+        zoom: 10,
+        streetViewControl: false,
+        mapTypeControlOptions: {
+            mapTypeIds: [google.maps.MapTypeId.ROADMAP, google.maps.MapTypeId.HYBRID]
+        }
     });
 
     geocoder = new google.maps.Geocoder;
 
     map.addListener('click', function(event) {
-        placeMarker(geocoder, event.latLng);
+        placeMarker(event.latLng);
 	});
 }
 
-function placeMarker(geocoder, location) {
+function placeMarker(location) {
     var marker = createMarker(location);
     
     geocoder.geocode({'location': location}, function(results, status) {
@@ -108,4 +113,22 @@ function formToMap(field) {
 	} else {
 		console.log('Else');
 	}
+}
+
+function getUserLocation() {
+    if(navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(function(position) {
+            var pos = {
+                lat: position.coords.latitude,
+                lng: position.coords.longitude
+            };
+
+            if(markers[0]) {
+                markers[0].setMap(null);
+                markers[0] = null;
+                document.getElementById('from-dest').value = "";
+            }
+            placeMarker(pos);
+        });
+    }
 }

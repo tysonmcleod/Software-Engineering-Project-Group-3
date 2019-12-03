@@ -44,6 +44,23 @@ a {
   height: 25em;
 }
 
+#from-field {
+  width: 100%;
+}
+
+.from-input {
+  width: 96%;
+  margin-right: 0%;
+  float: left;
+}
+
+.from-button {
+  font-size: 35px;
+  width: auto;
+  float: left;
+  cursor: pointer;
+}
+
 .alert-error{
   color: #a94442;
   background-color: #f2dede;
