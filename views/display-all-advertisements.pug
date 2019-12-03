@@ -16,18 +16,14 @@ block content
 		label To:
 		input.form-control(name='to', type='text', value=filter.to)
 		br
-		#form-group
-		label Points:
-		input.form-control(name='points', type='number',value=filter.points)
-		br
 		label Date:
 		input.form-control(name='date', type='date', value=filter.date)
 		br
-
+		p="Sort by: Date"
 		input.btn.btn.primary(type='submit', value='Filtrera')
 	br
 	if data
 		each ad, i in data
 			a(href='/rides/show-ads/'+ad.id) #{"Result " + i + ": "} 
-			p= "From: " + ad.from + ", To: " + ad.to + ", Available seats:" + ad.available_seats 
+			p= "From: " + ad.from + ", To: " + ad.to + ", Available seats:" + ad.available_seats  + ", Date: " + ad.date + ", Departure: " + ad.departure + ", Arrival: " + ad.arrival
 			br

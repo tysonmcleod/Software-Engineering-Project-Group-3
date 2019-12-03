@@ -3,26 +3,42 @@ extends layout
 block content
 
 	div(data-objData=data)
-	h1=username + " advertisements"
-
+	h1=username + " driver"
+	
 	if data
+		-var index=0
 		each ad in data
-			-var index=0
 			if ad.driver == username
 				-index = index+1
-				p= "Result " + index + ": " + "From: " + ad.from + ", To: " + ad.to + ", Points:" + ad.points
+				p= "Result " + index + ": " + "From: " + ad.from + ", To: " + ad.to + ", Date: " + ad.date + ", Departure: " + ad.departure + ", Arrival: " + ad.arrival
 				a.btn.btn-secondary.bt-lg.btn-block(href=username +'/' + ad.id) Edit
 				a.btn.btn-secondary.bt-lg.btn-block(href='/rides/destroy-the-ride/' + ad.id) Remove
 				br
 
-	h1=username + " passenger"
+	h1=username + " confirmed rider"
+	#updateConfirmedRider
+		if data
+			-var index=0
+			each ad in data
+				each rider in ad.confirmed_riders
+					if rider == username
+						-index = index+1
+						p="hej"
+						p= "Result " + index + ": " + "From: " + ad.from + ", To: " + ad.to + ", Date: " + ad.date + ", Departure: " + ad.departure + ", Arrival: " + ad.arrival
+						a.btn.btn-secondary.bt-lg.btn-block(href=username +'/' + ad.id) Edit
+						a.btn.btn-secondary.bt-lg.btn-block(href='/rides/destroy-the-ride/' + ad.id) Remove
+						br
+
+	h1=username + " interested rider"
 
 	if data
+		-var index=0
 		each ad in data
-			-var index=0
-			if ad.driver != username
-				-index = index+1
-				p= "Result " + index + ": " + "From: " + ad.from + ", To: " + ad.to + ", Points:" + ad.points
-				a.btn.btn-secondary.bt-lg.btn-block(href=username +'/' + ad.id) Edit
-				a.btn.btn-secondary.bt-lg.btn-block(href='/rides/destroy-the-ride/' + ad.id) Remove
-				br
+			each rider in ad.interested_riders
+				if rider == username
+					-index = index+1
+					p="hej"
+					p= "Result " + index + ": " + "From: " + ad.from + ", To: " + ad.to + ", Date: " + ad.date + ", Departure: " + ad.departure + ", Arrival: " + ad.arrival
+					a.btn.btn-secondary.bt-lg.btn-block(href=username +'/' + ad.id) Edit
+					a.btn.btn-secondary.bt-lg.btn-block(href='/rides/destroy-the-ride/' + ad.id) Remove
+					br

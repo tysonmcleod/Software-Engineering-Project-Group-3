@@ -38,8 +38,12 @@ router.get('/', function(req, res, next) {
 	if(Object.keys(filter).length === 0){
 		res.render("display-all-advertisements", {	filter: filter});
 	}
+
 	
-	Advertisement.find(filter)
+	Advertisement
+	.find(filter)
+	.sort('date')
+	.sort('departure')
 	.then(advertisements => {
 		res.render("display-all-advertisements", {	data: advertisements, filter: filter});
 	})
@@ -49,6 +53,7 @@ router.get('/', function(req, res, next) {
 			message: err.message
 		})
 	});
+	
 });
 
 router.get('/create-ad', function(req, res, next) {
@@ -146,7 +151,9 @@ router.post('/send-ad', function(req, res, next) {
 	if(req.body.available_seats == undefined){
 		req.body.available_seats = 0;
 	}
-
+	console.log(req.body.leaving);
+	console.log(typeof req.body.arriving);
+	console.log(req.body.arriving <= "23:22");
 	Advertisement.create(req.body)
 	.then(advertisement => {
   		res.redirect("/rides/show-ads/" + advertisement.id);
@@ -162,8 +169,11 @@ router.post('/send-ad', function(req, res, next) {
 router.get('/manage-users-ads/:username', (req, res) => {
 	const username = req.params.username;
 	const query = {driver: username};
-	Advertisement.find({$or: [{confirmed_riders: username}, {interested_riders: username}]})
+	Advertisement.find({$or: [{confirmed_riders: username}, {interested_riders: username}, {driver: username}]})
+	.sort('date')
+	.sort('departure')
 	.then(advertisement => {
+		console.log(advertisement)
 		res.render("manage-users-advertisements", {	data: advertisement, username: username});
 	})
 	.catch(err => {
