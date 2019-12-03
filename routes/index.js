@@ -20,14 +20,6 @@ router.post('/', function(req, res, next) {
   res.render('index', {today: getCurrentDate(), apiKey: GoogleAPIKey });
 });
 
-router.get('/book', function(req, res){
-  res.render('book');
-});
-
-router.get('/offer', function(req, res){
-  res.render('offer');
-});
-
 function getCurrentDate() {
   var date = new Date();
   var year = date.getFullYear();
