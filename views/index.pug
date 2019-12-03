@@ -7,12 +7,12 @@ block content
     div(id='map')
     form(method='GET' action='/rides')
         #form-group
-            input#from-dest.form-control(type='text', placeholder='Från', name='from-dest', onchange=`formToMap('from')`)
+            input#from-dest.form-control(type='text', placeholder='From', name='from-dest', onchange=`formToMap('from')`)
 
         #form-group
-            input#to-dest.form-control(type='text', placeholder='Till', name='to-dest', onchange=`formToMap('to')`)
+            input#to-dest.form-control(type='text', placeholder='To', name='to-dest', onchange=`formToMap('to')`)
         
         #form-group
             input#date.form-control(type='date', min=`${today}`, name='date')
 
-        button.btn.btn-primary(type='submit') Fortsätt
+        button.btn.btn-primary(type='submit') Search

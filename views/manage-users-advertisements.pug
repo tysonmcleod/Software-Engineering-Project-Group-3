@@ -3,8 +3,8 @@ extends layout
 block content
 
 	div(data-objData=data)
-	h1=username + " driver"
-
+	h1=username + "'s advertisements"
+	br
 	if data
 		-var index=0
 		each ad in data
@@ -14,29 +14,3 @@ block content
 				a.btn.btn-secondary.bt-lg.btn-block(href= "manage-users-ads/" + ad.id) Edit
 				a.btn.btn-secondary.bt-lg.btn-block(href='/rides/destroy-the-ride/' + ad.id) Remove
 				br
-
-	h1=username + " confirmed rider"
-	#updateConfirmedRider
-		if data
-			-var index=0
-			each ad in data
-				each rider in ad.confirmed_riders
-					if rider == username
-						-index = index+1
-						p="hej"
-						p= "Result " + index + ": " + "From: " + ad.from + ", To: " + ad.to + ", Date: " + ad.date + ", Departure: " + ad.departure + ", Arrival: " + ad.arrival
-						a.btn.btn-secondary.bt-lg.btn-block(href="show-ads/" + ad.id) Change
-						br
-
-	h1=username + " interested rider"
-
-	if data
-		-var index=0
-		each ad in data
-			each rider in ad.interested_riders
-				if rider == username
-					-index = index+1
-					p="hej"
-					p= "Result " + index + ": " + "From: " + ad.from + ", To: " + ad.to + ", Date: " + ad.date + ", Departure: " + ad.departure + ", Arrival: " + ad.arrival
-					a.btn.btn-secondary.bt-lg.btn-block(href="show-ads/" + ad.id) Change
-					br

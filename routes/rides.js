@@ -69,7 +69,7 @@ router.get('/destroy-the-ride/:id', async (req, res) => {
 	res.redirect("/rides/manage-users-ads/" + ad.driver);
 });
 
-router.post('/update-ride/:id', async (req, res) => {
+router.get('/update-ride/:id', async (req, res) => {
 	
 	const id = req.params.id;
 	res.send(id);
@@ -122,13 +122,13 @@ router.get('/hop-off-ride/:id', async (req, res) => {
 router.post('/join-ride/:id/:username', async (req, res) => {
 	const id = req.params.id;
 	const new_rider = req.params.username;
-	
+	console.log(new_rider);
 	let ad = await Advertisement.findById(id);
 
 	if(!ad.confirmed_riders.includes(new_rider)){
 		ad.confirmed_riders.push(new_rider);
 		ad.interested_riders.pull(new_rider);
-		ad.available_seats = ad.available_seats + 1;
+		ad.available_seats = ad.available_seats - 1;
 		ad.save(function(err){
           if(err){
             console.log(err);
@@ -136,7 +136,7 @@ router.post('/join-ride/:id/:username', async (req, res) => {
           }
       	});
     }
-    res.redirect("/rides/manage-users-ads/" + ad.driver +"/" + id);
+    res.redirect("/rides/manage-users-ads/"+ id);
 });
 
 router.post('/disjoin-ride/:id/:username', async (req, res) => {
@@ -147,7 +147,7 @@ router.post('/disjoin-ride/:id/:username', async (req, res) => {
 
 	if(ad.confirmed_riders.includes(new_rider)){
 		ad.confirmed_riders.pull(new_rider);
-		ad.available_seats = ad.available_seats + -1
+		ad.available_seats = ad.available_seats + 1
 		ad.save(function(err){
           if(err){
             console.log(err);
@@ -155,19 +155,21 @@ router.post('/disjoin-ride/:id/:username', async (req, res) => {
           }
       	});
     }
-    res.redirect("/rides/manage-users-ads/" + ad.driver +"/" + id);
+    res.redirect("/rides/manage-users-ads/" + id);
 });
 
 
 
 
-router.post('/send-ad', function(req, res, next) {
+router.get('/send-ad', async function(req, res, next) {
 	if(req.body.available_seats == undefined){
 		req.body.available_seats = 0;
 	}
-	console.log(req.body.leaving);
-	console.log(typeof req.body.arriving);
-	console.log(req.body.arriving <= "23:22");
+	const user3 = res.locals.user;
+	const user2 = user3.username;
+	console.log("cool" + user2);
+	req.body.driver = user2;
+	console.log("hey" + req.body.driver);
 	Advertisement.create(req.body)
 	.then(advertisement => {
   		res.redirect("/rides/show-ads/" + advertisement.id);
@@ -190,6 +192,25 @@ router.get('/manage-users-ads', async (req, res) => {
 	.sort('departure')
 	.then(advertisement => {
 		res.render("manage-users-advertisements", {	data: advertisement, username: username});
+	})
+	.catch(err => {
+		res.json({
+			confirmation: 'fail',
+			message: 'Advertisement ' + id + ' not found.'
+		})
+	})
+});
+
+router.get('/manage-users-rides', async (req, res) => {
+	const user = res.locals.user;
+	console.log(user.username);
+	const username = user.username;
+	const query = {driver: username};
+	Advertisement.find({$or: [{confirmed_riders: username}, {interested_riders: username}, {driver: username}]})
+	.sort('date')
+	.sort('departure')
+	.then(advertisement => {
+		res.render("manage-users-rides", {	data: advertisement, username: username});
 	})
 	.catch(err => {
 		res.json({

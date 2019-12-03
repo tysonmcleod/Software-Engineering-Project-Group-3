@@ -2,7 +2,7 @@ extends layout
 
 block content
     h1 Create advertisement
-    form(method= 'POST', action='send-ad')
+    form(method= 'GET', action='send-ad')
       #form-group
         label From:
         input.form-control(name='from', type='text', placeholder='from')
@@ -16,10 +16,6 @@ block content
         input.form-control(name='date', type='date')
       br
       #form-group
-        label Username:
-        input.form-control(name='driver', type='text', placeholder='username')
-      br
-      #form-group
         label Available seats:
         input.form-control(name='available_seats', type='number', placeholder='0')
       br
@@ -31,4 +27,4 @@ block content
         label Arriving:
         input.form-control(name='arrival', type='time')
       br
-      input.btn.btn.primary(type='submit', value='Add ride')
+      input.btn.btn.primary(type='submit', value='Create ad')

@@ -4,7 +4,7 @@ block content
 
 	div(data-objData=data)
 
-	h1 Filter results
+	h1 Search advertisements
 
 	form(method= 'GET', action='/rides')
 
@@ -21,7 +21,7 @@ block content
 		br
 		label Sort by date:
 		br
-		input.btn.btn.primary(type='submit', value='Filtrera')
+		input.btn.btn.primary(type='submit', value='Search')
 	br
 	if data
 		each ad, i in data
