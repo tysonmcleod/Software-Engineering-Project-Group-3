@@ -67,6 +67,14 @@ router.get('/destroy-the-ride/:id', async (req, res) => {
 	res.redirect("/rides/manage-users-ads/" + ad.driver);
 });
 
+router.post('/update-ride/:id', async (req, res) => {
+	
+	const id = req.params.id;
+	res.send(id);
+	//const ad = await Advertisement.findByIdAndRemove(id, {useAndModify: false});
+	//res.redirect("/rides/manage-users-ads/" + ad.driver);
+});
+
 router.post('/hop-on-ride/:id', async (req, res) => {
 	const id = req.params.id;
 	const testUser = "augaug";

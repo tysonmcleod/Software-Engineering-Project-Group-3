@@ -12,11 +12,6 @@ block content
 	if data.interested_riders
 		p="Candidate Rider: "+ data.interested_riders
 	br
-	//-
-		p="Riders: "
-		each rider, i in data.riders
-			p= "Rider " + i + ": " + rider
-			br
 
 	
 	form(method= 'POST', action='/rides/hop-on-ride/'+data.id)

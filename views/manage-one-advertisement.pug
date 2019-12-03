@@ -5,9 +5,8 @@ block content
 
 	div(data-objData=data)
 	
-	p= "From: " + data.from + ", To: " + data.to + "Available seats: " + data.available_seats
 	if data.confirmed_riders
-		p="Confirmed Riders: "
+		h4="Confirmed Riders: "
 		br
 		each c_rider, p in data.confirmed_riders
 			p=c_rider
@@ -16,7 +15,7 @@ block content
 			br
 	br
 	if data.interested_riders
-		p="Interested Riders: "
+		h4="Interested Riders: "
 		br
 		each p_rider, i in data.interested_riders
 			p=p_rider
@@ -24,7 +23,39 @@ block content
 				form(method= 'POST', action='/rides/join-ride/'+data.id+'/'+p_rider)
 					input.btn.btn-secondary.bt-lg.btn-block(type='submit', value='Add to ride')
 	br
-	form(method= 'POST', action='/rides/destroy-the-ride/' + data.id)
-				input.btn.btn-secondary.bt-lg.btn-block(type='submit', value='Remove advertisement')
+
+	if data
+		h3="Ad information"
+		br
+		form(method= 'POST', action='/rides/update-ride/'+data.id)
+			#form-group
+				label From:
+				input.form-control(name='from', type='text', value=data.from)
+			br
+			#form-group
+				label To:
+				input.form-control(name='to', type='text', value=data.to)
+			br
+			#form-group
+				label Date:
+				input.form-control(name='date', type=date, value=data.date)
+			br
+			#form-group
+				label Available seats:
+				input.form-control(name='available_seats', type='number', value=data.available_seats)
+			br
+			#form-group
+				label Departure:
+				input.form-control(name='departure', type='time', value=data.departure)
+			br
+			#form-group
+				label Arriving:
+				input.form-control(name='arrival', type='time', value=data.arrival)
+			br
+
+			input.btn.btn-secondary.bt-lg.btn-block(type='submit', value='Update ride')
+	br
+	form(method= 'GET', action='/rides/destroy-the-ride/' + data.id)
+		input.btn.btn-secondary.bt-lg.btn-block(type='submit', value='Remove ride')
 
 
