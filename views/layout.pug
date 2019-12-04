@@ -21,14 +21,22 @@ html
           #navbarRight
             ul.navbar-nav.mr-auto
               li.nav-item.active
-                a.nav-link(href='/rides/create-ad')
-                  | Create ad
-                  span.sr-only (current)
-              li.nav-item.active
                 a.nav-link(href='/rides')
                   | Search all ads
                   span.sr-only (current)
               if user
+                li.nav-item.active
+                  a.nav-link(href='/rides/create-ad')
+                    | Create ad
+                    span.sr-only (current)
+                i.nav-item.active
+                  a.nav-link(href='/rides/manage-users-ads')
+                    | My advertisements
+                    span.sr-only (current)
+                i.nav-item.active
+                  a.nav-link(href='/rides/manage-users-rides')
+                    | Rides
+                    span.sr-only (current)
                 li.nav-item.active
                   a.nav-link(href='/users/logout')
                     | Logout
@@ -46,6 +54,7 @@ html
                   a.nav-link(href='/users/register')
                     | Sign up
                     span.sr-only (current)
+
 
       .container
       != messages('message',locals)

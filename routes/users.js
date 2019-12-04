@@ -16,7 +16,9 @@ router.get('/register', function(req,res){
 
 
 // register process
-router.post('/register', function(req,res){
+// changed from NOT async function to async function
+router.post('/register', async function(req,res){
+
   const firstname = req.body.firstname;
   const lastname = req.body.lastname;
   const email = req.body.email;
@@ -32,10 +34,21 @@ router.post('/register', function(req,res){
   req.checkBody('password', 'Password is required').notEmpty();
   req.checkBody('password2', 'Passwords do not match').equals(req.body.password);
 
-
   let errors = req.validationErrors();
 
+  //Check if username is taken
+  try {
+    const check_user_exists = await User.findOne({username: username});
+    if(check_user_exists){
+      const username_error = {param: 'username', msg: 'Username already taken', 'value': username}; 
+      errors.push(username_error);
+    }
+  } catch (err) {
+    res.status(500).json({ message: err.message })
+  }
+
   if(errors){
+    console.log(errors);
     res.render('register', {
       errors:errors
     });
@@ -127,7 +140,7 @@ router.post('/update', async (req, res) => {
   try {
     const user = await User.findOneAndUpdate({username: username}, updatedUser, {new: true});
     console.log(user);
-    res.render("profile", {firstname: user.firstname, lastname: user.lastname, username: user.username, email: user.email, password: user.password})
+    res.redirect("/users/profile")
   } catch (err) {
     res.status(500).json({ message: err.message })
     // TODO: render to error not found pug file
