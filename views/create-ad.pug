@@ -2,21 +2,29 @@ extends layout
 
 block content
     h1 Create advertisement
-    form(method= 'POST', action='send-ad')
+    form(method= 'GET', action='send-ad')
       #form-group
         label From:
         input.form-control(name='from', type='text', placeholder='from')
-      br
+        br
       #form-group
         label To:
         input.form-control(name='to', type='text', placeholder='to')
       br
       #form-group
-        label Points:
-        input.form-control(name='points', type='number', placeholder='points')
-      br
-      #form-group
         label Date:
         input.form-control(name='date', type='date')
       br
-      input.btn.btn.primary(type='submit', value='Add ride')
+      #form-group
+        label Available seats:
+        input.form-control(name='available_seats', type='number', placeholder='0')
+      br
+      #form-group
+        label Leaving:
+        input.form-control(name='departure', type='time')
+      br
+      #form-group
+        label Arriving:
+        input.form-control(name='arrival', type='time')
+      br
+      input.btn.btn.primary(type='submit', value='Create ad')
