@@ -1,0 +1,22 @@
+sudo: false
+
+language: node_js
+
+node_js:
+  - stable
+
+cache:
+  directories:
+    -node_modules
+
+install:
+  - npm install
+
+script:
+  - npm run build
+  - npm run test
+
+notifications:
+  slack: softwareengin-bbu9772:767bZsCxdYEGErlRZC1PKPny
+
+  email: false
