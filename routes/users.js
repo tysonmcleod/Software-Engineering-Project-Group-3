@@ -140,6 +140,7 @@ router.post('/update', async (req, res) => {
   try {
     const user = await User.findOneAndUpdate({username: username}, updatedUser, {new: true});
     console.log(user);
+    res.locals.user = user;
     res.render("profile", {firstname: user.firstname, lastname: user.lastname, username: user.username, email: user.email, password: user.password})
   } catch (err) {
     res.status(500).json({ message: err.message })
