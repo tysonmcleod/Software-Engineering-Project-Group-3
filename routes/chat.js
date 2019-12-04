@@ -26,7 +26,7 @@ router.post('/', async (req, res) => {
             const savedChat = await chat.save();
             console.log("Updated conversation between users " + sender + " and " + receiver);
             console.log(savedChat);
-            res.render("conversation", {results: savedChat, owner: sender, other: receiver});
+            res.redirect("/messages/" + sender + "/" + receiver);
         } catch (err) {
             res.status(400).json({ message: err.message })
         }
@@ -44,7 +44,7 @@ router.post('/', async (req, res) => {
             const newSavedChat = await newChat.save();
             console.log("New conversation between users " + sender + " and " + receiver);
             console.log(newSavedChat);
-            res.render("conversation", {results: newSavedChat, owner: sender, other: receiver});
+            res.redirect("/messages/" + sender + "/" + receiver);
         } catch (err) {
             res.status(400).json({ message: err.message })
         }
