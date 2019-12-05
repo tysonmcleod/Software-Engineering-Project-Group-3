@@ -16,8 +16,7 @@ install:
   - npm install
 
 script:
-  - npm run build
-  - npm run test
+  - npm test
 
 notifications:
   slack: softwareengin-bbu9772:767bZsCxdYEGErlRZC1PKPny
