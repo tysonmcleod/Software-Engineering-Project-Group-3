@@ -9,8 +9,7 @@ branches:
   - master
 
 cache:
-  directories:
-    -node_modules
+  npm: false
 
 install:
   - npm install
