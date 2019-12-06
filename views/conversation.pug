@@ -9,11 +9,11 @@ block content
                     - var i = 0
                     - while (i < results.messages.length)
                         if (results.senders[i] == other)
-                            .msgcontainer
+                            .conversationContainer
                                 img(src='/images/blank-profile-picture.png', alt='Avatar')
                                 p #{results.messages[i]}
                         else
-                            .msgcontainer.darker
+                            .conversationContainer.darker
                                 img.right(src='/images/blank-profile-picture.png', alt='Avatar')
                                 p #{results.messages[i]}
                         - i++
