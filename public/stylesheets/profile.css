@@ -7,18 +7,23 @@
 
 }
 
+#profilePage {
+  margin-top: 45px;
+}
+
 #userDetails {
   margin-top: 30px;
   padding: 2rem;
   border-style: solid;
   border-color: #b3b3b3;
   border-width: 0.01em;
-  
+  background: #ffffff;
+
 }
 
 
 #profilepageImage{
-  float: right;
+  margin-left: 80%;
   margin-bottom: 10px;
 }
 
@@ -28,8 +33,9 @@
 }
 
 #profilepageName{
-  padding: 3px;
+  padding: 4px;
   float: right;
+
 
 }
 
