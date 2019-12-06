@@ -12,11 +12,22 @@ router.post('/', async (req, res) => {
     console.log(sender + " sent to " + receiver + ":");
     console.log(msg);
 
+
+
     // Check if a conversation between sender and receiver already exists
     const chat = await Messages.findOne({$and: [{participants: sender}, {participants: receiver}]});
 
+    // If message body is empty then redirect to conversation's page
+    if (!msg.length) {
+        try {
+            console.log("Conversation between users " + sender + " and " + receiver + "does not change.");
+            res.redirect("/messages/" + sender + "/" + receiver);
+        } catch (err) {
+            res.status(400).json({ message: err.message })
+        }
+    }
     // if it exists then add the message
-    if (chat != null) {
+    else if (chat != null) {
         chat.messages.push(msg);
         chat.senders.push(sender);
         chat.dates.push(msgDate);
