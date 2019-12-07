@@ -25,9 +25,13 @@ block content
                                         else
                                             - var difference = nowDate - lastMsgDate;
                                             - const TOTAL_MILLISECONDS_IN_A_WEEK = 1000 * 60 * 24 * 7;
-                                            if (Math.floor(difference / TOTAL_MILLISECONDS_IN_A_WEEK) >= 7)
+                                            - var howManyDays = Math.floor(difference / TOTAL_MILLISECONDS_IN_A_WEEK)
+                                            if (howManyDays >= 7)
                                                 - var dateThisYear = lastMsgDate.getDate() + " " + monthsInString[lastMsgDate.getMonth()]
-                                                span.time-right #{dateThisWeek}
+                                                span.time-right #{dateThisYear}
+                                            else if howManyDays <= 1 && lastMsgDate.getDay() == nowDate.getDay()
+                                                - var timeOfMsg = lastMsgDate.getHours() + ":" + lastMsgDate.getMinutes()
+                                                span.time-right #{timeOfMsg}
                                             else
                                                 - var dateThisWeek = daysInString[lastMsgDate.getDay()]
                                                 span.time-right #{dateThisWeek}
