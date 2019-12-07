@@ -9,7 +9,7 @@ var flash = require('connect-flash');
 var bodyParser = require('body-parser');
 var session = require('express-session');
 var passport = require('passport');
-
+require('dotenv').config();
 
 // route files
 var indexRouter = require('./routes/index');
