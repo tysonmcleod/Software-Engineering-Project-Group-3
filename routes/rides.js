@@ -6,9 +6,6 @@ var User = require('../models/user');
 var bcrypt = require('bcryptjs');
 var passport = require('passport');
 
-const keyFile = require('../APIKey.json');
-const GoogleAPIKey = keyFile.APIKey;
-
 User = User.model;
 
 router.get('/', function(req, res, next) {
@@ -62,7 +59,7 @@ router.get('/', function(req, res, next) {
 });
 
 router.get('/create-ad', function(req, res, next) {
-  res.render('create-ad', {today: getCurrentDate(), apiKey: GoogleAPIKey });
+  res.render('create-ad');
 });
 
 router.get('/destroy-the-ride/:id', async (req, res) => {
@@ -270,16 +267,6 @@ router.get('/show-ads/:id', (req, res) => {
 });
 
 
-function getCurrentDate() {
-	var date = new Date();
-	var year = date.getFullYear();
-	var month = date.getMonth() + 1;
-	var dayIndex = date.getDay() + 1;
-  
-	if(dayIndex < 10) {
-	  var day = "0".concat(dayIndex.toString());
-	}
-	return(`${year}-${month}-${day}`);
-  }
+
 
 module.exports = router;
