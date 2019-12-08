@@ -12,9 +12,13 @@ block content
         input#from-dest.form-control(name='from', type='text', placeholder='from', onchange=`formToMap('from')`)
         br
       #form-group
+        input#fromcoords(type='hidden', name='fromcoords')
+      #form-group
         label To:
         input#to-dest.form-control(name='to', type='text', placeholder='to', onchange=`formToMap('to')`)
       br
+      #form-group
+        input#tocoords(type='hidden', name='tocoords')
       #form-group
         label Date:
         input.form-control(name='date', type='date', min=`${today}`)
