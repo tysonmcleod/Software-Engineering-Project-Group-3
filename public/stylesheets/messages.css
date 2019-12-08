@@ -1,0 +1,41 @@
+/* Chat containers */
+.msgContainer {
+    border: 2px solid #dedede;
+    background-color: #f1f1f1;
+    border-radius: 5px;
+    padding: 10px;
+    margin: 10px 0;
+}
+
+/* Darker chat msgcontainer */
+.darker {
+    border-color: #ccc;
+    background-color: #ddd;
+}
+
+/* Clear floats */
+.msgContainer::after {
+    content: "";
+    clear: both;
+    display: table;
+}
+
+/* Style images */
+.msgContainer img {
+    float: left;
+    max-width: 60px;
+    width: 100%;
+    margin-right: 20px;
+    border-radius: 50%;
+}
+
+.msgContainer a {
+    text-decoration: none;
+    color: black;
+}
+
+/* Style time text */
+.time-right {
+    float: right;
+    color: #aaa;
+}

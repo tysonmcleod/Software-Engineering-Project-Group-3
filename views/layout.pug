@@ -11,6 +11,8 @@ html
     link(rel='stylesheet' href='/stylesheets/createad.css')
     link(rel='stylesheet' href='/stylesheets/profile.css')
     link(rel='stylesheet' href='/stylesheets/editProfile.css')
+    link(rel='stylesheet' href='/stylesheets/conversation.css')
+    link(rel='stylesheet' href='/stylesheets/messages.css')
     body
       nav.navbar.navbar-expand-md.navbar-dark.bg-dark.fixed-top
         a.navbar-brand(href='/') CarLift
@@ -40,6 +42,10 @@ html
                 li.nav-item.active
                   a.nav-link(href='/users/logout')
                     | Logout
+                    span.sr-only (current)
+                li.nav-item.active
+                  a.nav-link(href='/messages/all')
+                    | Messages
                     span.sr-only (current)
                 li.nav-item.active
                   a.nav-link(href='/users/profile')
