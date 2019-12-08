@@ -1,23 +1,25 @@
 extends layout
 
 block content
-    script(type='text/javascript', src='/javascripts/map.js')
-    script(async, defer, type='text/javascript', src=`https://maps.googleapis.com/maps/api/js?key=${apiKey}&callback=initMap`)
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  #indexPage
+      script(type='text/javascript', src='/javascripts/map.js')
+      script(async, defer, type='text/javascript', src=`https://maps.googleapis.com/maps/api/js?key=${apiKey}&callback=initMap`)
+      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
-    div(id='map')
-    form(method='GET' action='/rides')
-        br
-        #form-group
-            div(id="from-field")
-                input#from-dest.form-control.from-input(type='text', placeholder='Från', name='from-dest', onchange=`formToMap('from')`) 
-                p.from-button(onclick="getUserLocation()") &#9673
-        #form-group
-            input#to-dest.form-control(type='text', placeholder='To', name='to-dest', onchange=`formToMap('to')`)
-        br
-        #form-group
-            input#date.form-control(type='date', min=`${today}`, name='date')
-        br
+      div(id='map')
+      #indexForm
+        form(method='GET' action='/rides')
+            br
+            #form-group
+                div(id="from-field")
+                    input#from-dest.form-control.from-input(type='text', placeholder='Från', name='from-dest', onchange=`formToMap('from')`)
+                    p.from-button(onclick="getUserLocation()") &#9673
+            #form-group
+                input#to-dest.form-control(type='text', placeholder='To', name='to-dest', onchange=`formToMap('to')`)
+            br
+            #form-group
+                input#date.form-control(type='date', min=`${today}`, name='date')
+            br
 
-        button.btn.btn-primary(type='submit') Search
-
+      #indexButton
+        input.btn.btn-secondary.bt-lg.btn-block(type='submit', value='Search')
