@@ -1,27 +1,20 @@
 extends layout
 
 block content
-    script(type='text/javascript', src='/javascripts/map.js')
-    script(async, defer, type='text/javascript', src=`https://maps.googleapis.com/maps/api/js?key=${apiKey}&callback=initMap`)
-
+  #createadPage
     h1 Create advertisement
-    div#map
     form(method= 'GET', action='send-ad')
       #form-group
         label From:
-        input#from-dest.form-control(name='from', type='text', placeholder='from', onchange=`formToMap('from')`)
+        input.form-control(name='from', type='text', placeholder='from')
         br
       #form-group
-        input#fromcoords(type='hidden', name='fromcoords')
-      #form-group
         label To:
-        input#to-dest.form-control(name='to', type='text', placeholder='to', onchange=`formToMap('to')`)
+        input.form-control(name='to', type='text', placeholder='to')
       br
       #form-group
-        input#tocoords(type='hidden', name='tocoords')
-      #form-group
         label Date:
-        input.form-control(name='date', type='date', min=`${today}`)
+        input.form-control(name='date', type='date')
       br
       #form-group
         label Available seats:
@@ -35,4 +28,5 @@ block content
         label Arriving:
         input.form-control(name='arrival', type='time')
       br
-      input.btn.btn.primary(type='submit', value='Create ad')
+      input.btn.btn-secondary.bt-lg.btn-block(type='submit', value='Create ad')
+      
