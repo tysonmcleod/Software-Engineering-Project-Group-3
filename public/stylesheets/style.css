@@ -44,13 +44,14 @@ a {
 }
 
 .from-input {
-  width: 96%;
+  width: 100%;
   margin-right: 0%;
   float: left;
 }
 
 .from-button {
-  font-size: 35px;
+  margin-left: 10px;
+  font-size: 25px;
   width: auto;
   float: left;
   cursor: pointer;

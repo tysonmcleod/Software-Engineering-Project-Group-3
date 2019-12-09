@@ -12,8 +12,11 @@ block content
             br
             #form-group
                 div(id="from-field")
-                    input#from-dest.form-control.from-input(type='text', placeholder='Från', name='from-dest', onchange=`formToMap('from')`)
-                    p.from-button(onclick="getUserLocation()") &#9673
+                  .row.no-gutters
+                    .col-11
+                      input#from-dest.form-control.from-input(type='text', placeholder='From', name='from-dest', onchange=`formToMap('from')`)
+                    .col-1
+                      p.from-button(onclick="getUserLocation()") &#9673
             #form-group
                 input#fromcoords(type='hidden', name='fromcoords')
             #form-group
