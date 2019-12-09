@@ -1,31 +1,30 @@
 extends layout
 
 block content
-	#ridePage
 
-		div(data-objData=data)
+	div(data-objData=data)
 
-		h1 Search advertisements
+	h1 Search advertisements
 
-		form(method= 'GET', action='/rides')
+	form(method= 'GET', action='/rides')
 
-			#form-group
-			label From:
-			input.form-control(name='from', type='text', value=filter.from)
-			br
-			#form-group
-			label To:
-			input.form-control(name='to', type='text', value=filter.to)
-			br
-			label Date:
-			input.form-control(name='date', type='date', value=filter.date)
-			br
-			label Sort by date:
-			br
-			input.btn.btn-secondary.bt-lg.btn-block(type='submit', value='Search')
+		#form-group
+		label From:
+		input.form-control(name='from', type='text', value=filter.from)
 		br
-		if data
-			each ad, i in data
-				a(href='/rides/show-ads/'+ad.id) #{"Result " + i + ": "}
-				p= "From: " + ad.from + ", To: " + ad.to + ", Available seats:" + ad.available_seats  + ", Date: " + ad.date + ", Departure: " + ad.departure + ", Arrival: " + ad.arrival
-				br
+		#form-group
+		label To:
+		input.form-control(name='to', type='text', value=filter.to)
+		br
+		label Date:
+		input.form-control(name='date', type='date', value=filter.date)
+		br
+		label Sort by date:
+		br
+		input.btn.btn.primary(type='submit', value='Search')
+	br
+	if data
+		each ad, i in data
+			a(href='/rides/show-ads/'+ad.id) #{"Result " + i + ": "} 
+			p= "From: " + ad.from + ", To: " + ad.to + ", Available seats:" + ad.available_seats  + ", Date: " + ad.date + ", Departure: " + ad.departure + ", Arrival: " + ad.arrival
+			br

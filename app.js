@@ -9,12 +9,11 @@ var flash = require('connect-flash');
 var bodyParser = require('body-parser');
 var session = require('express-session');
 var passport = require('passport');
-require('dotenv').config();
+
 
 // route files
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
-var msgsRouter = require('./routes/chat');
 var ridesRouter = require('./routes/rides');
 
 var app = express();
@@ -93,8 +92,9 @@ app.get('*', function (req, res, next) {
 
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
-app.use('/messages', msgsRouter);
 app.use('/rides', ridesRouter);
+
+
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
   next(createError(404));

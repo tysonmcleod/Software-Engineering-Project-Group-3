@@ -2,41 +2,41 @@ extends layout
 
 block content
     .main.container.clearfix
-      #editProfilePage
-        h2 My account
+      h2 My account
 
-        #editProfilePic
-          h3 Update profile picture
-          #editProfilePicBoxLol
-          .row
-            .col
-              img(src='/images/blank-profile-picture.png' width="96" height="96")
-            .col
-              input.btn.btn-secondary.bt-lg.btn-block(type='submit', value='Upload')
+      #editProfilePic
+        h3 Update profile picture
+        #editProfilePicBoxLol
+        .row
+          .col
+            img(src='/images/blank-profile-picture.png' width="96" height="96")
+          .col
+            input.btn.btn-secondary.bt-lg.btn-block(type='submit', value='Upload')
 
-        #updateProfileInfo
-          h3 Update information
-          form(method= 'POST', action='/users/update')
-            table.table-bordered.table
-              tbody
-                tr.tableStyle
-                  th(scope='row') First name
-                  td
-                    input.form-control(name='firstname', type='text', value=firstname)
-                tr
-                  th(scope='row') Last name
-                  td
-                    input.form-control(name='lastname', type='text', value=lastname)
-                tr
-                  th(scope='row') Username
-                  td
-                    input.form-control(name='username', type='text', value=username, readonly=true)
-                tr
-                  th(scope='row') Email
-                  td
-                    input.form-control(name='email', type='text', value=email)
-            .row.offset-7
-              .col-6
-                a.btn.btn-secondary.bt-lg.btn-block(href='/users/profile/atha') Back
-              .col-6
-                input.btn.btn-secondary.bt-lg.btn-block(type='submit', value='Save')
+      #updateProfileInfo
+        h3 Update information
+        form(method= 'POST', action='/users/update')
+          table.table-bordered.table
+            tbody
+              tr.tableStyle
+                th(scope='row') First name
+                td
+                  input.form-control(name='firstname', type='text', value=firstname)
+              tr
+                th(scope='row') Last name
+                td
+                  input.form-control(name='lastname', type='text', value=lastname)
+              tr
+                th(scope='row') Username
+                td
+                  input.form-control(name='username', type='text', value=username, readonly=true)
+              tr
+                th(scope='row') Email
+                td
+                  input.form-control(name='email', type='text', value=email)
+          .row.offset-7
+            .col-6
+              a.btn.btn-secondary.bt-lg.btn-block(href='/users/profile/atha') Back
+            .col-6
+              input.btn.btn-secondary.bt-lg.btn-block(type='submit', value='Save')
+
