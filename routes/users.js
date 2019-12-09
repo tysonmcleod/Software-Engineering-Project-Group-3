@@ -58,7 +58,8 @@ router.post('/register', async function(req,res){
       lastname:lastname,
       email:email,
       username:username,
-      password:password
+      password:password,
+      rating: 0
     });
 
     bcrypt.genSalt(10, function(err, salt){
@@ -111,7 +112,7 @@ router.get('/profile', async (req,res) => {
   const user = res.locals.user;
   console.log("Display profile of user: " + user.username);
   console.log(user);
-  res.render("profile", {firstname: user.firstname, lastname: user.lastname, username: user.username, email: user.email, password: user.password})
+  res.render("profile", {firstname: user.firstname, lastname: user.lastname, username: user.username, email: user.email, password: user.password, rating: user.rating})
 });
 
 // Edit profile of loggen in user through profile page
@@ -127,6 +128,7 @@ router.post('/update', async (req, res) => {
   const lastname = req.body.lastname;
   const email = req.body.email;
   const username = req.body.username;
+  const rating = req.body.rating;
 
   let updatedUser = {
     firstname:firstname,
