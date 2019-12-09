@@ -6,6 +6,9 @@ var User = require('../models/user');
 var bcrypt = require('bcryptjs');
 var passport = require('passport');
 
+const keyFile = require('../APIKey.json');
+const GoogleAPIKey = keyFile.APIKey;
+
 User = User.model;
 
 router.get('/', function(req, res, next) {
@@ -38,7 +41,7 @@ router.get('/', function(req, res, next) {
 		filter.date = req.query.date;
 	}
 	if(Object.keys(filter).length === 0){
-		res.render("display-all-advertisements", {	filter: filter});
+		res.render("display-all-advertisements", {	filter: filter });
 	}
 
 	
@@ -59,7 +62,7 @@ router.get('/', function(req, res, next) {
 });
 
 router.get('/create-ad', function(req, res, next) {
-  res.render('create-ad');
+  res.render('create-ad', { today: getCurrentDate(), apiKey: GoogleAPIKey });
 });
 
 router.get('/destroy-the-ride/:id', async (req, res) => {
@@ -266,7 +269,20 @@ router.get('/show-ads/:id', (req, res) => {
 	})
 });
 
-
+function getCurrentDate() {
+	var date = new Date();
+	var year = date.getFullYear();
+	var month = date.getMonth() + 1;
+	var dayIndex = date.getDate();
+  
+	if(dayIndex < 10) {
+	  var day = "0".concat(dayIndex.toString());
+	} else {
+	  var day = dayIndex;
+	}
+  
+	return(`${year}-${month}-${day}`);
+}
 
 
 module.exports = router;
