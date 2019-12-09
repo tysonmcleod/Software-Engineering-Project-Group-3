@@ -13,9 +13,11 @@ function createMarker(location) {
         if(marker === markers[0]) {
             markers[0] = null;
             document.getElementById('from-dest').value = "";
+            document.getElementById('fromcoords').value = "";
         } else {
             markers[1] = null;
             document.getElementById('to-dest').value = "";
+            document.getElementById('tocoords').value = "";
         }
     });
 
@@ -48,8 +50,10 @@ function placeMarker(location) {
                 var locationName = results[0].address_components[1].short_name; 
 
                 if(!markers[0]) {
+                    document.getElementById('fromcoords').value = JSON.stringify(results[0]);
                     document.getElementById('from-dest').value = locationName;
                 } else {
+                    document.getElementById('tocoords').value = JSON.stringify(results[0]);
                     document.getElementById('to-dest').value = locationName;
                 }
 
@@ -78,6 +82,7 @@ function formToMap(field) {
             geocoder.geocode({'address': address}, function(results, status) {
                 if(status === 'OK') {
                     var marker = createMarker(results[0].geometry.location);
+                    document.getElementById('tocoords').value = JSON.stringify(results[0]);
 
                     if(markers[1]) {
                         markers[1].setMap(null);
@@ -89,6 +94,7 @@ function formToMap(field) {
             if(markers[1]) {
                 markers[1].setMap(null);
                 markers[1] = null
+                document.getElementById('tocoords').value = "";
             }
         }
 	} else if(field === 'from') {
@@ -97,6 +103,7 @@ function formToMap(field) {
             geocoder.geocode({'address': address}, function(results, status) {
                 if(status === 'OK') {
                     var marker = createMarker(results[0].geometry.location);
+                    document.getElementById('fromcoords').value = JSON.stringify(results[0]);
                     
                     if(markers[0]) {
                         markers[0].setMap(null);
@@ -108,6 +115,7 @@ function formToMap(field) {
             if(markers[0]) {
                 markers[0].setMap(null);
                 markers[0] = null;
+                document.getElementById('fromcoords').value = "";
             }
         }   
 	} else {
@@ -127,6 +135,7 @@ function getUserLocation() {
                 markers[0].setMap(null);
                 markers[0] = null;
                 document.getElementById('from-dest').value = "";
+                document.getElementById('fromcoords').value = "";
             }
             placeMarker(pos);
         });

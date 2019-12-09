@@ -25,11 +25,14 @@ function getCurrentDate() {
   var date = new Date();
   var year = date.getFullYear();
   var month = date.getMonth() + 1;
-  var dayIndex = date.getDay() + 1;
+  var dayIndex = date.getDate();
 
   if(dayIndex < 10) {
     var day = "0".concat(dayIndex.toString());
+  } else {
+    var day = dayIndex;
   }
+
   return(`${year}-${month}-${day}`);
 }
 
