@@ -3,6 +3,7 @@ var router = express.Router();
 
 const keyFile = require('../APIKey.json');
 const GoogleAPIKey = keyFile.APIKey;
+//const GoogleAPIKey = process.env.APIKey;
 const googleMapsClient = require('@google/maps').createClient({
   key: GoogleAPIKey
 });

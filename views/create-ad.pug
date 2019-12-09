@@ -1,6 +1,7 @@
 extends layout
 
 block content
+  #createadPage
     h1 Create advertisement
     form(method= 'GET', action='send-ad')
       #form-group
@@ -27,4 +28,5 @@ block content
         label Arriving:
         input.form-control(name='arrival', type='time')
       br
-      input.btn.btn.primary(type='submit', value='Create ad')
+      input.btn.btn-secondary.bt-lg.btn-block(type='submit', value='Create ad')
+      

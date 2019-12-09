@@ -1,8 +1,14 @@
 .jumbotron {
 
-  background: #fafafa ;
+  background: #f5f5f5 ;
+  border-radius: 15px 50px;
+  margin-top: 5%;
+  margin-bottom: 5%;
 
+}
 
+#profilePage {
+  margin-top: 45px;
 }
 
 #userDetails {
@@ -11,12 +17,13 @@
   border-style: solid;
   border-color: #b3b3b3;
   border-width: 0.01em;
+  background: #ffffff;
 
 }
 
 
 #profilepageImage{
-  float: right;
+  margin-left: 80%;
   margin-bottom: 10px;
 }
 
@@ -26,8 +33,9 @@
 }
 
 #profilepageName{
-  padding: 3px;
+  padding: 4px;
   float: right;
+
 
 }
 

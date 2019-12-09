@@ -1,3 +1,5 @@
 node_modules
 APIKey.json
 .idea/
+.env
+.DS_Store

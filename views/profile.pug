@@ -1,16 +1,13 @@
 extends layout
 
 block content
-    .main.container.clearfix
-        .jumbotron
-            .row.offset-1
+    .container
+      #profilePage
+          .jumbotron
+            .row
               .col-6
                 #profilepageImage
                   img(src='/images/blank-profile-picture.png' width="96" height="96")
-            .row.offset-1
-              .col-6
-                #profilepageName
-                  h5 #{firstname}
             #userDetails
               .row.offset-1
                   .col-xs-4.col-sm-4.col-md-4
