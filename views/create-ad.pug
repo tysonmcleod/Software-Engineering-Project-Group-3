@@ -4,18 +4,20 @@ block content
   #createadPage
     script(type='text/javascript', src='/javascripts/map.js')
     script(async, defer, type='text/javascript', src=`https://maps.googleapis.com/maps/api/js?key=${apiKey}&callback=initMap`)
+
     h1 Create advertisement
     div#map
+    #createForm
     form(method= 'GET', action='send-ad')
       #form-group
       .row
         .col
           label From:
-          input#from-dest.form-control(name='from', type='text', placeholder='from', onchange=`formToMap('from')`)
+          input#from-dest.form-control(name='from', type='text', placeholder='From', onchange=`formToMap('from')`)
           input#fromcoords(type='hidden', name='fromcoords')
         .col
           label To:
-          input#to-dest.form-control(name='to', type='text', placeholder='to', onchange=`formToMap('to')`)
+          input#to-dest.form-control(name='to', type='text', placeholder='To', onchange=`formToMap('to')`)
           input#tocoords(type='hidden', name='tocoords')
 
       #form-group
@@ -27,7 +29,7 @@ block content
         .col
           label Available seats:
           input.form-control(name='available_seats', type='number', placeholder='0')
-
+      #shadyForm
       .row
         .col
           label Leaving:
@@ -35,5 +37,5 @@ block content
         .col
           label Arriving:
           input.form-control(name='arrival', type='time')
-    
-      input.btn.btn-secondary.bt-lg.btn-block(type='submit', value='Create ad')
+      #createadPageButton
+        input.btn.btn-secondary.bt-lg.btn-block(type='submit', value='Create ad')
