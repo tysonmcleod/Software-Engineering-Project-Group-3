@@ -1,23 +1,27 @@
 extends layout
 
 block content
-	h1 Join ride
 
 	div(data-objData=data)
-	
-	p= "From: " + data.from + ", To: " + data.to + ", Availbale seats:" + data.available_seats + ", Driver: " + data.driver + ", Departure: " + data.departure + ", Arriving: " + data.arrival
-	if data.confirmed_riders
-		p="Rider: "+ data.confirmed_riders
-	br
-	if data.interested_riders
-		p="Candidate Rider: "+ data.interested_riders
-	br
+	#createadPage
+		h1 Info
+		#createForm
+			#form-group
+			.row
+				.col
+					p= "From: " + data.from
+				.col
+					p= "To: " + data.to 
+				.col
+					p= "Available seats:" + data.available_seats 
+				.col
+					p= "Driver: " + data.driver
+				.col
+					p= "Departure: " + data.departure
+				.col
+					p= "Arriving: " + data.arrival
+				.col
+					if data.confirmed_riders
+						p="Riders: "+ data.confirmed_riders
+					
 
-	
-	form(method= 'GET', action='/rides/hop-on-ride/'+data.id)
-
-		input.btn.btn.primary(type='submit', value='Apply for ride')
-
-	form(method= 'GET', action='/rides/hop-off-ride/'+data.id)
-
-		input.btn.btn.primrary(type='submit', value='Discharge from ride')

@@ -73,7 +73,8 @@ router.get('/all', async (req, res) => {
         console.log(!messages.length);
         if (!messages.length)
             res.render("noMessages");
-        res.render("messages", {results: messages, username: username})
+        else
+            res.render("messages", {results: messages, username: username})
     } catch (err) {
         res.status(500).json({ message: err.message })
     }

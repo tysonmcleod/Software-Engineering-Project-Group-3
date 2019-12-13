@@ -106,7 +106,7 @@ router.get('/hop-on-ride/:id', async (req, res) => {
           }
       	});
     }
-    res.redirect("/rides/show-ads/" + id);
+    res.redirect("/rides/manage-users-rides");
 });
 
 router.get('/hop-off-ride/:id', async (req, res) => {
@@ -114,7 +114,6 @@ router.get('/hop-off-ride/:id', async (req, res) => {
 	const update = { rider: null};
 	const testUser2 = res.locals.user;
 	const testUser = testUser2.username;
-
 
 	let ad = await Advertisement.findById(id);
 
@@ -127,7 +126,16 @@ router.get('/hop-off-ride/:id', async (req, res) => {
         }
      	});
 	}
-    res.redirect("/rides/show-ads/" + id);
+	if(ad.confirmed_riders.includes(testUser)){
+		ad.confirmed_riders.pull(testUser);
+		ad.save(function(err){
+        if(err){
+            console.log(err);
+            return;
+        }
+     	});
+	}
+    res.redirect("/rides/manage-users-rides");
 });
 
 
@@ -174,16 +182,17 @@ router.post('/disjoin-ride/:id/:username', async (req, res) => {
 
 
 router.get('/send-ad', async function(req, res, next) {
-	if(req.body.available_seats == undefined){
-		req.body.available_seats = 0;
+	if(req.query.available_seats == "" || req.query.available_seats == null){
+		req.query.available_seats = 0;
 	}
 	const user3 = res.locals.user;
 	const user2 = user3.username;
 	console.log("cool" + user2);
 	console.log(req.body);
-	req.body.driver = user2;
-	console.log("hey" + req.body.driver);
-	Advertisement.create(req.body)
+	console.log(req.query);
+	req.query.driver = user2;
+	console.log("hey" + req.query.driver);
+	Advertisement.create(req.query)
 	.then(advertisement => {
   		res.redirect("/rides/show-ads/" + advertisement.id);
   	})
@@ -256,7 +265,6 @@ router.get('/manage-users-ads/:id', async (req, res) => {
 
 router.get('/show-ads/:id', (req, res) => {
 	const id = req.params.id
-
 	Advertisement.findById(id)
 	.then(advertisement => {
 		res.render("display-one-advertisement", {	data: advertisement});

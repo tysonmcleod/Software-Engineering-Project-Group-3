@@ -3,29 +3,59 @@ extends layout
 block content
 
 	div(data-objData=data)
+	#createadPage
+		h1="Confirmed rides"
+		#updateConfirmedRider
+			if data
+				#createForm
+				-var index=0
+					each ad in data
+						each rider in ad.confirmed_riders
+							#form-group
+								if rider == username
+									.row
+										.col
+											p= "From: " + ad.from
+										.col
+											p="To: " + ad.to
+										.col
+											p=" Date: " + ad.date
+										.col
+											a.btn.btn-secondary.bt-lg.btn-block(href="show-ads/"+ad.id) Advertisement
+									br
+									.row
+										.col
+											p="Departure: " + ad.departure 
+										.col
+											p="Arrival: " + ad.arrival
+										.col
+											a.btn.btn-secondary.bt-lg.btn-block(href="hop-off-ride/"+ad.id) Remove request
+											
 
-	h1=username + " confirmed rider"
-	#updateConfirmedRider
+	#createadPage
+		h1="Pending rides"
 		if data
-			-var index=0
-			each ad in data
-				each rider in ad.confirmed_riders
-					if rider == username
-						-index = index+1
-						p="hej"
-						p= "Result " + index + ": " + "From: " + ad.from + ", To: " + ad.to + ", Date: " + ad.date + ", Departure: " + ad.departure + ", Arrival: " + ad.arrival
-						a.btn.btn-secondary.bt-lg.btn-block(href="show-ads/" + ad.id) Change
-						br
-
-	h1=username + " interested rider"
-
-	if data
-		-var index=0
-		each ad in data
-			each rider in ad.interested_riders
-				if rider == username
-					-index = index+1
-					p="hej"
-					p= "Result " + index + ": " + "From: " + ad.from + ", To: " + ad.to + ", Date: " + ad.date + ", Departure: " + ad.departure + ", Arrival: " + ad.arrival
-					a.btn.btn-secondary.bt-lg.btn-block(href="show-ads/" + ad.id) Change
-					br
+			#createForm
+				-var index=0
+				each ad in data
+					each rider in ad.interested_riders
+						#form-group
+							
+							if rider == username
+								.row
+									.col
+										p= "From: " + ad.from
+									.col
+										p="To: " + ad.to
+									.col
+										p=" Date: " + ad.date
+								br
+								.row
+									.col
+										p="Departure: " + ad.departure 
+									.col
+										p="Arrival: " + ad.arrival
+									.col
+										p="Available seats: " + ad.available_seats
+									.col
+										a.btn.btn-secondary.bt-lg.btn-block(href="hop-off-ride/"+ad.id) Remove request

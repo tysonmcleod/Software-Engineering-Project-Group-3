@@ -1,16 +1,38 @@
 extends layout
 
 block content
-
 	div(data-objData=data)
-	h1=username + "'s advertisements"
-	br
-	if data
-		-var index=0
-		each ad in data
-			if ad.driver == username
-				-index = index+1
-				p= "Result " + index + ": " + "From: " + ad.from + ", To: " + ad.to + ", Date: " + ad.date + ", Departure: " + ad.departure + ", Arrival: " + ad.arrival
-				a.btn.btn-secondary.bt-lg.btn-block(href= "manage-users-ads/" + ad.id) Edit
-				a.btn.btn-secondary.bt-lg.btn-block(href='/rides/destroy-the-ride/' + ad.id) Remove
-				br
+	#createadPage
+		
+		h1=username + "'s advertisements"
+		br
+		if data
+			#createForm
+				-var index=0
+				each ad in data
+					if ad.driver == username
+						-index = index+1
+						#form-group
+						.row
+							.col
+								.row
+									p= "Date: " + ad.date
+								.row
+									p= "From: " + ad.from
+								.row
+									p= "To: " + ad.to
+								
+							.col
+								.row
+									p= "Departure: " + ad.departure
+								.row
+									p= "Arrival: " + ad.arrival
+								.row
+									p= "Passengers: " + ad.confirmed_riders.length
+							.col
+								.row
+									a.btn.btn-secondary.bt-lg.btn-block(href= "manage-users-ads/" + ad.id) Edit
+								br
+								.row
+									a.btn.btn-secondary.bt-lg.btn-block(href='/rides/destroy-the-ride/' + ad.id) Remove
+									br

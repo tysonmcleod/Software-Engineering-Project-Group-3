@@ -23,7 +23,25 @@ block content
 				input.btn.btn-secondary.bt-lg.btn-block(type='submit', value='Search')
 		br
 		if data
-			each ad, i in data
-				a(href='/rides/show-ads/'+ad.id) #{"Result " + i + ": "}
-				p= "From: " + ad.from + ", To: " + ad.to + ", Available seats:" + ad.available_seats  + ", Date: " + ad.date + ", Departure: " + ad.departure + ", Arrival: " + ad.arrival
-				br
+			#createForm
+				each ad, i in data
+					#form-group
+					.row
+						.col
+							p= "From: " + ad.from
+						.col
+							p="To: " + ad.to
+						.col
+							p="Available seats: " + ad.available_seats
+						.col
+							p="Driver: " + ad.username
+					.row
+						.col
+							p="Departure: " + ad.departure
+						.col
+							p="Arrival: " + ad.arrival
+						.col
+							p="Date: " + ad.date
+						.col
+							a.btn.btn-secondary.bt-lg.btn-block(href=
+							"rides/hop-on-ride/"+ ad.id) Request seat
