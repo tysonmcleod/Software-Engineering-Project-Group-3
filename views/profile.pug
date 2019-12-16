@@ -35,6 +35,79 @@ block content
                   .col-xs-8.col-sm-8.col-md-8
                       h5.font-weight-bold #{rating}
 
+                      head
+                          meta(charset='UTF-8')
+                          meta(name='viewport' content='width=device-width')
+                          style.
+                              .star {
+                                  color: goldenrod;
+                                  font-size: 2.0rem;
+
+                              }
+
+                              .star::before {
+                                  content: '\2606'; /* star outline */
+                                  cursor: pointer;
+                              }
+
+                              .star.rated::before {
+                                  /* the style for a selected star */
+                                  content: '\2605'; /* filled star */
+                              }
+
+                              .stars {
+                                  counter-reset: rateme 0;
+                                  font-size: 2.0rem;
+                                  font-weight: 900;
+                              }
+
+                              .star.rated {
+                                  counter-increment: rateme 1;
+                              }
+
+                              .stars::after {
+                                  content: counter(rateme) '/5';
+                              }
+                      .stars(data-rating='3')
+                          span.star &nbsp;
+                          span.star &nbsp;
+                          span.star &nbsp;
+                          span.star &nbsp;
+                          span.star &nbsp;
+                      //The number shown after the CSS is generated with a CSS counter.
+                      script.
+                          //initial setup
+                          document.addEventListener('DOMContentLoaded', function () {
+                              let stars = document.querySelectorAll('.star');
+                              stars.forEach(function (star) {
+                                  star.addEventListener('click', setRating);
+                              });
+                              let rating = parseInt(document.querySelector('.stars').getAttribute('data-rating'));
+                              let target = stars[rating - 1];
+                              target.dispatchEvent(new MouseEvent('click'));
+                          });
+                          function setRating(ev) {
+                              let span = ev.currentTarget;
+                              let stars = document.querySelectorAll('.star');
+                              let match = false;
+                              let num = 0;
+                              stars.forEach(function (star, index) {
+                                  if (match) {
+                                      star.classList.remove('rated');
+                                  } else {
+                                      star.classList.add('rated');
+                                  }
+                                  //are we currently looking at the span that was clicked
+                                  if (star === span) {
+                                      match = true;
+                                      num = index + 1;
+                                  }
+                              });
+                              document.querySelector('.stars').setAttribute('data-rating', num);
+                          }
+
+
+
               #profileButton
               a.btn.btn-secondary.bt-lg.btn-block(href='/users/editProfile') Edit
                   //h4.password Password:
