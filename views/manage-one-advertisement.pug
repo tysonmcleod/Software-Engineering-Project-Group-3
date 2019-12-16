@@ -4,7 +4,7 @@ block content
 
 	div(data-objData=data)
 
-	#createadPage
+	#testFirstPage
 		if data
 			#createForm
 				h3="Ad information"
@@ -40,7 +40,7 @@ block content
 					.row
 						input.btn.btn-secondary.bt-lg.btn-block(type='submit', value='Remove ride')
 	
-	#createadPage
+	#testSecondPage
 		if data.confirmed_riders
 			#createForm
 				h4="Confirmed Riders: "
@@ -54,7 +54,7 @@ block content
 								input.btn.btn-secondary.bt-lg.btn-block(type='submit', value='Remove from ride')
 
 	
-	#createadPage
+	#testSecondPage
 		if data.interested_riders
 			#createForm
 				h4="Interested Riders: "

@@ -4,7 +4,7 @@ block content
 	div(data-objData=data)
 	#createadPage
 		
-		h1=username + "'s advertisements"
+		h1="My advertisements"
 		br
 		if data
 			#createForm
@@ -34,5 +34,5 @@ block content
 									a.btn.btn-secondary.bt-lg.btn-block(href= "manage-users-ads/" + ad.id) Edit
 								br
 								.row
-									a.btn.btn-secondary.bt-lg.btn-block(href='/rides/destroy-the-ride/' + ad.id) Remove
+									a.btn.btn-secondary.bt-lg.btn-block(href='/rides/show-ads/' + ad.id) Advertisement
 									br

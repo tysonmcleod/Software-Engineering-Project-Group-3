@@ -15,22 +15,26 @@ block content
 								if rider == username
 									.row
 										.col
-											p= "From: " + ad.from
+											.row
+												p= "From: " + ad.from
+											.row
+												p="To: " + ad.to
+											.row
+												p=" Date: " + ad.date
 										.col
-											p="To: " + ad.to
+											.row
+												p="Departure: " + ad.departure 
+											.row
+												p="Arrival: " + ad.arrival
+											.row
+												p="Driver: " + ad.driver
 										.col
-											p=" Date: " + ad.date
-										.col
-											a.btn.btn-secondary.bt-lg.btn-block(href="show-ads/"+ad.id) Advertisement
-									br
-									.row
-										.col
-											p="Departure: " + ad.departure 
-										.col
-											p="Arrival: " + ad.arrival
-										.col
-											a.btn.btn-secondary.bt-lg.btn-block(href="hop-off-ride/"+ad.id) Remove request
-											
+											.row
+												a.btn.btn-secondary.bt-lg.btn-block(href="show-ads/"+ad.id) Advertisement
+											br
+											.row
+												a.btn.btn-secondary.bt-lg.btn-block(href="hop-off-ride/"+ad.id) Remove request
+
 
 	#createadPage
 		h1="Pending rides"
