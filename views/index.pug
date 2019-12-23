@@ -7,23 +7,28 @@ block content
       <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
       div(id='map')
+      br
       #indexForm
         form(method='GET' action='/rides')
-            br
             #form-group
                 div(id="from-field")
-                    input#from-dest.form-control.from-input(type='text', placeholder='Från', name='from-dest', onchange=`formToMap('from')`)
-                    p.from-button(onclick="getUserLocation()") &#9673
-            #form-group
+                  .row.no-gutters
+                    .col-11
+                      input#from-dest.form-control.from-input(type='text', placeholder='From', name='from-dest', onchange=`formToMap('from')`)
+                    .col-1
+                      p.from-button(onclick="getUserLocation()") &#9673
+
                 input#fromcoords(type='hidden', name='fromcoords')
-            #form-group
+
+                #form-shady
                 input#to-dest.form-control(type='text', placeholder='To', name='to-dest', onchange=`formToMap('to')`)
-            #form-group
-                input#tocoords(type='hidden', name='tocoords')
-            br
-            #form-group
-                input#date.form-control(type='date', min=`${today}`, name='date')
-            br
+
+                #form-group
+                  input#tocoords(type='hidden', name='tocoords')
+
+                #form-group
+                  input#date.form-control(type='date', min=`${today}`, name='date')
+
 
             #indexButton
                 input.btn.btn-secondary.bt-lg.btn-block(type='submit', value='Search')
