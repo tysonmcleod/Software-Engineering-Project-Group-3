@@ -63,7 +63,7 @@ router.post('/register', async function(req,res){
       email:email,
       username:username,
       password:password,
-      rating: starRating(votes)
+      rating: 0//starRating(votes)
     });
 
     bcrypt.genSalt(10, function(err, salt){
