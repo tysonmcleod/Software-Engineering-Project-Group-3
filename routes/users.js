@@ -58,9 +58,7 @@ router.post('/register', async function(req,res){
       lastname:lastname,
       email:email,
       username:username,
-      password:password,
-      rating: 0,
-      votes: 0
+      password:password
     });
 
     bcrypt.genSalt(10, function(err, salt){
