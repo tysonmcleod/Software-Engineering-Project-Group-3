@@ -27,6 +27,10 @@ const User = new mongoose.Schema({
   rating:{
     type: Number,
     required: true
+  },
+  votes:{
+    type: Number,
+    required: true
   }
 });
 

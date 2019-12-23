@@ -3,7 +3,6 @@ var router = express.Router();
 var bcrypt = require('bcryptjs');
 var passport = require('passport');
 var bodyParser = require('body-parser');
-var starRating = require('star-ratings');
 
 // Bring in user model
 var User = require('../models/user');
@@ -47,9 +46,6 @@ router.post('/register', async function(req,res){
   } catch (err) {
     res.status(500).json({ message: err.message })
   }
-  var votes = [12, 234, 456, 767, 566];
-  var rating = starRating(votes);
-  console.log(rating);
 
   if(errors){
     console.log(errors);
@@ -63,7 +59,8 @@ router.post('/register', async function(req,res){
       email:email,
       username:username,
       password:password,
-      rating: 0//starRating(votes)
+      rating: 0,
+      votes: 0
     });
 
     bcrypt.genSalt(10, function(err, salt){
