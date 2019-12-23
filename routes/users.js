@@ -111,7 +111,7 @@ router.get('/profile', async (req,res) => {
   const user = res.locals.user;
   console.log("Display profile of user: " + user.username);
   console.log(user);
-  res.render("profile", {firstname: user.firstname, lastname: user.lastname, username: user.username, email: user.email, password: user.password, rating: user.rating})
+  res.render("profile", {firstname: user.firstname, lastname: user.lastname, username: user.username, email: user.email, password: user.password, rating: user.rating, votes: user.votes})
 });
 
 // Edit profile of loggen in user through profile page
