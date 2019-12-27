@@ -6,7 +6,7 @@ node_js:
   - stable
 
 branches:
-  - master
+  - test-travis
 
 cache:
   npm: false
@@ -18,6 +18,4 @@ script:
   - npm test
 
 notifications:
-  slack: softwareengin-bbu9772:767bZsCxdYEGErlRZC1PKPny
-
-  email: false
+  email: augustedstrom@hotmail.com
