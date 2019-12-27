@@ -28,21 +28,25 @@ block content
 					#form-group
 					.row
 						.col
-							p= "From: " + ad.from
+							.row
+								p= "From: " + ad.from
+							.row
+								p="To: " + ad.to
+							.row
+								p="Available seats: " + ad.available_seats
 						.col
-							p="To: " + ad.to
+							.row
+								p="Departure: " + ad.departure
+							.row
+								p="Arrival: " + ad.arrival
+							.row
+								p="Date: " + ad.date
 						.col
-							p="Available seats: " + ad.available_seats
-						.col
-							p="Driver: " + ad.driver
-					.row
-						.col
-							p="Departure: " + ad.departure
-						.col
-							p="Arrival: " + ad.arrival
-						.col
-							p="Date: " + ad.date
-						.col
-							if username
-								a.btn.btn-secondary.bt-lg.btn-block(href=
-								"rides/hop-on-ride/"+ ad.id) Request seat
+							.row
+								if username
+									a.btn.btn-secondary.bt-lg.btn-block(href="rides/show-ads/"+ad.id) More info
+							br
+							.row
+								if username
+									a.btn.btn-secondary.bt-lg.btn-block(href=
+									"rides/hop-on-ride/"+ ad.id) Request seat
