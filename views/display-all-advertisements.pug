@@ -43,5 +43,6 @@ block content
 						.col
 							p="Date: " + ad.date
 						.col
-							a.btn.btn-secondary.bt-lg.btn-block(href=
-							"rides/hop-on-ride/"+ ad.id) Request seat
+							if username
+								a.btn.btn-secondary.bt-lg.btn-block(href=
+								"rides/hop-on-ride/"+ ad.id) Request seat

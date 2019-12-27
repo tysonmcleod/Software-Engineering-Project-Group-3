@@ -43,14 +43,14 @@ router.get('/', function(req, res, next) {
 	if(Object.keys(filter).length === 0){
 		res.render("display-all-advertisements", {	filter: filter });
 	}
-
+	const username = res.locals.user;
 	
 	Advertisement
 	.find(filter)
 	.sort('date')
 	.sort('departure')
 	.then(advertisements => {
-		res.render("display-all-advertisements", {	data: advertisements, filter: filter});
+		res.render("display-all-advertisements", {	data: advertisements, filter: filter, username:username });
 	})
 	.catch(err => {
 		res.json({

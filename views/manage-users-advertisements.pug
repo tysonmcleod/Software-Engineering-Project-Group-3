@@ -2,15 +2,20 @@ extends layout
 
 block content
 	div(data-objData=data)
+	-var today = new Date()
+	-var dd = String(today.getDate()).padStart(2, '0');
+	-var mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
+	-var yyyy = today.getFullYear();
+	-today = yyyy + '-' + mm + '-' + dd;
+
 	#createadPage
-		
-		h1="My advertisements"
+		h1="Upcoming advertisements"
 		br
 		if data
 			#createForm
 				-var index=0
 				each ad in data
-					if ad.driver == username
+					if ad.driver == username && ad.date >= today
 						-index = index+1
 						#form-group
 						.row
@@ -34,5 +39,39 @@ block content
 									a.btn.btn-secondary.bt-lg.btn-block(href= "manage-users-ads/" + ad.id) Edit
 								br
 								.row
-									a.btn.btn-secondary.bt-lg.btn-block(href='/rides/show-ads/' + ad.id) Advertisement
+									a.btn.btn-secondary.bt-lg.btn-block(href='/rides/show-ads/' + ad.id) More info
+									br
+	#createadPage
+		
+		h1="Old advertisements"
+		br
+		if data
+			#createForm
+				-var index=0
+				each ad in data
+					if ad.driver == username && ad.date < today
+						-index = index+1
+						#form-group
+						.row
+							.col
+								.row
+									p= "Date: " + ad.date
+								.row
+									p= "From: " + ad.from
+								.row
+									p= "To: " + ad.to
+								
+							.col
+								.row
+									p= "Departure: " + ad.departure
+								.row
+									p= "Arrival: " + ad.arrival
+								.row
+									p= "Passengers: " + ad.confirmed_riders.length
+							.col
+								.row
+									a.btn.btn-secondary.bt-lg.btn-block(href= "manage-users-ads/" + ad.id) Edit
+								br
+								.row
+									a.btn.btn-secondary.bt-lg.btn-block(href='/rides/show-ads/' + ad.id) More info
 									br
