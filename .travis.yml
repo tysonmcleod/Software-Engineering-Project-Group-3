@@ -18,4 +18,5 @@ script:
   - npm test
 
 notifications:
-  email: augustedstrom@hotmail.com
+  email: 
+    - augustedstrom@hotmail.com
