@@ -1,6 +1,6 @@
 var express = require('express');
 var router = express.Router();
-
+var Advertisement = require('../models/Advertisement');
 const keyFile = require('../APIKey.json');
 const GoogleAPIKey = keyFile.APIKey;
 //const GoogleAPIKey = process.env.APIKey;
@@ -19,6 +19,48 @@ router.get('/', function(req, res, next) {
 router.post('/', function(req, res, next) {
   console.log(req.body);
   res.render('index', {today: getCurrentDate(), apiKey: GoogleAPIKey });
+});
+
+router.get('/search', function(req, res, next) {
+
+
+  let filter = {};
+
+  console.log(req.query);
+
+  const username = res.locals.user;
+  console.log(filter)
+
+  const test = req.query['to-dest'];
+  if(req.query['from-dest'])
+    filter.from = req.query['from-dest'];
+    console.log("test= ")
+
+  if(req.query['to-dest'])
+    filter.to = req.query['to-dest'];
+
+  if(req.query.date)
+    filter.date = req.query.date;
+
+  console.log("filter=" + filter);
+  console.log(filter);
+
+
+  Advertisement
+  .find(filter)
+  .sort('date')
+  .sort('departure')
+  .then(advertisements => {
+    console.log(advertisements)
+    res.render("index", {today: getCurrentDate(), apiKey: GoogleAPIKey, data: advertisements, username:username });
+  })
+  .catch(err => {
+    res.json({
+      confirmation: 'fail',
+      message: err.message
+    })
+  });
+
 });
 
 function getCurrentDate() {
