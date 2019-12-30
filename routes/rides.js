@@ -14,8 +14,9 @@ User = User.model;
 router.get('/', function(req, res, next) {
 
  	let filter = {};
+ 	const username = res.locals.user;
 
- 	console.log(req.query.date);
+ 	console.log(req.query);
 	//console.log(req.body.to-dest);  BEWARE '-' char doesnt seem to be allowed in req.body expression
 	//
 
@@ -34,10 +35,11 @@ router.get('/', function(req, res, next) {
 	if(req.query.date){
 		filter.date = req.query.date;
 	}
+
 	if(Object.keys(filter).length === 0){
 		res.render("display-all-advertisements", {	filter: filter });
 	}
-	const username = res.locals.user;
+	
 	
 	Advertisement
 	.find(filter)
@@ -59,44 +61,43 @@ router.get('/search', function(req, res, next) {
 
 
 	let filter = {};
+	const radius = 0.05;
+	let from_query = {};
+	let to_query = {};
+	const username = res.locals.user;
+
 	if(req.query.fromcoords){
-
-		const str = JSON.parse(req.query.fromcoords);
-
+		let str = JSON.parse(req.query.fromcoords);
 		console.log(str);
-		console.log(str.geometry.location.lat);
-		console.log(str.geometry.location.lng);
-		console.log(str);
+		let lat_from = str.geometry.location.lat;
+		let lng_from = str.geometry.location.lng;
 
 		var arr = str.formatted_address.split(',');
-		console.log(arr[1].substr(1,7));
+		
+		filter.from = arr[1].substr(8);
+		from_query = {"from_details.lat": {$gt: lat_from-radius, $lt: lat_from+radius}}, {"from_details.lng": {$gt: lng_from-radius, $lt: lng_from+radius}}
 	}
 
+	if(req.query.tocoords){
+		let str = JSON.parse(req.query.tocoords);
 
-	const username = res.locals.user;
-	console.log(filter)
+		lat_to = str.geometry.location.lat;
+		lng_to = str.geometry.location.lng;
 
-	const test = req.query['to-dest'];
-	if(req.query['from-dest'])
-	 	filter.from = req.query['from-dest'];
-	 	console.log("test= ")
+		var arr2 = str.formatted_address.split(',');
 
-	if(req.query['to-dest'])
-		filter.to = req.query['to-dest'];
+		filter.to = arr2[1].substr(8);
+		to_query = {"to_details.lat": {$gt: lat_to-radius, $lt: lat_to+radius}}, {"to_details.lng": {$gt: lng_to-radius, $lt: lng_to+radius}}
+	}
 
 	if(req.query.date)
 		filter.date = req.query.date;
 
-	console.log("filter=" + filter);
-	console.log(filter);
-
-
 	Advertisement
-		.find(filter)
+		.find({$and: [Object.assign({}, from_query, to_query)]})
 		.sort('date')
 		.sort('departure')
 		.then(advertisements => {
-	    console.log(advertisements)
 	    res.render("display-all-advertisements", {filter: filter, data: advertisements, username:username });
 	})
 	.catch(err => {
@@ -228,6 +229,9 @@ router.post('/disjoin-ride/:id/:username', async (req, res) => {
 
 
 router.get('/send-ad', async function(req, res, next) {
+
+	let new_ad = {};
+
 	if(req.query.available_seats == "" || req.query.available_seats == null){
 		req.query.available_seats = 0;
 	}
@@ -242,6 +246,7 @@ router.get('/send-ad', async function(req, res, next) {
 		new_from.post_address = parseInt(arr[1].substr(1,3).concat(arr[1].substr(5,6)));
 		new_from.lat = parseFloat(str.geometry.location.lat);
 		new_from.lng = parseFloat(str.geometry.location.lng);
+		new_ad.from = arr[1].substr(8);
 	}
 
 	if(req.query.tocoords){
@@ -249,20 +254,18 @@ router.get('/send-ad', async function(req, res, next) {
 		const str = JSON.parse(req.query.tocoords);
 		console.log(str.geometry.location.lat);
 		console.log(str.geometry.location.lng);
-		var arr = str.formatted_address.split(',');
-		console.log(arr[1].substr(1,6));
-		new_to.post_address = parseInt(arr[1].substr(1,3).concat(arr[1].substr(5,6)));
+		var arr2 = str.formatted_address.split(',');
+		console.log(arr2[1].substr(1,6));
+		new_to.post_address = parseInt(arr2[1].substr(1,3).concat(arr2[1].substr(5,6)));
 		new_to.lat = parseFloat(str.geometry.location.lat);
 		new_to.lng = parseFloat(str.geometry.location.lng);
+		new_ad.to = arr2[1].substr(8);
 	}
 
 	const user3 = res.locals.user;
 	const user2 = user3.username;
 
-	new_ad = {};
 	new_ad.driver = user2;
-	new_ad.from = req.query.from;
-	new_ad.to = req.query.to;
 	new_ad.date = req.query.date;
 	new_ad.departure = req.query.departure;
 	new_ad.arrival = req.query.arrival;

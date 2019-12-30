@@ -21,47 +21,7 @@ router.post('/', function(req, res, next) {
   res.render('index', {today: getCurrentDate(), apiKey: GoogleAPIKey });
 });
 
-router.get('/search', function(req, res, next) {
 
-
-  let filter = {};
-
-  console.log(req.query);
-
-  const username = res.locals.user;
-  console.log(filter)
-
-  const test = req.query['to-dest'];
-  if(req.query['from-dest'])
-    filter.from = req.query['from-dest'];
-    console.log("test= ")
-
-  if(req.query['to-dest'])
-    filter.to = req.query['to-dest'];
-
-  if(req.query.date)
-    filter.date = req.query.date;
-
-  console.log("filter=" + filter);
-  console.log(filter);
-
-
-  Advertisement
-  .find(filter)
-  .sort('date')
-  .sort('departure')
-  .then(advertisements => {
-    console.log(advertisements)
-    res.render("index", {today: getCurrentDate(), apiKey: GoogleAPIKey, data: advertisements, username:username });
-  })
-  .catch(err => {
-    res.json({
-      confirmation: 'fail',
-      message: err.message
-    })
-  });
-
-});
 
 function getCurrentDate() {
   var date = new Date();

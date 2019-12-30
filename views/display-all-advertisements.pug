@@ -5,19 +5,25 @@ block content
 
 		div(data-objData=data)
 
-		h1 Search advertisements
+		h1 #{filter.from} -> #{filter.to}
 
 		form(method= 'GET', action='/rides')
 
 			#form-group
 
-			input.form-control(name='from', type='text', value=filter.from, placeholder='From')
+			input.form-control(name='from', type='hidden', value=filter.from, placeholder='From')
 
 			#form-group
 
-			input.form-control(name='to', type='text', value=filter.to, placeholder='To')
+			input.form-control(name='to', type='hidden', value=filter.to, placeholder='To')
 			#ridePageDate
 				input.form-control(name='date', type='date', value=filter.date)
+			br
+			input(type="radio" name="radius" value="0.05", checked="checked")
+			|  5 km
+			input(type="radio", name="radius", value="0.1")
+			| 10 km
+			br
 
 			#ridePageButton
 				input.btn.btn-secondary.bt-lg.btn-block(type='submit', value='Search')
