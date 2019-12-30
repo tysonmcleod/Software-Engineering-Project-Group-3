@@ -9,7 +9,7 @@ block content
       div(id='map')
       br
       #indexForm
-        form(method='GET' action='/search')
+        form(method='GET' action='/rides/search')
             #form-group
                 div(id="from-field")
                   .row.no-gutters
@@ -32,27 +32,3 @@ block content
 
             #indexButton
                 input.btn.btn-secondary.bt-lg.btn-block(type='submit', value='Search')
-      if data
-         #createForm
-           each ad, i in data
-             #form-group
-             .row
-               .col
-                 p= "From: " + ad.from
-               .col
-                 p="To: " + ad.to
-               .col
-                 p="Available seats: " + ad.available_seats
-               .col
-                 p="Driver: " + ad.driver
-             .row
-               .col
-                 p="Departure: " + ad.departure
-               .col
-                 p="Arrival: " + ad.arrival
-               .col
-                 p="Date: " + ad.date
-               .col
-                 if username
-                  a.btn.btn-secondary.bt-lg.btn-block(href=
-                  "rides/hop-on-ride/"+ ad.id) Request seat

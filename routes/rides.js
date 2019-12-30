@@ -18,25 +18,19 @@ router.get('/', function(req, res, next) {
  	console.log(req.query.date);
 	//console.log(req.body.to-dest);  BEWARE '-' char doesnt seem to be allowed in req.body expression
 	//
-	if(req.query['from-dest'] != undefined){
-		filter.from = req.query['from-dest'];
-	}
-	else if(req.query.from != ''){
+
+	if(req.query.from != ''){
 		filter.from = req.query.from;
 	}
-	if(req.query['to-dest'] != undefined){
-		filter.to = req.query['to-dest'];
-	}
-	else if(req.query.to != ''){
+
+	if(req.query.to != ''){
 		filter.to = req.query.to;
 	}
-	if(req.query.points == undefined){
-	}
-	else if(req.query.points == ''){
-	}
-	else{
+
+	if(req.query.points != ''){
 		filter.points = req.query.points;
 	}
+	
 	if(req.query.date){
 		filter.date = req.query.date;
 	}
@@ -59,6 +53,47 @@ router.get('/', function(req, res, next) {
 		})
 	});
 	
+});
+
+router.get('/search', function(req, res, next) {
+
+
+	let filter = {};
+
+	console.log(req.query);
+
+	const username = res.locals.user;
+	console.log(filter)
+
+	const test = req.query['to-dest'];
+	if(req.query['from-dest'])
+	 	filter.from = req.query['from-dest'];
+	 	console.log("test= ")
+
+	if(req.query['to-dest'])
+		filter.to = req.query['to-dest'];
+
+	if(req.query.date)
+		filter.date = req.query.date;
+
+	console.log("filter=" + filter);
+	console.log(filter);
+
+
+	Advertisement
+		.find(filter)
+		.sort('date')
+		.sort('departure')
+		.then(advertisements => {
+	    console.log(advertisements)
+	    res.render("display-all-advertisements", {filter: filter, data: advertisements, username:username });
+	})
+	.catch(err => {
+		res.json({
+			confirmation: 'fail',
+			message: err.message
+		})
+	});
 });
 
 router.get('/create-ad', function(req, res, next) {
