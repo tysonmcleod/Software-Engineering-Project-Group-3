@@ -30,7 +30,7 @@ router.get('/', function(req, res, next) {
 	if(req.query.points != ''){
 		filter.points = req.query.points;
 	}
-	
+
 	if(req.query.date){
 		filter.date = req.query.date;
 	}
@@ -59,9 +59,20 @@ router.get('/search', function(req, res, next) {
 
 
 	let filter = {};
+	if(req.query.fromcoords){
 
-	console.log(req.query);
+		const str = JSON.parse(req.query.fromcoords);
 
+		console.log(str);
+		console.log(str.geometry.location.lat);
+		console.log(str.geometry.location.lng);
+		console.log(str);
+
+		var arr = str.formatted_address.split(',');
+		console.log(arr[1].substr(1,7));
+	}
+
+	
 	const username = res.locals.user;
 	console.log(filter)
 
