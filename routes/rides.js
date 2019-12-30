@@ -72,7 +72,7 @@ router.get('/search', function(req, res, next) {
 		console.log(arr[1].substr(1,7));
 	}
 
-	
+
 	const username = res.locals.user;
 	console.log(filter)
 
@@ -231,14 +231,34 @@ router.get('/send-ad', async function(req, res, next) {
 	if(req.query.available_seats == "" || req.query.available_seats == null){
 		req.query.available_seats = 0;
 	}
+
+	if(req.query.fromcoords){
+		new_from = {};
+		const str = JSON.parse(req.query.fromcoords);
+		console.log(str.geometry.location.lat);
+		console.log(str.geometry.location.lng);
+		var arr = str.formatted_address.split(',');
+		console.log(arr[1].substr(1,6));
+		new_from.post_address = parseInt(arr[1].substr(1,3).concat(arr[1].substr(5,6)));
+		new_from.lat = parseFloat(str.geometry.location.lat);
+		new_from.lng = parseFloat(str.geometry.location.lng);
+	}
+
 	const user3 = res.locals.user;
 	const user2 = user3.username;
-	console.log("cool" + user2);
-	console.log(req.body);
-	console.log(req.query);
-	req.query.driver = user2;
-	console.log("hey" + req.query.driver);
-	Advertisement.create(req.query)
+
+	new_ad = {};
+	new_ad.driver = user2;
+	new_ad.from = req.query.from;
+	new_ad.to = req.query.to;
+	new_ad.date = req.query.date;
+	new_ad.departure = req.query.departure;
+	new_ad.arrival = req.query.arrival;
+	new_ad.available_seats = req.query.available_seats;
+	new_ad.from_details = new_from;
+	console.log(new_ad);
+
+	Advertisement.create(new_ad)
 	.then(advertisement => {
   		res.redirect("/rides/show-ads/" + advertisement.id);
   	})
