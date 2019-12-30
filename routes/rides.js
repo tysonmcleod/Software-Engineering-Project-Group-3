@@ -244,6 +244,18 @@ router.get('/send-ad', async function(req, res, next) {
 		new_from.lng = parseFloat(str.geometry.location.lng);
 	}
 
+	if(req.query.tocoords){
+		new_to = {};
+		const str = JSON.parse(req.query.tocoords);
+		console.log(str.geometry.location.lat);
+		console.log(str.geometry.location.lng);
+		var arr = str.formatted_address.split(',');
+		console.log(arr[1].substr(1,6));
+		new_to.post_address = parseInt(arr[1].substr(1,3).concat(arr[1].substr(5,6)));
+		new_to.lat = parseFloat(str.geometry.location.lat);
+		new_to.lng = parseFloat(str.geometry.location.lng);
+	}
+
 	const user3 = res.locals.user;
 	const user2 = user3.username;
 
@@ -256,6 +268,7 @@ router.get('/send-ad', async function(req, res, next) {
 	new_ad.arrival = req.query.arrival;
 	new_ad.available_seats = req.query.available_seats;
 	new_ad.from_details = new_from;
+	new_ad.to_details = new_to;
 	console.log(new_ad);
 
 	Advertisement.create(new_ad)
