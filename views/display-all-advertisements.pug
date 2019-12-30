@@ -10,22 +10,43 @@ block content
 		form(method= 'GET', action='/rides')
 
 			#form-group
-			label From:
-			input.form-control(name='from', type='text', value=filter.from)
-			br
+
+			input.form-control(name='from', type='text', value=filter.from, placeholder='From')
+
 			#form-group
-			label To:
-			input.form-control(name='to', type='text', value=filter.to)
-			br
-			label Date:
-			input.form-control(name='date', type='date', value=filter.date)
-			br
-			label Sort by date:
-			br
-			input.btn.btn-secondary.bt-lg.btn-block(type='submit', value='Search')
+
+			input.form-control(name='to', type='text', value=filter.to, placeholder='To')
+			#ridePageDate
+				input.form-control(name='date', type='date', value=filter.date)
+
+			#ridePageButton
+				input.btn.btn-secondary.bt-lg.btn-block(type='submit', value='Search')
 		br
 		if data
-			each ad, i in data
-				a(href='/rides/show-ads/'+ad.id) #{"Result " + i + ": "}
-				p= "From: " + ad.from + ", To: " + ad.to + ", Available seats:" + ad.available_seats  + ", Date: " + ad.date + ", Departure: " + ad.departure + ", Arrival: " + ad.arrival
-				br
+			#createForm
+				each ad, i in data
+					#form-group
+					.row
+						.col
+							.row
+								p= "From: " + ad.from
+							.row
+								p="To: " + ad.to
+							.row
+								p="Available seats: " + ad.available_seats
+						.col
+							.row
+								p="Departure: " + ad.departure
+							.row
+								p="Arrival: " + ad.arrival
+							.row
+								p="Date: " + ad.date
+						.col
+							.row
+								if username
+									a.btn.btn-secondary.bt-lg.btn-block(href="rides/show-ads/"+ad.id) More info
+							br
+							.row
+								if username
+									a.btn.btn-secondary.bt-lg.btn-block(href=
+									"rides/hop-on-ride/"+ ad.id) Request seat

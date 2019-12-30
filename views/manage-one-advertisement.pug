@@ -3,58 +3,67 @@ extends layout
 block content
 
 	div(data-objData=data)
+
+	#testFirstPage
+		if data
+			#createForm
+				h3="Ad information"
+				br
+				form(method= 'GET', action='/rides/update-ride/'+data.id)
+					#form-group
+					.row
+						.col
+							label From:
+							input.form-control(name='from', type='text', value=data.from)
+						.col
+							label To:
+							input.form-control(name='to', type='text', value=data.to)
+					.row
+						.col
+							label Date:
+							input.form-control(name='date', type=date, value=data.date)
+						.col
+							label Available seats:
+							input.form-control(name='available_seats', type='number', value=data.available_seats)
+					.row
+						.col
+							label Departure:
+							input.form-control(name='departure', type='time', value=data.departure)
+						.col
+							label Arriving:
+							input.form-control(name='arrival', type='time', value=data.arrival)
+					br
+					.row
+						input.btn.btn-secondary.bt-lg.btn-block(type='submit', value='Update ride')
+				form(method= 'GET', action='/rides/destroy-the-ride/' + data.id)
+					#form-group
+					.row
+						input.btn.btn-secondary.bt-lg.btn-block(type='submit', value='Remove ride')
 	
-	if data.confirmed_riders
-		h4="Confirmed Riders: "
-		br
-		each c_rider, p in data.confirmed_riders
-			p=c_rider
-			form(method= 'POST', action='/rides/disjoin-ride/'+data.id +'/'+c_rider)
-				input.btn.btn-secondary.bt-lg.btn-block(type='submit', value='Remove from ride')
-			br
-	br
-	if data.interested_riders
-		h4="Interested Riders: "
-		br
-		each p_rider, i in data.interested_riders
-			p=p_rider
-			if data.available_seats != 0
-				form(method= 'POST', action='/rides/join-ride/'+data.id +'/'+p_rider)
-					input.btn.btn-secondary.bt-lg.btn-block(type='submit', value='Add to ride')
-	br
+	#testSecondPage
+		if data.confirmed_riders
+			#createForm
+				h4="Confirmed Riders: "
+				each c_rider, p in data.confirmed_riders
+					#form-group
+					.row
+						.col
+							p="Username: " + c_rider
+						.col
+							form(method= 'POST', action='/rides/disjoin-ride/'+data.id +'/'+c_rider)
+								input.btn.btn-secondary.bt-lg.btn-block(type='submit', value='Remove from ride')
 
-	if data
-		h3="Ad information"
-		br
-		form(method= 'GET', action='/rides/update-ride/'+data.id)
-			#form-group
-				label From:
-				input.form-control(name='from', type='text', value=data.from)
-			br
-			#form-group
-				label To:
-				input.form-control(name='to', type='text', value=data.to)
-			br
-			#form-group
-				label Date:
-				input.form-control(name='date', type=date, value=data.date)
-			br
-			#form-group
-				label Available seats:
-				input.form-control(name='available_seats', type='number', value=data.available_seats)
-			br
-			#form-group
-				label Departure:
-				input.form-control(name='departure', type='time', value=data.departure)
-			br
-			#form-group
-				label Arriving:
-				input.form-control(name='arrival', type='time', value=data.arrival)
-			br
-
-			input.btn.btn-secondary.bt-lg.btn-block(type='submit', value='Update ride')
-	br
-	form(method= 'GET', action='/rides/destroy-the-ride/' + data.id)
-		input.btn.btn-secondary.bt-lg.btn-block(type='submit', value='Remove ride')
-
-
+	
+	#testSecondPage
+		if data.interested_riders
+			#createForm
+				h4="Interested Riders: "
+				each p_rider, i in data.interested_riders
+					#form-group
+						.row
+							.col
+								p="Username: " + p_rider
+							.col
+								if data.available_seats != 0
+									form(method= 'POST', action='/rides/join-ride/'+data.id +'/'+p_rider)
+										input.btn.btn-secondary.bt-lg.btn-block(type='submit', value='Add to ride')

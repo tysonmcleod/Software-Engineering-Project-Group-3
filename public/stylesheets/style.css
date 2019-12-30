@@ -44,13 +44,14 @@ a {
 }
 
 .from-input {
-  width: 96%;
+  width: 100%;
   margin-right: 0%;
   float: left;
 }
 
 .from-button {
-  font-size: 35px;
+  margin-left: 10px;
+  font-size: 25px;
   width: auto;
   float: left;
   cursor: pointer;
@@ -199,4 +200,10 @@ a {
 .navbar-expand .navbar-nav .show .dropdown-menu .dropdown-item.active {
   color: #ddd4d4;
   background-color: #0d0d0d;
+}
+
+
+
+#form-group{
+  margin-top: 20px;
 }
