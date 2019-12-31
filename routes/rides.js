@@ -178,6 +178,24 @@ router.post('/disjoin-ride/:id/:username', async (req, res) => {
     res.redirect("/rides/manage-users-ads/" + id);
 });
 
+router.post('/reject-rider/:id/:username', async (req, res) => {
+	const id = req.params.id;
+	const rider = req.params.username;
+
+	let ad = await Advertisement.findById(id);
+
+	if(ad.interested_riders.includes(rider)){
+		ad.interested_riders.pull(rider);
+		ad.save(function(err){
+			if(err){
+				console.log(err);
+				return;
+			}
+		});
+	}
+	res.redirect("/rides/manage-users-ads/" + id);
+});
+
 
 
 
