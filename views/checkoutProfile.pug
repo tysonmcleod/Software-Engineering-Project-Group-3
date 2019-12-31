@@ -1,0 +1,31 @@
+extends layout
+
+block content
+    .container
+        #profilePage
+            .jumbotron
+                .row
+                    .col-6
+                        #profilepageImage
+                            img(src='/images/blank-profile-picture.png' width="96" height="96")
+                #userDetails
+                    .row.offset-1
+                        .col-xs-4.col-sm-4.col-md-4
+                            h5.first-name First name:
+                        .col-xs-8.col-sm-8.col-md-8
+                            h5.font-weight-bold #{firstname}
+                    .row.offset-1
+                        .col-xs-4.col-sm-4.col-md-4
+                            h5.last-name Last name:
+                        .col-xs-8.col-sm-8.col-md-8
+                            h5.font-weight-bold #{lastname}
+                    .row.offset-1
+                        .col-xs-4.col-sm-4.col-md-4
+                            h5.username Username:
+                        .col-xs-8.col-sm-8.col-md-8
+                            h5.font-weight-bold #{username}
+                    .row.offset-1
+                        .col-xs-4.col-sm-4.col-md-4
+                            h5.email Email:
+                        .col-xs-8.col-sm-8.col-md-8
+                            h5.font-weight-bold #{email}

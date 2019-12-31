@@ -16,6 +16,7 @@ block content
 					p= "Available seats:" + data.available_seats 
 				.col
 					p= "Driver: " + data.driver
+					a(href='/users/profile/'+data.driver) #{data.driver}
 				.col
 					p= "Departure: " + data.departure
 				.col
@@ -23,5 +24,7 @@ block content
 				.col
 					if data.confirmed_riders
 						p="Riders: "+ data.confirmed_riders
+						for rider in data.confirmed_riders
+							a(href='/users/profile/'+rider) #{rider}
 					
 

@@ -40,7 +40,7 @@ router.post('/register', async function(req,res){
   try {
     const check_user_exists = await User.findOne({username: username});
     if(check_user_exists){
-      const username_error = {param: 'username', msg: 'Username already taken', 'value': username}; 
+      const username_error = {param: 'username', msg: 'Username already taken', 'value': username};
       errors.push(username_error);
     }
   } catch (err) {
@@ -112,6 +112,26 @@ router.get('/profile', async (req,res) => {
   console.log("Display profile of user: " + user.username);
   console.log(user);
   res.render("profile", {firstname: user.firstname, lastname: user.lastname, username: user.username, email: user.email, password: user.password})
+});
+
+router.get('/profile/:username', async (req,res) => {
+  const username = req.params.username;
+  const user = res.locals.user;
+
+  try {
+    const user = await User.findOne({username: username});
+    console.log("Display profile of user: " + user.username);
+    console.log(user);
+    res.render("checkoutProfile", {
+      firstname: user.firstname,
+      lastname: user.lastname,
+      username: user.username,
+      email: user.email,
+      password: user.password
+    })
+  } catch (err) {
+    res.status(500).json({message: err.message})
+  }
 });
 
 // Edit profile of loggen in user through profile page
