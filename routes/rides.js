@@ -14,13 +14,21 @@ User = User.model;
 router.get('/', function(req, res, next) {
 
  	let filter = {};
- 	let date_query = {};
- 	const username = res.locals.user;
- 	const radius = parseFloat(req.query.radius);
- 	console.log(radius);
- 	filter.radius = radius;
-	//console.log(req.body.to-dest);  BEWARE '-' char doesnt seem to be allowed in req.body expression
-	//
+	let from_query = {};
+	let to_query = {};
+	let date_query = {};
+	const username = res.locals.user;
+	let radius = 0;
+
+	if(req.query.radius){
+		radius = parseFloat(req.query.radius);
+		filter.radius = radius;
+	}
+	else{
+		radius = 0.03;
+		filter.radius = 0.03;
+	}
+	console.log(radius);
 
 	if(req.query.from != ''){
 		filter.from = req.query.from;
@@ -36,11 +44,31 @@ router.get('/', function(req, res, next) {
 
 	if(req.query.date){
 		filter.date = req.query.date;
-		console.log(filter.date);
-		date_query = {"date":filter.date};
+		date_query = {"date": {$gte: req.query.date}};
+	}
+	else{
+		var today = new Date()
+		var dd = String(today.getDate()).padStart(2, '0');
+		var mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
+		var yyyy = today.getFullYear();
+		today = yyyy + '-' + mm + '-' + dd;
+		date_query = {"date": {$gt: today}};
 	}
 
-	if(req.query.from_lat){
+	if(req.query.fromcoords){
+		let str = JSON.parse(req.query.fromcoords);
+		console.log(str);
+		let lat_from = str.geometry.location.lat;
+		let lng_from = str.geometry.location.lng;
+
+		var arr = str.formatted_address.split(',');
+		
+		filter.from = arr[1].substr(8);
+		filter.from_lat = lat_from;
+		filter.from_lng = lng_from;
+		from_query = {"from_details.lat": {$gt: lat_from-radius, $lt: lat_from+radius}}, {"from_details.lng": {$gt: lng_from-radius, $lt: lng_from+radius}};
+	}
+	else if(req.query.from_lat){
 		lat_from = parseFloat(req.query.from_lat);
 		lng_from = parseFloat(req.query.from_lng);
 		filter.from_lat = lat_from;
@@ -48,7 +76,20 @@ router.get('/', function(req, res, next) {
 		from_query = {"from_details.lat": {$gt: lat_from-radius, $lt: lat_from+radius}}, {"from_details.lng": {$gt: lng_from-radius, $lt: lng_from+radius}}
 	}
 
-	if(req.query.to_lat){
+	if(req.query.tocoords){
+		let str = JSON.parse(req.query.tocoords);
+
+		lat_to = str.geometry.location.lat;
+		lng_to = str.geometry.location.lng;
+
+		var arr2 = str.formatted_address.split(',');
+
+		filter.to = arr2[1].substr(8);
+		filter.to_lat = lat_to;
+		filter.to_lng = lng_to;
+		to_query = {"to_details.lat": {$gt: lat_to-radius, $lt: lat_to+radius}}, {"to_details.lng": {$gt: lng_to-radius, $lt: lng_to+radius}};
+	}
+	else if(req.query.to_lat){
 		lat_to = parseFloat(req.query.to_lat);
 		lng_to = parseFloat(req.query.to_lng);
 		filter.to_lat = lat_to;
@@ -73,75 +114,7 @@ router.get('/', function(req, res, next) {
 			confirmation: 'fail',
 			message: err.message
 		})
-	});
-	
-});
-
-router.get('/search', function(req, res, next) {
-
-
-	let filter = {};
-	const radius = 0.03;
-	let from_query = {};
-	let to_query = {};
-	let date_query = {};
-	const username = res.locals.user;
-
-	if(req.query.fromcoords){
-		let str = JSON.parse(req.query.fromcoords);
-		console.log(str);
-		let lat_from = str.geometry.location.lat;
-		let lng_from = str.geometry.location.lng;
-
-		var arr = str.formatted_address.split(',');
-		
-		filter.from = arr[1].substr(8);
-		filter.from_lat = lat_from;
-		filter.from_lng = lng_from;
-		from_query = {"from_details.lat": {$gt: lat_from-radius, $lt: lat_from+radius}}, {"from_details.lng": {$gt: lng_from-radius, $lt: lng_from+radius}}
-	}
-
-	if(req.query.tocoords){
-		let str = JSON.parse(req.query.tocoords);
-
-		lat_to = str.geometry.location.lat;
-		lng_to = str.geometry.location.lng;
-
-		var arr2 = str.formatted_address.split(',');
-
-		filter.to = arr2[1].substr(8);
-		filter.to_lat = lat_to;
-		filter.to_lng = lng_to;
-		to_query = {"to_details.lat": {$gt: lat_to-radius, $lt: lat_to+radius}}, {"to_details.lng": {$gt: lng_to-radius, $lt: lng_to+radius}}
-	}
-
-	if(req.query.date){
-		filter.date = req.query.date;
-		console.log(filter.date);
-		date_query = {"date":filter.date};
-	}
-	else{
-		var today = new Date()
-		var dd = String(today.getDate()).padStart(2, '0');
-		var mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
-		var yyyy = today.getFullYear();
-		today = yyyy + '-' + mm + '-' + dd;
-		date_query = {"date": {$gt: today}};
-	}
-
-	Advertisement
-		.find({$and: [Object.assign({}, from_query, to_query, date_query)]})
-		.sort('date')
-		.sort('departure')
-		.then(advertisements => {
-	    res.render("display-all-advertisements", {filter: filter, data: advertisements, username:username });
-	})
-	.catch(err => {
-		res.json({
-			confirmation: 'fail',
-			message: err.message
-		})
-	});
+	});	
 });
 
 router.get('/create-ad', function(req, res, next) {
@@ -414,6 +387,5 @@ function getCurrentDate() {
   
 	return(`${year}-${month}-${day}`);
 }
-
 
 module.exports = router;

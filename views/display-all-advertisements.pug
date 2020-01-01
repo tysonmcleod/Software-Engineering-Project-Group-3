@@ -7,7 +7,7 @@ block content
 
 		h1 #{filter.from} -> #{filter.to}
 
-		form(method= 'GET', action='/rides')
+		form(method= 'GET', action='/rides/')
 
 			#form-group
 
@@ -26,16 +26,16 @@ block content
 			#ridePageDate
 				input.form-control(name='date', type='date', value=filter.date)
 			br
-			if filter.radius == 0.1
+			if filter.radius == 0.2
 				input(type="radio" name="radius" value="0.03")
 				|  5 km
-				input(type="radio", name="radius", value="0.7", checked="checked")
-				| 10 km
+				input(type="radio", name="radius", value="0.2", checked="checked")
+				| 20 km
 			else
 				input(type="radio" name="radius" value="0.03", checked="checked")
 				|  5 km
-				input(type="radio", name="radius", value="0.7")
-				| 10 km
+				input(type="radio", name="radius", value="0.2")
+				| 20 km
 			br
 
 			#ridePageButton
