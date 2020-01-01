@@ -5,7 +5,7 @@ block content
 
 		div(data-objData=data)
 
-		h1 #{filter.from} -> #{filter.to}
+		h1 #{filter.from} to #{filter.to}
 
 		form(method= 'GET', action='/rides/')
 
@@ -53,7 +53,8 @@ block content
 						.col
 							p="Available seats: " + ad.available_seats
 						.col
-							p="Driver: " + ad.driver
+							a.btn.btn-secondary.bt-lg.btn-block(href=
+								"/rides/show-ads/"+ ad.id) More info
 					.row
 						.col
 							p="Departure: " + ad.departure
