@@ -23,6 +23,11 @@ block content
 				.col
 					if data.confirmed_riders
 						p="Riders: "+ data.confirmed_riders
+
+	p="Data about interested riders"
+	each trip in data.rider_trips
+		p=trip
+
 	script(type='text/javascript', src='/javascripts/map.js')
 	script(async, defer, type='text/javascript', src=`https://maps.googleapis.com/maps/api/js?key=${apiKey}&callback=initMap`)
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">

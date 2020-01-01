@@ -145,20 +145,32 @@ router.get('/update-ride/:id', async (req, res) => {
 	res.redirect("/rides/manage-users-ads/" + id);
 });
 
-router.get('/hop-on-ride/:id', async (req, res) => {
+router.get('/request-ride/:id/:from_lat/:from_lng/:to_lat/:to_lng', async (req, res) => {
 	if(!req.isAuthenticated()){
 			res.redirect("/users/register");
 		}
 
+	const lat = req.params.lat;
+	const lng = req.params.lng;
 	const id = req.params.id;
 	const testUser2 = res.locals.user;
 	console.log(res.locals.user);
 	const testUser = testUser2.username;
 
+	const temp = {
+		username: testUser,
+		from_lat: req.params.from_lat,
+		from_lng:  req.params.from_lng,
+		to_lat:  req.params.to_lat,
+		to_lng: req.params.to_lng
+	}
+
 	let ad = await Advertisement.findById(id);
 
 	if(!ad.interested_riders.includes(testUser)){
 		ad.interested_riders.push(testUser);
+		ad.rider_trips.push(temp);
+
 		ad.save(function(err){
           if(err){
             console.log(err);
@@ -166,8 +178,10 @@ router.get('/hop-on-ride/:id', async (req, res) => {
           }
       	});
     }
-    res.redirect("/rides/manage-users-rides");
+
+	res.redirect("/rides/manage-users-rides");
 });
+
 
 router.get('/hop-off-ride/:id', async (req, res) => {
 	const id = req.params.id;
@@ -203,6 +217,10 @@ router.post('/join-ride/:id/:username', async (req, res) => {
 	const id = req.params.id;
 	const new_rider = req.params.username;
 	console.log(new_rider);
+
+	// Update info from interested to confirmed
+
+	
 	let ad = await Advertisement.findById(id);
 
 	if(!ad.confirmed_riders.includes(new_rider)){
