@@ -363,7 +363,7 @@ router.get('/show-ads/:id', (req, res) => {
 	const id = req.params.id
 	Advertisement.findById(id)
 	.then(advertisement => {
-		res.render("display-one-advertisement", {	data: advertisement});
+		res.render("display-one-advertisement", {	data: advertisement, apiKey: GoogleAPIKey});
 	})
 	.catch(err => {
 		res.json({
