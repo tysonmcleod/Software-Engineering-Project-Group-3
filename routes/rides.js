@@ -131,10 +131,8 @@ router.get('/update-ride/:id', async (req, res) => {
 	
 	const id = req.params.id;
 
-	const updateObj = {from: req.query.from};
-	updateObj.to = req.query.to;
+	const updateObj = {};
 	updateObj.date = req.query.date;
-	updateObj.available_seats = req.query.available_seats;
 	updateObj.departure = req.query.departure;
 	updateObj.arrival = req.query.arrival;
 
@@ -220,7 +218,7 @@ router.post('/join-ride/:id/:username', async (req, res) => {
 
 	// Update info from interested to confirmed
 
-	
+
 	let ad = await Advertisement.findById(id);
 
 	if(!ad.confirmed_riders.includes(new_rider)){
@@ -327,7 +325,7 @@ router.get('/manage-users-ads', async (req, res) => {
 	.sort('date')
 	.sort('departure')
 	.then(advertisement => {
-		res.render("manage-users-advertisements", {	data: advertisement, username: username});
+		res.render("manage-users-advertisements", {	data: advertisement, username: username, });
 	})
 	.catch(err => {
 		res.json({
@@ -366,7 +364,8 @@ router.get('/manage-users-ads/:id', async (req, res) => {
 	
 	Advertisement.findById(id)
 	.then(advertisement => {
-		res.render("manage-one-advertisement", {	data: advertisement, username: username});
+		console.log(advertisement.rider_trips);
+		res.render("manage-one-advertisement", {	data: advertisement, username: username, apiKey: GoogleAPIKey});
 	})
 	.catch(err => {
 		res.json({
@@ -405,5 +404,6 @@ function getCurrentDate() {
   
 	return(`${year}-${month}-${day}`);
 }
+
 
 module.exports = router;

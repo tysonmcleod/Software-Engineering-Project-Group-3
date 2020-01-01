@@ -14,17 +14,16 @@ block content
 					.row
 						.col
 							label From:
-							input.form-control(name='from', type='text', value=data.from)
+							input.form-control(name='from', type='text', value=data.from, readonly)
 						.col
 							label To:
-							input.form-control(name='to', type='text', value=data.to)
+							input.form-control(name='to', type='text', value=data.to, readonly)
 					.row
 						.col
 							label Date:
 							input.form-control(name='date', type=date, value=data.date)
 						.col
-							label Available seats:
-							input.form-control(name='available_seats', type='number', value=data.available_seats)
+							
 					.row
 						.col
 							label Departure:
@@ -67,3 +66,11 @@ block content
 								if data.available_seats != 0
 									form(method= 'POST', action='/rides/join-ride/'+data.id +'/'+p_rider)
 										input.btn.btn-secondary.bt-lg.btn-block(type='submit', value='Add to ride')
+
+
+	script(type='text/javascript', src='/javascripts/map.js')
+	script(async, defer, type='text/javascript', src=`https://maps.googleapis.com/maps/api/js?key=${apiKey}&callback=initMap`)
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+	div(id='map')
+
