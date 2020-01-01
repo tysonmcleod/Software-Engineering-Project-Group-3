@@ -14,9 +14,11 @@ User = User.model;
 router.get('/', function(req, res, next) {
 
  	let filter = {};
+ 	let date_query = {};
  	const username = res.locals.user;
-
- 	console.log(req.query);
+ 	const radius = parseFloat(req.query.radius);
+ 	console.log(radius);
+ 	filter.radius = radius;
 	//console.log(req.body.to-dest);  BEWARE '-' char doesnt seem to be allowed in req.body expression
 	//
 
@@ -34,6 +36,24 @@ router.get('/', function(req, res, next) {
 
 	if(req.query.date){
 		filter.date = req.query.date;
+		console.log(filter.date);
+		date_query = {"date":filter.date};
+	}
+
+	if(req.query.from_lat){
+		lat_from = parseFloat(req.query.from_lat);
+		lng_from = parseFloat(req.query.from_lng);
+		filter.from_lat = lat_from;
+		filter.from_lng = lng_from;
+		from_query = {"from_details.lat": {$gt: lat_from-radius, $lt: lat_from+radius}}, {"from_details.lng": {$gt: lng_from-radius, $lt: lng_from+radius}}
+	}
+
+	if(req.query.to_lat){
+		lat_to = parseFloat(req.query.to_lat);
+		lng_to = parseFloat(req.query.to_lng);
+		filter.to_lat = lat_to;
+		filter.to_lng = lng_to;
+		to_query = {"to_details.lat": {$gt: lat_to-radius, $lt: lat_to+radius}}, {"to_details.lng": {$gt: lng_to-radius, $lt: lng_to+radius}}
 	}
 
 	if(Object.keys(filter).length === 0){
@@ -42,7 +62,7 @@ router.get('/', function(req, res, next) {
 	
 	
 	Advertisement
-	.find(filter)
+	.find({$and: [Object.assign({}, from_query, to_query, date_query)]})
 	.sort('date')
 	.sort('departure')
 	.then(advertisements => {
@@ -61,9 +81,10 @@ router.get('/search', function(req, res, next) {
 
 
 	let filter = {};
-	const radius = 0.05;
+	const radius = 0.03;
 	let from_query = {};
 	let to_query = {};
+	let date_query = {};
 	const username = res.locals.user;
 
 	if(req.query.fromcoords){
@@ -75,6 +96,8 @@ router.get('/search', function(req, res, next) {
 		var arr = str.formatted_address.split(',');
 		
 		filter.from = arr[1].substr(8);
+		filter.from_lat = lat_from;
+		filter.from_lng = lng_from;
 		from_query = {"from_details.lat": {$gt: lat_from-radius, $lt: lat_from+radius}}, {"from_details.lng": {$gt: lng_from-radius, $lt: lng_from+radius}}
 	}
 
@@ -87,14 +110,27 @@ router.get('/search', function(req, res, next) {
 		var arr2 = str.formatted_address.split(',');
 
 		filter.to = arr2[1].substr(8);
+		filter.to_lat = lat_to;
+		filter.to_lng = lng_to;
 		to_query = {"to_details.lat": {$gt: lat_to-radius, $lt: lat_to+radius}}, {"to_details.lng": {$gt: lng_to-radius, $lt: lng_to+radius}}
 	}
 
-	if(req.query.date)
+	if(req.query.date){
 		filter.date = req.query.date;
+		console.log(filter.date);
+		date_query = {"date":filter.date};
+	}
+	else{
+		var today = new Date()
+		var dd = String(today.getDate()).padStart(2, '0');
+		var mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
+		var yyyy = today.getFullYear();
+		today = yyyy + '-' + mm + '-' + dd;
+		date_query = {"date": {$gt: today}};
+	}
 
 	Advertisement
-		.find({$and: [Object.assign({}, from_query, to_query)]})
+		.find({$and: [Object.assign({}, from_query, to_query, date_query)]})
 		.sort('date')
 		.sort('departure')
 		.then(advertisements => {
@@ -137,6 +173,10 @@ router.get('/update-ride/:id', async (req, res) => {
 });
 
 router.get('/hop-on-ride/:id', async (req, res) => {
+	if(!req.isAuthenticated()){
+			res.redirect("/users/register");
+		}
+
 	const id = req.params.id;
 	const testUser2 = res.locals.user;
 	console.log(res.locals.user);
@@ -231,13 +271,14 @@ router.post('/disjoin-ride/:id/:username', async (req, res) => {
 router.get('/send-ad', async function(req, res, next) {
 
 	let new_ad = {};
+	let new_from = {};
+	let new_to = {};
 
 	if(req.query.available_seats == "" || req.query.available_seats == null){
 		req.query.available_seats = 0;
 	}
 
 	if(req.query.fromcoords){
-		new_from = {};
 		const str = JSON.parse(req.query.fromcoords);
 		console.log(str.geometry.location.lat);
 		console.log(str.geometry.location.lng);
@@ -250,7 +291,7 @@ router.get('/send-ad', async function(req, res, next) {
 	}
 
 	if(req.query.tocoords){
-		new_to = {};
+		console.log(req.query.tocoords);
 		const str = JSON.parse(req.query.tocoords);
 		console.log(str.geometry.location.lat);
 		console.log(str.geometry.location.lng);
