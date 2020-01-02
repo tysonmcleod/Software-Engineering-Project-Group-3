@@ -15,16 +15,16 @@ block content
 				.col
 					p= "Available seats:" + data.available_seats 
 				.col
-					p= "Driver: " + data.driver
-					a(href='/users/profile/'+data.driver) #{data.driver}
+					span Driver: #[a.mngOneAd(href='/users/profile/'+data.driver) #{data.driver}]
 				.col
 					p= "Departure: " + data.departure
 				.col
 					p= "Arriving: " + data.arrival
 				.col
 					if data.confirmed_riders
-						p="Riders: "+ data.confirmed_riders
+						span="Riders: "
 						for rider in data.confirmed_riders
-							a(href='/users/profile/'+rider) #{rider}
+							a.mngOneAd(href='/users/profile/'+rider) #{rider}
+							span=" "
 					
 

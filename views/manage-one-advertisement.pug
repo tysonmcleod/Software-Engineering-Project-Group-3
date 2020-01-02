@@ -48,7 +48,7 @@ block content
 					#form-group
 					.row
 						.col
-							span Username:
+							span="Username: "
 								a.mngOneAd(href='/users/profile/'+c_rider) #{c_rider}
 						.col
 							form(method= 'POST', action='/rides/disjoin-ride/'+data.id +'/'+c_rider)
@@ -63,7 +63,7 @@ block content
 					#form-group
 						.row
 							.col
-								span Username:
+								span="Username: "
 									a.mngOneAd(href='/users/profile/'+p_rider) #{p_rider}
 							.col
 								if data.available_seats != 0
