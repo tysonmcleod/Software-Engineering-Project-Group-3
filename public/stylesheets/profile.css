@@ -36,11 +36,20 @@
 #profilepageName{
   padding: 4px;
   float: right;
-
-
 }
-
 
 #profileButton {
   margin-top:30px;
+}
+
+.star {
+  color: goldenrod;
+  font-size: 2.0rem;
+}
+.star::before {
+  content: '\2606'; /* star outline */
+}
+.star.rated::before {
+  /* the style for a selected star */
+  content: '\2605'; /* filled star */
 }
