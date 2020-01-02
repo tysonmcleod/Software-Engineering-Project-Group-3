@@ -30,3 +30,56 @@
 #createForm{
   margin-bottom: 30px;
 }
+
+
+#createdadPageForm{
+  border-style: solid;
+  border-color: #b3b3b3;
+  border-width: 0.01em;
+  margin-bottom: 15px;
+  background-color: #ffffff;
+  padding: 3em;
+
+}
+
+#createdadPageForm p{
+  margin-top: 8px;
+  font-size: 1rem;
+  font-family: Courier;
+  font-weight: 800;
+}
+
+
+
+#createdadPageForm h1{
+  font-size: 4vw;
+}
+
+
+#upcomingAds {
+  padding: 3em;
+  margin-top: 10px;
+  border-style: solid;
+  border-color: #b3b3b3;
+  border-width: 0.01em;
+  background-color: #ffffff;
+  font-weight: 600;
+}
+
+
+#createForm2 {
+  
+  margin-bottom:10px;
+  padding: 3em;
+  margin-top: 10px;
+  border-style: solid;
+  border-color: #b3b3b3;
+  border-width: 0.01em;
+  background-color: #ffffff;
+
+}
+
+
+#createForm2 btn{
+  margin-top: 12px !important;
+}
