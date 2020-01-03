@@ -15,7 +15,7 @@ block content
 				.col
 					p= "Available seats:" + data.available_seats 
 				.col
-					span Driver: #[a.mngOneAd(href='/users/profile/'+data.driver) #{data.driver}]
+					span Driver: #[a.mngOneAd(href='/users/profile/'+data.driver+'/'+data.id+'/false') #{data.driver}]
 				.col
 					p= "Departure: " + data.departure
 				.col
@@ -24,7 +24,7 @@ block content
 					if data.confirmed_riders
 						span="Riders: "
 						for rider in data.confirmed_riders
-							a.mngOneAd(href='/users/profile/'+rider) #{rider}
+							a.mngOneAd(href='/users/profile/'+rider+'/'+data.id+'/false') #{rider}
 							span=" "
 					
 

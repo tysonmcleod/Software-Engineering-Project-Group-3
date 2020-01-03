@@ -49,7 +49,7 @@ block content
 					.row
 						.col
 							span="Username: "
-								a.mngOneAd(href='/users/profile/'+c_rider) #{c_rider}
+								a.mngOneAd(href='/users/profile/'+c_rider+'/'+data.id+'/false') #{c_rider}
 						.col
 							form(method= 'POST', action='/rides/disjoin-ride/'+data.id +'/'+c_rider)
 								input.btn.btn-secondary.bt-lg.btn-block(type='submit', value='Remove from ride')
@@ -64,7 +64,7 @@ block content
 						.row
 							.col
 								span="Username: "
-									a.mngOneAd(href='/users/profile/'+p_rider) #{p_rider}
+									a.mngOneAd(href='/users/profile/'+p_rider+'/'+data.id+"/true") #{p_rider}
 							.col
 								if data.available_seats != 0
 									form(method= 'POST', action='/rides/join-ride/'+data.id +'/'+p_rider)

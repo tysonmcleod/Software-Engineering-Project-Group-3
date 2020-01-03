@@ -114,21 +114,32 @@ router.get('/profile', async (req,res) => {
   res.render("profile", {firstname: user.firstname, lastname: user.lastname, username: user.username, email: user.email, password: user.password, rating: user.rating, votes: user.votes})
 });
 
-router.get('/profile/:username', async (req,res) => {
+router.get('/profile/:username/:adId/:interest', async (req,res) => {
   const username = req.params.username;
-  const user = res.locals.user;
+  const interest = req.params.interest;
+  const adId = req.params.adId;
 
   try {
     const user = await User.findOne({username: username});
     console.log("Display profile of user: " + user.username);
     console.log(user);
-    res.render("checkoutProfile", {
-      firstname: user.firstname,
-      lastname: user.lastname,
-      username: user.username,
-      email: user.email,
-      password: user.password
-    })
+    if (interest)
+      res.render("checkoutInterestedProfile", {
+        firstname: user.firstname,
+        lastname: user.lastname,
+        username: user.username,
+        email: user.email,
+        password: user.password,
+        adId: adId
+      });
+    else
+      res.render("checkoutProfile", {
+        firstname: user.firstname,
+        lastname: user.lastname,
+        username: user.username,
+        email: user.email,
+        password: user.password
+      })
   } catch (err) {
     res.status(500).json({message: err.message})
   }
