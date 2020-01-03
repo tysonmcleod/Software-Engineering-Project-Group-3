@@ -1,12 +1,14 @@
 extends layout
 
 block content
+	#container
 
 	div(data-objData=data)
 
+
 	#testFirstPage
 		if data
-			#createForm
+			#createForm2
 				h3="Ad information"
 				br
 				form(method= 'GET', action='/rides/update-ride/'+data.id)
@@ -41,7 +43,7 @@ block content
 	
 	#testSecondPage
 		if data.confirmed_riders
-			#createForm
+			#createForm2
 				h4="Confirmed Riders: "
 				each c_rider, p in data.confirmed_riders
 					#form-group
@@ -52,17 +54,6 @@ block content
 							form(method= 'POST', action='/rides/disjoin-ride/'+data.id +'/'+c_rider)
 								input.btn.btn-secondary.bt-lg.btn-block(type='submit', value='Remove from ride')
 
-	
-	#testSecondPage
-		if data.interested_riders
-			#createForm
-				h4="Interested Riders: "
-				each p_rider, i in data.interested_riders
-					#form-group
-						.row
-							.col
-								p="Username: " + p_rider
-							.col
 								if data.available_seats != 0
 									form(method= 'POST', action='/rides/join-ride/'+data.id +'/'+p_rider)
 										input.btn.btn-secondary.bt-lg.btn-block(type='submit', value='Add to ride')
@@ -76,4 +67,3 @@ block content
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
 	div(id='map')
-

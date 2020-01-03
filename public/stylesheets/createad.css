@@ -30,3 +30,114 @@
 #createForm{
   margin-bottom: 30px;
 }
+
+
+#createdadPageForm{
+  border-style: solid;
+  border-color: #b3b3b3;
+  border-width: 0.01em;
+  margin-bottom: 15px;
+  background-color: #ffffff;
+  padding: 3em;
+
+}
+
+#createdadPageForm p{
+  margin-top: 8px;
+  font-size: 1rem;
+  font-family: Courier;
+  font-weight: 800;
+}
+
+
+
+#createdadPageForm h1{
+  font-size: 4vw;
+}
+
+
+#upcomingAds {
+  padding: 3em;
+  margin-top: 10px;
+  border-style: solid;
+  border-color: #b3b3b3;
+  border-width: 0.01em;
+  background-color: #ffffff;
+  font-weight: 600;
+}
+
+
+#createForm2 {
+
+  margin-bottom:10px;
+  padding: 3em;
+  margin-top: 10px;
+  border-style: solid;
+  border-color: #b3b3b3;
+  border-width: 0.01em;
+  background-color: #ffffff;
+
+}
+
+
+#createForm2 btn{
+  margin-top: 12px !important;
+}
+
+#uupdateConfirmedRider{
+  border-style: solid;
+  border-color: #b3b3b3;
+  border-width: 0.01em;
+  background-color: #ffffff;
+  padding-left: 3em;
+  padding-right: 3em;
+  padding-bottom: 2em;
+}
+
+#uuupdateConfirmedRider{
+  border-style: solid;
+  border-color: #b3b3b3;
+  border-width: 0.01em;
+  background-color: #ffffff;
+  padding-left: 3em;
+  padding-top: 1em;
+  padding-right: 3em;
+
+}
+
+#chooseRide{
+  border-style: solid;
+  border-color: #b3b3b3;
+  border-width: 0.01em;
+  background-color: #ffffff;
+  padding: 1em;
+  font-family: Courier;
+  font-weight: 800;
+}
+
+#createAdPage {
+  width: 100%;
+  max-width: 640px;
+  margin-left:auto;
+  margin-right:auto;
+  border-style: solid;
+  border-color: #b3b3b3;
+  border-width: 0.01em;
+
+  padding-bottom: 2rem;
+  //background-color: #f5f5f5;
+  border-radius: 15px 50px;
+}
+
+#createAdPage h1{
+  margin-top: 30px;
+}
+
+#createAdPage p{
+  font-family: Courier;
+  font-weight: 800;
+}
+
+#dateDisplay{
+  font-size: 0.7rem;
+}

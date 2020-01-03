@@ -8,16 +8,17 @@ block content
 	-var yyyy = today.getFullYear();
 	-today = yyyy + '-' + mm + '-' + dd;
 	#upcomingRides
-		#createadPage
+		#createAdPage
 			h1="Confirmed rides"
 			#updateConfirmedRider
+			#uupdateConfirmedRider
 				if data
 					#createForm
 					-var index=0
 						each ad in data
 							each rider in ad.confirmed_riders
 								#form-group
-									if rider == username && ad.date >= today 
+									if rider == username && ad.date >= today
 										.row
 											.col
 												.row
@@ -28,7 +29,7 @@ block content
 													p=" Date: " + ad.date
 											.col
 												.row
-													p="Departure: " + ad.departure 
+													p="Departure: " + ad.departure
 												.row
 													p="Arrival: " + ad.arrival
 												.row
@@ -41,16 +42,50 @@ block content
 													a.btn.btn-secondary.bt-lg.btn-block(href="hop-off-ride/"+ad.id) Remove request
 
 
-		#createadPage
+		#createAdPage
 			h1="Pending rides"
-			if data
-				#createForm
-					-var index=0
-					each ad in data
-						each rider in ad.interested_riders
-							#form-group
-								
-								if rider == username && ad.date >= today 
+			#uuupdateConfirmedRider
+				if data
+					#createForm
+						-var index=0
+						each ad in data
+							each rider in ad.interested_riders
+								#form-group
+
+									if rider == username && ad.date >= today
+										.row
+											.col
+												.row
+													p= "From: " + ad.from
+												.row
+													p="To: " + ad.to
+												.row
+													p=" Date: " + ad.date
+											.col
+												.row
+													p="Departure: " + ad.departure
+												.row
+													p="Arrival: " + ad.arrival
+												.row
+													p="Driver: " + ad.driver
+											.col
+												.row
+													a.btn.btn-secondary.bt-lg.btn-block(href="show-ads/"+ad.id) More info
+												br
+												.row
+													a.btn.btn-secondary.bt-lg.btn-block(href="hop-off-ride/"+ad.id) Remove request
+
+	#upcomingRides
+		#createAdPage
+			h1="Old rides"
+			#uuupdateConfirmedRider
+				if data
+					#createForm
+						-var index=0
+						each ad in data
+							each rider in ad.confirmed_riders
+								#form-group
+								if username==rider
 									.row
 										.col
 											.row
@@ -61,7 +96,7 @@ block content
 												p=" Date: " + ad.date
 										.col
 											.row
-												p="Departure: " + ad.departure 
+												p="Departure: " + ad.departure
 											.row
 												p="Arrival: " + ad.arrival
 											.row
@@ -69,35 +104,3 @@ block content
 										.col
 											.row
 												a.btn.btn-secondary.bt-lg.btn-block(href="show-ads/"+ad.id) More info
-											br
-											.row
-												a.btn.btn-secondary.bt-lg.btn-block(href="hop-off-ride/"+ad.id) Remove request
-												
-	#upcomingRides
-		#createadPage
-			h1="Old rides"
-			if data
-				#createForm
-					-var index=0
-					each ad in data
-						each rider in ad.confirmed_riders
-							#form-group
-							if username==rider
-								.row
-									.col
-										.row
-											p= "From: " + ad.from
-										.row
-											p="To: " + ad.to
-										.row
-											p=" Date: " + ad.date
-									.col
-										.row
-											p="Departure: " + ad.departure 
-										.row
-											p="Arrival: " + ad.arrival
-										.row
-											p="Driver: " + ad.driver
-									.col
-										.row
-											a.btn.btn-secondary.bt-lg.btn-block(href="show-ads/"+ad.id) More info
