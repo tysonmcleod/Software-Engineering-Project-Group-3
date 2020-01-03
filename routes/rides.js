@@ -25,8 +25,8 @@ router.get('/', function(req, res, next) {
 		filter.radius = radius;
 	}
 	else{
-		radius = 0.03;
-		filter.radius = 0.03;
+		radius = 0.1;
+		filter.radius = 0.1;
 	}
 	console.log(radius);
 

@@ -25,18 +25,9 @@ block content
 
 			#ridePageDate
 				input.form-control(name='date', type='date', value=filter.date)
-			br
-			if filter.radius == 0.2
-				input(type="radio" name="radius" value="0.03")
-				|  5 km
-				input(type="radio", name="radius", value="0.2", checked="checked")
-				| 20 km
-			else
-				input(type="radio" name="radius" value="0.03", checked="checked")
-				|  5 km
-				input(type="radio", name="radius", value="0.2")
-				| 20 km
-			br
+
+			input(type="radio" name="radius" value="0.1", hidden="hidden")
+
 
 			#ridePageButton
 				input.btn.btn-secondary.bt-lg.btn-block(type='submit', value='Search')
