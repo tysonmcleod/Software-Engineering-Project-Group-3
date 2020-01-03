@@ -52,7 +52,7 @@ router.get('/', function(req, res, next) {
 		var mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
 		var yyyy = today.getFullYear();
 		today = yyyy + '-' + mm + '-' + dd;
-		date_query = {"date": {$gt: today}};
+		date_query = {};
 	}
 
 	if(req.query.fromcoords){
@@ -121,7 +121,7 @@ router.get('/create-ad', function(req, res, next) {
   res.render('create-ad', { today: getCurrentDate(), apiKey: GoogleAPIKey });
 });
 
-router.get('/destroy-the-ride/:id', async (req, res) => {
+router.get('/delete-ride/:id', async (req, res) => {
 	const id = req.params.id;
 	const ad = await Advertisement.findByIdAndRemove(id, {useAndModify: false});
 	res.redirect("/rides/manage-users-ads");
@@ -136,10 +136,8 @@ router.get('/update-ride/:id', async (req, res) => {
 	updateObj.departure = req.query.departure;
 	updateObj.arrival = req.query.arrival;
 
-	console.log(updateObj);
 	const newad = await Advertisement.findByIdAndUpdate(id, updateObj, {new: true});
-	//const ad = await Advertisement.findByIdAndRemove(id, {useAndModify: false});
-	console.log(newad);
+
 	res.redirect("/rides/manage-users-ads/" + id);
 });
 
@@ -214,10 +212,6 @@ router.get('/hop-off-ride/:id', async (req, res) => {
 router.post('/join-ride/:id/:username', async (req, res) => {
 	const id = req.params.id;
 	const new_rider = req.params.username;
-	console.log(new_rider);
-
-	// Update info from interested to confirmed
-
 
 	let ad = await Advertisement.findById(id);
 
