@@ -12,28 +12,28 @@ block content
       .row
         .col
           label From:
-          input#from-dest.form-control(name='from', type='text', placeholder='From', onchange=`formToMap('from')`)
+          input#from-dest.form-control(name='from', type='text', placeholder='From', readonly, onchange=`formToMap('from')`)
           input#fromcoords(type='hidden', name='fromcoords')
         .col
           label To:
-          input#to-dest.form-control(name='to', type='text', placeholder='To', onchange=`formToMap('to')`)
+          input#to-dest.form-control(name='to', type='text', placeholder='To', readonly, onchange=`formToMap('to')`)
           input#tocoords(type='hidden', name='tocoords')
 
       #form-group
       .row
         .col
           label Date:
-          input.form-control(name='date', type='date', min=`${today}`)
+          input.form-control(name='date', type='date', required, min=`${today}`)
         .col
           label Available seats:
-          input.form-control(name='available_seats', type='number', placeholder='0')
+          input.form-control(name='available_seats', type='number', required, placeholder='0')
       #shadyForm
       .row
         .col
           label Leaving:
-          input.form-control(name='departure', type='time')
+          input.form-control(name='departure', required, type='time')
         .col
           label Arriving:
-          input.form-control(name='arrival', type='time')
+          input.form-control(name='arrival', required, type='time')
       #createadPageButton
         input.btn.btn-secondary.bt-lg.btn-block(type='submit', value='Create ad')

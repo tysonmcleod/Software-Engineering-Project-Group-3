@@ -25,12 +25,15 @@
     "passport": "^0.4.0",
     "passport-local": "^1.0.0",
     "pug": "^2.0.4",
-    "request": "^2.88.0"
+    "request": "^2.88.0",
+    "star-ratings": "*"
   },
   "devDependencies": {
     "chai": "^4.2.0",
+    "chai-http": "^4.3.0",
     "mocha": "^6.2.2",
     "nodemon": "^1.19.4",
-    "request": "^2.88.0"
+    "request": "^2.88.0",
+    "sinon": "^7.5.0"
   }
 }

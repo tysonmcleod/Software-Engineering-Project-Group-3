@@ -5,19 +5,29 @@ block content
 
 		div(data-objData=data)
 
-		h1 Search advertisements
+		h1 #{filter.from} &#8594 #{filter.to}
 
-		form(method= 'GET', action='/rides')
-
-			#form-group
-
-			input.form-control(name='from', type='text', value=filter.from, placeholder='From')
+		form(method= 'GET', action='/rides/')
 
 			#form-group
 
-			input.form-control(name='to', type='text', value=filter.to, placeholder='To')
+			input.form-control(name='from', type='hidden', value=filter.from, placeholder='From')
+
+			#form-group
+
+			input.form-control(name='to', type='hidden', value=filter.to, placeholder='To')
+
+			input.form-control(name='from_lat', type='hidden', value=filter.from_lat)
+			input.form-control(name='from_lng', type='hidden', value=filter.from_lng)
+
+			input.form-control(name='to_lat', type='hidden', value=filter.to_lat)
+			input.form-control(name='to_lng', type='hidden', value=filter.to_lng)
+
 			#ridePageDate
 				input.form-control(name='date', type='date', value=filter.date)
+
+			input(type="radio" name="radius" value="0.1", hidden="hidden")
+
 
 			#ridePageButton
 				input.btn.btn-secondary.bt-lg.btn-block(type='submit', value='Search')
@@ -26,27 +36,25 @@ block content
 			#createForm
 				each ad, i in data
 					#form-group
-					.row
-						.col
-							.row
+					#chooseRide
+
+						.row
+							.col
 								p= "From: " + ad.from
-							.row
+							.col
 								p="To: " + ad.to
-							.row
+							.col
 								p="Available seats: " + ad.available_seats
-						.col
-							.row
+							.col
+								a.btn.btn-secondary.bt-lg.btn-block(href=
+									"/rides/show-ads/"+ ad.id) Info
+						.row
+							.col
 								p="Departure: " + ad.departure
-							.row
+							.col
 								p="Arrival: " + ad.arrival
-							.row
+							.col
 								p="Date: " + ad.date
-						.col
-							.row
-								if username
-									a.btn.btn-secondary.bt-lg.btn-block(href="rides/show-ads/"+ad.id) More info
-							br
-							.row
-								if username
-									a.btn.btn-secondary.bt-lg.btn-block(href=
-									"rides/hop-on-ride/"+ ad.id) Request seat
+							.col
+								a.btn.btn-secondary.bt-lg.btn-block(href=
+									"/rides/request-ride/"+ ad.id + "/" + filter.from_lat + "/" + filter.from_lng + "/" + filter.to_lat + "/" + filter.to_lng) Request
