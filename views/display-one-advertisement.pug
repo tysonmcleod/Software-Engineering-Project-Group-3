@@ -4,7 +4,7 @@ block content
 
 	div(data-objData=data)
 	#createadPage
-	
+
 		#createdadPageForm
 			h1 Info
 			#createForm
@@ -28,11 +28,13 @@ block content
 					.col
 						if data.confirmed_riders
 							p="Riders: "+ data.confirmed_riders
+					.col
+						p="Date: "+ data.date
 
 		p="Data about trip"
 	
-		p=data.from_details
-		p=data.to_details
+		p From: #{data.from_details}
+		p To: #{data.to_details}
 
 		script(type='text/javascript', src='/javascripts/map.js')
 		script(async, defer, type='text/javascript', src=`https://maps.googleapis.com/maps/api/js?key=${apiKey}&callback=initMap`)
