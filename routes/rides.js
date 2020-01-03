@@ -179,7 +179,7 @@ router.get('/request-ride/:id/:from_lat/:from_lng/:to_lat/:to_lng', async (req, 
 });
 
 
-router.get('/hop-off-ride/:id', async (req, res) => {
+router.get('/derequest-ride/:id', async (req, res) => {
 	const id = req.params.id;
 	const update = { rider: null};
 	const testUser2 = res.locals.user;
@@ -189,6 +189,8 @@ router.get('/hop-off-ride/:id', async (req, res) => {
 
 	if(ad.interested_riders.includes(testUser)){
 		ad.interested_riders.pull(testUser);
+		const trip = ad.rider_trips.find(x => x.username == testUser);
+		ad.rider_trips.pull(trip);
 		ad.save(function(err){
         if(err){
             console.log(err);
@@ -198,6 +200,8 @@ router.get('/hop-off-ride/:id', async (req, res) => {
 	}
 	if(ad.confirmed_riders.includes(testUser)){
 		ad.confirmed_riders.pull(testUser);
+		const trip = ad.confirmed_rider_trips.find(x => x.username == testUser);
+		ad.confirmed_rider_trips.pull(trip);
 		ad.save(function(err){
         if(err){
             console.log(err);
