@@ -5,19 +5,38 @@ block content
 
 		div(data-objData=data)
 
-		h1 Search advertisements
+		h1 #{filter.from} to #{filter.to}
 
-		form(method= 'GET', action='/rides')
-
-			#form-group
-
-			input.form-control(name='from', type='text', value=filter.from, placeholder='From')
+		form(method= 'GET', action='/rides/')
 
 			#form-group
 
-			input.form-control(name='to', type='text', value=filter.to, placeholder='To')
+			input.form-control(name='from', type='hidden', value=filter.from, placeholder='From')
+
+			#form-group
+
+			input.form-control(name='to', type='hidden', value=filter.to, placeholder='To')
+
+			input.form-control(name='from_lat', type='hidden', value=filter.from_lat)
+			input.form-control(name='from_lng', type='hidden', value=filter.from_lng)
+
+			input.form-control(name='to_lat', type='hidden', value=filter.to_lat)
+			input.form-control(name='to_lng', type='hidden', value=filter.to_lng)
+
 			#ridePageDate
 				input.form-control(name='date', type='date', value=filter.date)
+			br
+			if filter.radius == 0.2
+				input(type="radio" name="radius" value="0.03")
+				|  5 km
+				input(type="radio", name="radius", value="0.2", checked="checked")
+				| 20 km
+			else
+				input(type="radio" name="radius" value="0.03", checked="checked")
+				|  5 km
+				input(type="radio", name="radius", value="0.2")
+				| 20 km
+			br
 
 			#ridePageButton
 				input.btn.btn-secondary.bt-lg.btn-block(type='submit', value='Search')
@@ -28,25 +47,21 @@ block content
 					#form-group
 					.row
 						.col
-							.row
-								p= "From: " + ad.from
-							.row
-								p="To: " + ad.to
-							.row
-								p="Available seats: " + ad.available_seats
+							p= "From: " + ad.from
 						.col
-							.row
-								p="Departure: " + ad.departure
-							.row
-								p="Arrival: " + ad.arrival
-							.row
-								p="Date: " + ad.date
+							p="To: " + ad.to
 						.col
-							.row
-								if username
-									a.btn.btn-secondary.bt-lg.btn-block(href="rides/show-ads/"+ad.id) More info
-							br
-							.row
-								if username
-									a.btn.btn-secondary.bt-lg.btn-block(href=
-									"rides/hop-on-ride/"+ ad.id) Request seat
+							p="Available seats: " + ad.available_seats
+						.col
+							a.btn.btn-secondary.bt-lg.btn-block(href=
+								"/rides/show-ads/"+ ad.id) More info
+					.row
+						.col
+							p="Departure: " + ad.departure
+						.col
+							p="Arrival: " + ad.arrival
+						.col
+							p="Date: " + ad.date
+						.col
+							a.btn.btn-secondary.bt-lg.btn-block(href=
+								"/rides/hop-on-ride/"+ ad.id) Request seat

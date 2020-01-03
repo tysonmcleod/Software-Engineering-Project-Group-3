@@ -1,6 +1,6 @@
 var express = require('express');
 var router = express.Router();
-
+var Advertisement = require('../models/Advertisement');
 const keyFile = require('../APIKey.json');
 const GoogleAPIKey = keyFile.APIKey;
 //const GoogleAPIKey = process.env.APIKey;
@@ -20,6 +20,8 @@ router.post('/', function(req, res, next) {
   console.log(req.body);
   res.render('index', {today: getCurrentDate(), apiKey: GoogleAPIKey });
 });
+
+
 
 function getCurrentDate() {
   var date = new Date();

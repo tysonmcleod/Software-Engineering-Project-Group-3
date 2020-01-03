@@ -3,6 +3,16 @@ var User = require('./user');
 
 const Advertisement = new mongoose.Schema({
 	'from': {type:String, trim:true, default:''},
+	'from_details': [{
+    	lat: Number,
+    	lng: Number,
+    	post_address: Number
+ 	}],
+ 	'to_details': [{
+    	lat: Number,
+    	lng: Number,
+    	post_address: Number
+ 	}],
 	'to': {type:String, trim:true, default:''},
 	'driver': {type:String, trim:true, default:''},
 	'confirmed_riders': [{type:String, trim:true}],

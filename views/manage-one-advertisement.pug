@@ -1,74 +1,75 @@
 extends layout
 
 block content
+	#container
 
-	div(data-objData=data)
+		div(data-objData=data)
 
-	#testFirstPage
-		if data
-			#createForm
-				h3="Ad information"
-				br
-				form(method= 'GET', action='/rides/update-ride/'+data.id)
-					#form-group
-					.row
-						.col
-							label From:
-							input.form-control(name='from', type='text', value=data.from)
-						.col
-							label To:
-							input.form-control(name='to', type='text', value=data.to)
-					.row
-						.col
-							label Date:
-							input.form-control(name='date', type=date, value=data.date)
-						.col
-							label Available seats:
-							input.form-control(name='available_seats', type='number', value=data.available_seats)
-					.row
-						.col
-							label Departure:
-							input.form-control(name='departure', type='time', value=data.departure)
-						.col
-							label Arriving:
-							input.form-control(name='arrival', type='time', value=data.arrival)
+		#testFirstPage
+			if data
+				#createForm2
+					h3="Ad information"
 					br
-					.row
-						input.btn.btn-secondary.bt-lg.btn-block(type='submit', value='Update ride')
-				form(method= 'GET', action='/rides/destroy-the-ride/' + data.id)
-					#form-group
-					.row
-						input.btn.btn-secondary.bt-lg.btn-block(type='submit', value='Remove ride')
-	
-	#testSecondPage
-		if data.confirmed_riders
-			#createForm
-				h4="Confirmed Riders: "
-				each c_rider, p in data.confirmed_riders
-					#form-group
-					.row
-						.col
-							span="Username: "
-								a.mngOneAd(href='/users/profile/'+c_rider+'/'+data.id+'/false') #{c_rider}
-						.col
-							form(method= 'POST', action='/rides/disjoin-ride/'+data.id +'/'+c_rider)
-								input.btn.btn-secondary.bt-lg.btn-block(type='submit', value='Remove from ride')
+					form(method= 'GET', action='/rides/update-ride/'+data.id)
+						#form-group
+						.row
+							.col
+								label From:
+								input.form-control(name='from', type='text', value=data.from)
+							.col
+								label To:
+								input.form-control(name='to', type='text', value=data.to)
+						.row
+							.col
+								label Date:
+								input.form-control(name='date', type=date, value=data.date)
+							.col
+								label Available seats:
+								input.form-control(name='available_seats', type='number', value=data.available_seats)
+						.row
+							.col
+								label Departure:
+								input.form-control(name='departure', type='time', value=data.departure)
+							.col
+								label Arriving:
+								input.form-control(name='arrival', type='time', value=data.arrival)
+						br
+						.row
+							input.btn.btn-secondary.bt-lg.btn-block(type='submit', value='Update ride')
+					form(method= 'GET', action='/rides/destroy-the-ride/' + data.id)
+						#form-group
+						.row
+							input.btn.btn-secondary.bt-lg.btn-block(type='submit', value='Remove ride')
 
-
-	#testSecondPage
-		if data.interested_riders
-			#createForm
-				h4="Interested Riders: "
-				each p_rider, i in data.interested_riders
-					#form-group
+		#testSecondPage
+			if data.confirmed_riders
+				#createForm2
+					h4="Confirmed Riders: "
+					each c_rider, p in data.confirmed_riders
+						#form-group
 						.row
 							.col
 								span="Username: "
-									a.mngOneAd(href='/users/profile/'+p_rider+'/'+data.id+"/true") #{p_rider}
+									a.mngOneAd(href='/users/profile/' + c_rider + '/' + data.id + '/false') #{c_rider}
 							.col
-								if data.available_seats != 0
-									form(method= 'POST', action='/rides/join-ride/'+data.id +'/'+p_rider)
-										input.btn.btn-secondary.bt-lg.btn-block(type='submit', value='Add to ride')
-							.col
-								form(method= 'POST', action='/rides/reject-rider/' + data.id + '/' + p_rider)
-									input.btn.btn-secondary.bt-lg.btn-block(type='submit', value='Reject')
+								form(method= 'POST', action='/rides/disjoin-ride/'+data.id +'/'+c_rider)
+									input.btn.btn-secondary.bt-lg.btn-block(type='submit', value='Remove from ride')
+
+
+		#testSecondPage
+			if data.interested_riders
+				#createForm2
+					h4="Interested Riders: "
+					each p_rider, i in data.interested_riders
+						#form-group
+							.row
+								.col
+									span="Username: "
+										a.mngOneAd(href='/users/profile/' + p_rider + '/' + data.id + "/true") #{p_rider}
+								.col
+									if data.available_seats != 0
+										form(method= 'POST', action='/rides/join-ride/'+data.id +'/'+p_rider)
+											input.btn.btn-secondary.bt-lg.btn-block(type='submit', value='Add to ride')
+								.col
+									form(method= 'POST', action='/rides/reject-rider/' + data.id + '/' + p_rider)
+										input.btn.btn-secondary.bt-lg.btn-block(type='submit', value='Reject')
