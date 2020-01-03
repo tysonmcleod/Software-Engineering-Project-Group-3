@@ -38,23 +38,23 @@ block content
 					#form-group
 					#chooseRide
 
-					.row
-						.col
-							p= "From: " + ad.from
-						.col
-							p="To: " + ad.to
-						.col
-							p="Available seats: " + ad.available_seats
-						.col
-							a.btn.btn-secondary.bt-lg.btn-block(href=
-								"/rides/show-ads/"+ ad.id) Info
-					.row
-						.col
-							p="Departure: " + ad.departure
-						.col
-							p="Arrival: " + ad.arrival
-						.col
-							p="Date: " + ad.date
-						.col
-							a.btn.btn-secondary.bt-lg.btn-block(href=
-								"/rides/request-ride/"+ ad.id + "/" + filter.from_lat + "/" + filter.from_lng + "/" + filter.to_lat + "/" + filter.to_lng) Request
+						.row
+							.col
+								p= "From: " + ad.from
+							.col
+								p="To: " + ad.to
+							.col
+								p="Available seats: " + ad.available_seats
+							.col
+								a.btn.btn-secondary.bt-lg.btn-block(href=
+									"/rides/show-ads/"+ ad.id) Info
+						.row
+							.col
+								p="Departure: " + ad.departure
+							.col
+								p="Arrival: " + ad.arrival
+							.col
+								p="Date: " + ad.date
+							.col
+								a.btn.btn-secondary.bt-lg.btn-block(href=
+									"/rides/request-ride/"+ ad.id + "/" + filter.from_lat + "/" + filter.from_lng + "/" + filter.to_lat + "/" + filter.to_lng) Request
