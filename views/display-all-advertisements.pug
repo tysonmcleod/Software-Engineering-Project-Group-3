@@ -5,7 +5,7 @@ block content
 
 		div(data-objData=data)
 
-		h1 #{filter.from} to #{filter.to}
+		h1 #{filter.from} &#8594 #{filter.to}
 
 		form(method= 'GET', action='/rides/')
 
@@ -45,23 +45,26 @@ block content
 			#createForm
 				each ad, i in data
 					#form-group
-					.row
-						.col
-							p= "From: " + ad.from
-						.col
-							p="To: " + ad.to
-						.col
-							p="Available seats: " + ad.available_seats
-						.col
-							a.btn.btn-secondary.bt-lg.btn-block(href=
-								"/rides/show-ads/"+ ad.id) More info
-					.row
-						.col
-							p="Departure: " + ad.departure
-						.col
-							p="Arrival: " + ad.arrival
-						.col
-							p="Date: " + ad.date
-						.col
-							a.btn.btn-secondary.bt-lg.btn-block(href=
-								"/rides/hop-on-ride/"+ ad.id) Request seat
+					#chooseRide
+						.row
+							.col
+								p= "From: " + ad.from
+							.col
+								p="To: " + ad.to
+							.col
+								p="Available seats: " + ad.available_seats
+							.col
+								a.btn.btn-secondary.bt-lg.btn-block(href=
+									"/rides/show-ads/"+ ad.id) Info
+
+						.row
+							.col
+								p="Departure: " + ad.departure
+							.col
+								p="Arrival: " + ad.arrival
+							.col
+								#dateDisplay
+									p="Date: " + ad.date
+							.col
+								a.btn.btn-secondary.bt-lg.btn-block(href=
+									"/rides/hop-on-ride/"+ ad.id) Request
