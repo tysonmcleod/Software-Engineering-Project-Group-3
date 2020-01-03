@@ -24,6 +24,13 @@ const Advertisement = new mongoose.Schema({
 		to_lat: Number,
 		to_lng: Number
 	}],
+	'confirmed_rider_trips': [{
+		username: {type:String, trim:true},
+		from_lat: Number,
+		from_lng: Number,
+		to_lat: Number,
+		to_lng: Number
+	}],
 	'date': {type:String, trim:true, default:''},
 	'available_seats': {type:Number, trim:true, default:0},
 	'departure': {type:String, trim:true, default:''},

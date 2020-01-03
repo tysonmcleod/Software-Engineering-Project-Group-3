@@ -209,7 +209,7 @@ router.get('/hop-off-ride/:id', async (req, res) => {
 });
 
 
-router.post('/join-ride/:id/:username', async (req, res) => {
+router.post('/accept-rider/:id/:username', async (req, res) => {
 	const id = req.params.id;
 	const new_rider = req.params.username;
 
@@ -218,6 +218,11 @@ router.post('/join-ride/:id/:username', async (req, res) => {
 	if(!ad.confirmed_riders.includes(new_rider)){
 		ad.confirmed_riders.push(new_rider);
 		ad.interested_riders.pull(new_rider);
+		
+		const trip = ad.rider_trips.find(x => x.username == new_rider);
+		ad.confirmed_rider_trips.push(trip);
+		ad.rider_trips.pull(trip);
+
 		ad.available_seats = ad.available_seats - 1;
 		ad.save(function(err){
           if(err){
@@ -229,7 +234,7 @@ router.post('/join-ride/:id/:username', async (req, res) => {
     res.redirect("/rides/manage-users-ads/"+ id);
 });
 
-router.post('/disjoin-ride/:id/:username', async (req, res) => {
+router.post('/reject-rider/:id/:username', async (req, res) => {
 	const id = req.params.id;
 	const new_rider = req.params.username;
 	
@@ -237,6 +242,11 @@ router.post('/disjoin-ride/:id/:username', async (req, res) => {
 
 	if(ad.confirmed_riders.includes(new_rider)){
 		ad.confirmed_riders.pull(new_rider);
+		ad.interested_riders.push(new_rider);
+		const trip = ad.confirmed_rider_trips.find(x => x.username == new_rider);
+		ad.rider_trips.push(trip);
+		ad.confirmed_rider_trips.pull(trip);
+
 		ad.available_seats = ad.available_seats + 1
 		ad.save(function(err){
           if(err){
@@ -251,7 +261,7 @@ router.post('/disjoin-ride/:id/:username', async (req, res) => {
 
 
 
-router.get('/send-ad', async function(req, res, next) {
+router.get('/make-advertisement', async function(req, res, next) {
 
 	let new_ad = {};
 	let new_from = {};
