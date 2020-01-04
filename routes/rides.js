@@ -44,15 +44,7 @@ router.get('/', function(req, res, next) {
 
 	if(req.query.date){
 		filter.date = req.query.date;
-		date_query = {"date": {$gte: req.query.date}};
-	}
-	else{
-		var today = new Date()
-		var dd = String(today.getDate()).padStart(2, '0');
-		var mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
-		var yyyy = today.getFullYear();
-		today = yyyy + '-' + mm + '-' + dd;
-		date_query = {};
+		date_query = {"date": req.query.date};
 	}
 
 	if(req.query.fromcoords){
@@ -143,7 +135,7 @@ router.get('/update-ride/:id', async (req, res) => {
 
 router.get('/request-ride/:id/:from_lat/:from_lng/:to_lat/:to_lng', async (req, res) => {
 	if(!req.isAuthenticated()){
-			res.redirect("/users/register");
+			res.redirect("/users/login");
 		}
 
 	const lat = req.params.lat;
