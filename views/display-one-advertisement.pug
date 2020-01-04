@@ -4,24 +4,41 @@ block content
 
 	div(data-objData=data)
 	#createadPage
-		h1 Info
-		#createForm
-			#form-group
-			.row
-				.col
-					p= "From: " + data.from
-				.col
-					p= "To: " + data.to 
-				.col
-					p= "Available seats:" + data.available_seats 
-				.col
-					p= "Driver: " + data.driver
-				.col
-					p= "Departure: " + data.departure
-				.col
-					p= "Arriving: " + data.arrival
-				.col
-					if data.confirmed_riders
-						p="Riders: "+ data.confirmed_riders
-					
 
+		#createdadPageForm
+			h1 Info
+			#createForm
+				#form-group
+				.row
+					.col-6
+						p= "From: " + data.from
+					.col-6
+						p= "To: " + data.to
+				.row
+						.col-6
+							p= "Departure: " + data.departure
+						.col-6
+							p= "Arriving: " + data.arrival
+				.row
+					.col-6
+						p= "Available seats:" + data.available_seats
+					.col-6
+						p= "Driver: " + data.driver
+				.row
+					.col
+						if data.confirmed_riders
+							p="Riders: "+ data.confirmed_riders
+					.col
+						p="Date: "+ data.date
+
+		p="Data about trip"
+	
+		p From: #{data.from_details}
+		p To: #{data.to_details}
+
+		script(type='text/javascript', src='/javascripts/map.js')
+		script(async, defer, type='text/javascript', src=`https://maps.googleapis.com/maps/api/js?key=${apiKey}&callback=initMap`)
+		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+
+		div(id='map')

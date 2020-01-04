@@ -1,12 +1,14 @@
 extends layout
 
 block content
+	#container
 
 	div(data-objData=data)
 
+
 	#testFirstPage
 		if data
-			#createForm
+			#createForm2
 				h3="Ad information"
 				br
 				form(method= 'GET', action='/rides/update-ride/'+data.id)
@@ -14,17 +16,18 @@ block content
 					.row
 						.col
 							label From:
-							input.form-control(name='from', type='text', value=data.from)
+							input.form-control(name='from', type='text', value=data.from, readonly)
 						.col
 							label To:
-							input.form-control(name='to', type='text', value=data.to)
+							input.form-control(name='to', type='text', value=data.to, readonly)
 					.row
 						.col
 							label Date:
 							input.form-control(name='date', type=date, value=data.date)
 						.col
 							label Available seats:
-							input.form-control(name='available_seats', type='number', value=data.available_seats)
+							input.form-control(name='available_seats', type=number, value=data.available_seats, readonly)
+							
 					.row
 						.col
 							label Departure:
@@ -35,14 +38,14 @@ block content
 					br
 					.row
 						input.btn.btn-secondary.bt-lg.btn-block(type='submit', value='Update ride')
-				form(method= 'GET', action='/rides/destroy-the-ride/' + data.id)
+				form(method= 'GET', action='/rides/delete-ride/' + data.id)
 					#form-group
 					.row
 						input.btn.btn-secondary.bt-lg.btn-block(type='submit', value='Remove ride')
 	
 	#testSecondPage
 		if data.confirmed_riders
-			#createForm
+			#createForm2
 				h4="Confirmed Riders: "
 				each c_rider, p in data.confirmed_riders
 					#form-group
@@ -50,13 +53,12 @@ block content
 						.col
 							p="Username: " + c_rider
 						.col
-							form(method= 'POST', action='/rides/disjoin-ride/'+data.id +'/'+c_rider)
+							form(method= 'POST', action='/rides/reject-rider/'+data.id +'/'+c_rider)
 								input.btn.btn-secondary.bt-lg.btn-block(type='submit', value='Remove from ride')
 
-	
 	#testSecondPage
 		if data.interested_riders
-			#createForm
+			#createForm2
 				h4="Interested Riders: "
 				each p_rider, i in data.interested_riders
 					#form-group
@@ -65,5 +67,19 @@ block content
 								p="Username: " + p_rider
 							.col
 								if data.available_seats != 0
-									form(method= 'POST', action='/rides/join-ride/'+data.id +'/'+p_rider)
+									form(method= 'POST', action='/rides/accept-rider/'+data.id +'/'+p_rider)
 										input.btn.btn-secondary.bt-lg.btn-block(type='submit', value='Add to ride')
+	
+	p="Data about confirmed trips"
+	each ctrip in data.confirmed_rider_trips
+		p=ctrip
+
+	p="Data about trips"
+	each trip in data.rider_trips
+		p=trip
+
+	script(type='text/javascript', src='/javascripts/map.js')
+	script(async, defer, type='text/javascript', src=`https://maps.googleapis.com/maps/api/js?key=${apiKey}&callback=initMap`)
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+	div(id='map')

@@ -1,6 +1,12 @@
 extends layout
 
 block content
+  -var today = new Date()
+  -var dd = String(today.getDate()).padStart(2, '0');
+  -var mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
+  -var yyyy = today.getFullYear();
+  -today = yyyy + '-' + mm + '-' + dd;
+
   #indexPage
       script(type='text/javascript', src='/javascripts/map.js')
       script(async, defer, type='text/javascript', src=`https://maps.googleapis.com/maps/api/js?key=${apiKey}&callback=initMap`)
@@ -9,27 +15,26 @@ block content
       div(id='map')
       br
       #indexForm
-        form(method='GET' action='/rides')
+        form(method='GET' action='/rides/')
             #form-group
                 div(id="from-field")
                   .row.no-gutters
                     .col-11
-                      input#from-dest.form-control.from-input(type='text', placeholder='From', name='from-dest', onchange=`formToMap('from')`)
+                      input#from-dest.form-control.from-input(type='text', placeholder='From', name='from-dest',  readonly, onchange=`formToMap('from')`)
                     .col-1
                       p.from-button(onclick="getUserLocation()") &#9673
 
                 input#fromcoords(type='hidden', name='fromcoords')
 
                 #form-shady
-                input#to-dest.form-control(type='text', placeholder='To', name='to-dest', onchange=`formToMap('to')`)
+                input#to-dest.form-control(type='text', placeholder='To', name='to-dest', readonly, onchange=`formToMap('to')`)
 
                 #form-group
                   input#tocoords(type='hidden', name='tocoords')
 
                 #form-group
-                  input#date.form-control(type='date', min=`${today}`, name='date')
+                  input#date.form-control(type='date', min=`${today}`, name='date', value=today)
 
 
             #indexButton
                 input.btn.btn-secondary.bt-lg.btn-block(type='submit', value='Search')
-
