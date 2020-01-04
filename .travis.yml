@@ -21,7 +21,7 @@ before_script:
   - node_modules/.bin/newman --version
 
 script:
-  - node_modules/.bin/newman run tests_postman/carlift.postman_collection.json -e
+  - node_modules/.bin/newman run tests_postman/carlift.postman_collection.json
 
 notifications:
   email: 
