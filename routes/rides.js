@@ -17,7 +17,7 @@ router.get('/', function(req, res, next) {
 	let from_query = {};
 	let to_query = {};
 	let date_query = {};
-	const user = res.locals.user;
+	const localUser = res.locals.user;
 	let radius = 0;
 
 	if(req.query.radius){
@@ -106,7 +106,7 @@ router.get('/', function(req, res, next) {
 	.sort('date')
 	.sort('departure')
 	.then(advertisements => {
-		res.render("display-all-advertisements", {	data: advertisements, filter: filter, username:user.username });
+		res.render("display-all-advertisements", {	data: advertisements, filter: filter, username:localUser.username });
 	})
 	.catch(err => {
 		res.json({
