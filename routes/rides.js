@@ -25,8 +25,8 @@ router.get('/', function(req, res, next) {
 		filter.radius = radius;
 	}
 	else{
-		radius = 0.03;
-		filter.radius = 0.03;
+		radius = 0.1;
+		filter.radius = 0.1;
 	}
 	console.log(radius);
 
@@ -52,7 +52,7 @@ router.get('/', function(req, res, next) {
 		var mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
 		var yyyy = today.getFullYear();
 		today = yyyy + '-' + mm + '-' + dd;
-		date_query = {"date": {$gt: today}};
+		date_query = {};
 	}
 
 	if(req.query.fromcoords){
@@ -121,7 +121,7 @@ router.get('/create-ad', function(req, res, next) {
   res.render('create-ad', { today: getCurrentDate(), apiKey: GoogleAPIKey });
 });
 
-router.get('/destroy-the-ride/:id', async (req, res) => {
+router.get('/delete-ride/:id', async (req, res) => {
 	const id = req.params.id;
 	const ad = await Advertisement.findByIdAndRemove(id, {useAndModify: false});
 	res.redirect("/rides/manage-users-ads");
@@ -131,34 +131,42 @@ router.get('/update-ride/:id', async (req, res) => {
 	
 	const id = req.params.id;
 
-	const updateObj = {from: req.query.from};
-	updateObj.to = req.query.to;
+	const updateObj = {};
 	updateObj.date = req.query.date;
-	updateObj.available_seats = req.query.available_seats;
 	updateObj.departure = req.query.departure;
 	updateObj.arrival = req.query.arrival;
 
-	console.log(updateObj);
 	const newad = await Advertisement.findByIdAndUpdate(id, updateObj, {new: true});
-	//const ad = await Advertisement.findByIdAndRemove(id, {useAndModify: false});
-	console.log(newad);
+
 	res.redirect("/rides/manage-users-ads/" + id);
 });
 
-router.get('/hop-on-ride/:id', async (req, res) => {
+router.get('/request-ride/:id/:from_lat/:from_lng/:to_lat/:to_lng', async (req, res) => {
 	if(!req.isAuthenticated()){
 			res.redirect("/users/register");
 		}
 
+	const lat = req.params.lat;
+	const lng = req.params.lng;
 	const id = req.params.id;
 	const testUser2 = res.locals.user;
 	console.log(res.locals.user);
 	const testUser = testUser2.username;
 
+	const temp = {
+		username: testUser,
+		from_lat: req.params.from_lat,
+		from_lng:  req.params.from_lng,
+		to_lat:  req.params.to_lat,
+		to_lng: req.params.to_lng
+	}
+
 	let ad = await Advertisement.findById(id);
 
 	if(!ad.interested_riders.includes(testUser)){
 		ad.interested_riders.push(testUser);
+		ad.rider_trips.push(temp);
+
 		ad.save(function(err){
           if(err){
             console.log(err);
@@ -166,8 +174,10 @@ router.get('/hop-on-ride/:id', async (req, res) => {
           }
       	});
     }
-    res.redirect("/rides/manage-users-rides");
+
+	res.redirect("/rides/manage-users-rides");
 });
+
 
 router.get('/hop-off-ride/:id', async (req, res) => {
 	const id = req.params.id;
@@ -202,7 +212,7 @@ router.get('/hop-off-ride/:id', async (req, res) => {
 router.post('/join-ride/:id/:username', async (req, res) => {
 	const id = req.params.id;
 	const new_rider = req.params.username;
-	console.log(new_rider);
+
 	let ad = await Advertisement.findById(id);
 
 	if(!ad.confirmed_riders.includes(new_rider)){
@@ -327,7 +337,7 @@ router.get('/manage-users-ads', async (req, res) => {
 	.sort('date')
 	.sort('departure')
 	.then(advertisement => {
-		res.render("manage-users-advertisements", {	data: advertisement, username: username});
+		res.render("manage-users-advertisements", {	data: advertisement, username: username, });
 	})
 	.catch(err => {
 		res.json({
@@ -366,7 +376,8 @@ router.get('/manage-users-ads/:id', async (req, res) => {
 	
 	Advertisement.findById(id)
 	.then(advertisement => {
-		res.render("manage-one-advertisement", {	data: advertisement, username: username});
+		console.log(advertisement.rider_trips);
+		res.render("manage-one-advertisement", {	data: advertisement, username: username, apiKey: GoogleAPIKey});
 	})
 	.catch(err => {
 		res.json({
@@ -405,5 +416,6 @@ function getCurrentDate() {
   
 	return(`${year}-${month}-${day}`);
 }
+
 
 module.exports = router;

@@ -3,57 +3,59 @@ extends layout
 block content
 	#container
 
-		div(data-objData=data)
+	div#dataObject(data-objData=data)
+	input#dataobj(type='hidden', value=data)
 
-		#testFirstPage
-			if data
-				#createForm2
-					h3="Ad information"
+	#testFirstPage
+		if data
+			#createForm2
+				h3="Ad information"
+				br
+				form(method= 'GET', action='/rides/update-ride/'+data.id)
+					#form-group
+					.row
+						.col
+							label From:
+							input.form-control(name='from', type='text', value=data.from, readonly)
+						.col
+							label To:
+							input.form-control(name='to', type='text', value=data.to, readonly)
+					.row
+						.col
+							label Date:
+							input.form-control(name='date', type=date, value=data.date)
+						.col
+							label Available seats:
+							input.form-control(name='available_seats', type=number, value=data.available_seats, readonly)
+
+					.row
+						.col
+							label Departure:
+							input.form-control(name='departure', type='time', value=data.departure)
+						.col
+							label Arriving:
+							input.form-control(name='arrival', type='time', value=data.arrival)
 					br
-					form(method= 'GET', action='/rides/update-ride/'+data.id)
-						#form-group
-						.row
-							.col
-								label From:
-								input.form-control(name='from', type='text', value=data.from)
-							.col
-								label To:
-								input.form-control(name='to', type='text', value=data.to)
-						.row
-							.col
-								label Date:
-								input.form-control(name='date', type=date, value=data.date)
-							.col
-								label Available seats:
-								input.form-control(name='available_seats', type='number', value=data.available_seats)
-						.row
-							.col
-								label Departure:
-								input.form-control(name='departure', type='time', value=data.departure)
-							.col
-								label Arriving:
-								input.form-control(name='arrival', type='time', value=data.arrival)
-						br
-						.row
-							input.btn.btn-secondary.bt-lg.btn-block(type='submit', value='Update ride')
-					form(method= 'GET', action='/rides/destroy-the-ride/' + data.id)
-						#form-group
-						.row
-							input.btn.btn-secondary.bt-lg.btn-block(type='submit', value='Remove ride')
+					.row
+						input.btn.btn-secondary.bt-lg.btn-block(type='submit', value='Update ride')
+				form(method= 'GET', action='/rides/delete-ride/' + data.id)
+					#form-group
+					.row
+						input.btn.btn-secondary.bt-lg.btn-block(type='submit', value='Remove ride')
 
-		#testSecondPage
-			if data.confirmed_riders
-				#createForm2
-					h4="Confirmed Riders: "
-					each c_rider, p in data.confirmed_riders
-						#form-group
-						.row
-							.col
-								span="Username: "
-									a.mngOneAd(href='/users/profile/' + c_rider + '/' + data.id + '/false') #{c_rider}
-							.col
-								form(method= 'POST', action='/rides/disjoin-ride/'+data.id +'/'+c_rider)
-									input.btn.btn-secondary.bt-lg.btn-block(type='submit', value='Remove from ride')
+	#testSecondPage
+		if data.confirmed_riders
+			#createForm2
+				h4="Confirmed Riders: "
+				each c_rider, p in data.confirmed_riders
+					#form-group
+					.row
+						.col
+							span="Username: "
+								a.mngOneAd(href='/users/profile/' + c_rider + '/' + data.id + '/false') #{c_rider}
+						.col
+							form(method= 'POST', action='/rides/disjoin-ride/'+data.id +'/'+c_rider)
+								input.btn.btn-secondary.bt-lg.btn-block(type='submit', value='Remove from ride')
 
 
 		#testSecondPage
@@ -73,3 +75,12 @@ block content
 								.col
 									form(method= 'POST', action='/rides/reject-rider/' + data.id + '/' + p_rider)
 										input.btn.btn-secondary.bt-lg.btn-block(type='submit', value='Reject')
+
+		p="Data about interested riders"
+		each trip in data.rider_trips
+			p=trip
+	script(type='text/javascript', src='/javascripts/map.js')
+	script(async, defer, type='text/javascript', src=`https://maps.googleapis.com/maps/api/js?key=${apiKey}&callback=showRoute`)
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+	div(id='map')
