@@ -123,7 +123,8 @@ router.get('/profile/:username/:adId/:interest', async (req,res) => {
     const user = await User.findOne({username: username});
     console.log("Display profile of user: " + user.username);
     console.log(user);
-    if (interest)
+    console.log(interest);
+    if (interest === true)
       res.render("checkoutInterestedProfile", {
         firstname: user.firstname,
         lastname: user.lastname,
