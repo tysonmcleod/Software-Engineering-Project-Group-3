@@ -12,7 +12,7 @@ before_script:
   - node_modules/.bin/newman --version
 
 script:
-  - node app.js
+  - node app.js &
   - node_modules/.bin/newman run tests_postman/carlift.postman_collection.json
 
 notifications:
