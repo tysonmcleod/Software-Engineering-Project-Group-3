@@ -68,6 +68,7 @@ block content
 								.col
 									span="Username: "
 										a.mngOneAd(href='/users/profile/' + p_rider + '/' + data.id + "/true") #{p_rider}
+							.row
 								.col
 									if data.available_seats != 0
 										form(method= 'POST', action='/rides/join-ride/'+data.id +'/'+p_rider)
