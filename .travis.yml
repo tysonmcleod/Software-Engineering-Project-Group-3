@@ -19,9 +19,9 @@ before_script:
   - node --version
   - npm --version
   - node_modules/.bin/newman --version
-  - npm start
 
 script:
+  - node app.js
   - node_modules/.bin/newman run tests_postman/carlift.postman_collection.json
 
 notifications:
