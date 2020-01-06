@@ -6,7 +6,7 @@ var User = require('../models/user');
 var bcrypt = require('bcryptjs');
 var passport = require('passport');
 
-const keyFile = require('../APIKey.json');
+const keyFile = require('../APIkey.json');
 const GoogleAPIKey = keyFile.APIKey;
 
 User = User.model;
