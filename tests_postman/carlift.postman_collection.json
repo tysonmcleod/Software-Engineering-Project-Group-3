@@ -6,7 +6,7 @@
 	},
 	"item": [
 		{
-			"name": "http://localhost:3000/rides/?date=2020-01-30",
+			"name": "http://localhost:8000/rides/?date=2020-01-30",
 			"event": [
 				{
 					"listen": "test",
@@ -23,12 +23,12 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "http://localhost:3000/rides/?date=2020-01-30",
+					"raw": "http://localhost:8000/rides/?date=2020-01-30",
 					"protocol": "http",
 					"host": [
 						"localhost"
 					],
-					"port": "3000",
+					"port": "8000",
 					"path": [
 						"rides",
 						""
