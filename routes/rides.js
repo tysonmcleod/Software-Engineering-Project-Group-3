@@ -6,7 +6,7 @@ var User = require('../models/user');
 var bcrypt = require('bcryptjs');
 var passport = require('passport');
 
-const keyFile = require('../APIKey.json');
+const keyFile = require('../APIkey.json');
 const GoogleAPIKey = keyFile.APIKey;
 
 User = User.model;
@@ -44,15 +44,7 @@ router.get('/', function(req, res, next) {
 
 	if(req.query.date){
 		filter.date = req.query.date;
-		date_query = {"date": {$gte: req.query.date}};
-	}
-	else{
-		var today = new Date()
-		var dd = String(today.getDate()).padStart(2, '0');
-		var mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
-		var yyyy = today.getFullYear();
-		today = yyyy + '-' + mm + '-' + dd;
-		date_query = {};
+		date_query = {"date": req.query.date};
 	}
 
 	if(req.query.fromcoords){
@@ -143,7 +135,7 @@ router.get('/update-ride/:id', async (req, res) => {
 
 router.get('/request-ride/:id/:from_lat/:from_lng/:to_lat/:to_lng', async (req, res) => {
 	if(!req.isAuthenticated()){
-			res.redirect("/users/register");
+			res.redirect("/users/login");
 		}
 
 	const lat = req.params.lat;
@@ -179,7 +171,7 @@ router.get('/request-ride/:id/:from_lat/:from_lng/:to_lat/:to_lng', async (req, 
 });
 
 
-router.get('/hop-off-ride/:id', async (req, res) => {
+router.get('/derequest-ride/:id', async (req, res) => {
 	const id = req.params.id;
 	const update = { rider: null};
 	const testUser2 = res.locals.user;
@@ -189,6 +181,8 @@ router.get('/hop-off-ride/:id', async (req, res) => {
 
 	if(ad.interested_riders.includes(testUser)){
 		ad.interested_riders.pull(testUser);
+		const trip = ad.rider_trips.find(x => x.username == testUser);
+		ad.rider_trips.pull(trip);
 		ad.save(function(err){
         if(err){
             console.log(err);
@@ -198,6 +192,8 @@ router.get('/hop-off-ride/:id', async (req, res) => {
 	}
 	if(ad.confirmed_riders.includes(testUser)){
 		ad.confirmed_riders.pull(testUser);
+		const trip = ad.confirmed_rider_trips.find(x => x.username == testUser);
+		ad.confirmed_rider_trips.pull(trip);
 		ad.save(function(err){
         if(err){
             console.log(err);
@@ -209,7 +205,7 @@ router.get('/hop-off-ride/:id', async (req, res) => {
 });
 
 
-router.post('/join-ride/:id/:username', async (req, res) => {
+router.post('/accept-rider/:id/:username', async (req, res) => {
 	const id = req.params.id;
 	const new_rider = req.params.username;
 
@@ -218,6 +214,11 @@ router.post('/join-ride/:id/:username', async (req, res) => {
 	if(!ad.confirmed_riders.includes(new_rider)){
 		ad.confirmed_riders.push(new_rider);
 		ad.interested_riders.pull(new_rider);
+		
+		const trip = ad.rider_trips.find(x => x.username == new_rider);
+		ad.confirmed_rider_trips.push(trip);
+		ad.rider_trips.pull(trip);
+
 		ad.available_seats = ad.available_seats - 1;
 		ad.save(function(err){
           if(err){
@@ -229,7 +230,7 @@ router.post('/join-ride/:id/:username', async (req, res) => {
     res.redirect("/rides/manage-users-ads/"+ id);
 });
 
-router.post('/disjoin-ride/:id/:username', async (req, res) => {
+router.post('/reject-rider/:id/:username', async (req, res) => {
 	const id = req.params.id;
 	const new_rider = req.params.username;
 	
@@ -237,6 +238,11 @@ router.post('/disjoin-ride/:id/:username', async (req, res) => {
 
 	if(ad.confirmed_riders.includes(new_rider)){
 		ad.confirmed_riders.pull(new_rider);
+		ad.interested_riders.push(new_rider);
+		const trip = ad.confirmed_rider_trips.find(x => x.username == new_rider);
+		ad.rider_trips.push(trip);
+		ad.confirmed_rider_trips.pull(trip);
+
 		ad.available_seats = ad.available_seats + 1
 		ad.save(function(err){
           if(err){
@@ -251,7 +257,7 @@ router.post('/disjoin-ride/:id/:username', async (req, res) => {
 
 
 
-router.get('/send-ad', async function(req, res, next) {
+router.get('/make-advertisement', async function(req, res, next) {
 
 	let new_ad = {};
 	let new_from = {};

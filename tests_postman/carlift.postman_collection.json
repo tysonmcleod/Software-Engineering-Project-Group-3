@@ -1,0 +1,48 @@
+{
+	"info": {
+		"_postman_id": "2cf17b0e-c51e-4958-abf1-077008d8b0d3",
+		"name": "carlift",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "http://localhost:8000/rides/?date=2020-01-30",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "e70aa66e-12b9-4c61-8845-ae829e2f5e76",
+						"exec": [
+							"tests[\"Status code is 200\"] = responseCode.code === 200;"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8000/rides/?date=2020-01-30",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"rides",
+						""
+					],
+					"query": [
+						{
+							"key": "date",
+							"value": "2020-01-30"
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"protocolProfileBehavior": {}
+}
