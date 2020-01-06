@@ -70,9 +70,6 @@ block content
 									form(method= 'POST', action='/rides/join-ride/'+data.id +'/'+p_rider)
 										input.btn.btn-secondary.bt-lg.btn-block(type='submit', value='Add to ride')
 	
-	p="Data about interested riders"
-	each trip in data.rider_trips
-		p=trip
 
 	script(type='text/javascript', src='/javascripts/map.js')
 	script(async, defer, type='text/javascript', src=`https://maps.googleapis.com/maps/api/js?key=${apiKey}&callback=showRoute`)
