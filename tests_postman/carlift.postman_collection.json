@@ -6,7 +6,7 @@
 	},
 	"item": [
 		{
-			"name": "http://192.168.1.60:8000/rides/?date=2020-01-30",
+			"name": "http://192.168.1.60:3000/rides/?date=2020-01-30",
 			"event": [
 				{
 					"listen": "test",
@@ -23,7 +23,7 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "http://192.168.1.60:8000/rides/?date=2020-01-30",
+					"raw": "http://192.168.1.60:3000/rides/?date=2020-01-30",
 					"protocol": "http",
 					"host": [
 						"192",
@@ -31,7 +31,7 @@
 						"1",
 						"60"
 					],
-					"port": "8000",
+					"port": "3000",
 					"path": [
 						"rides",
 						""
