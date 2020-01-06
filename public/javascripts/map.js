@@ -41,6 +41,59 @@ function initMap() {
 	});
 }
 
+function showRoute(from, to, riders) {
+    var directionsService = new google.maps.DirectionsService;
+    var directionsRenderer = new google.maps.DirectionsRenderer;
+
+    map = new google.maps.Map(document.getElementById('map'), {
+        center: uppsala,
+        zoom: 10,
+        streetViewControl: false,
+        mapTypeControlOptions: {
+            mapTypeIds: [google.maps.MapTypeId.ROADMAP, google.maps.MapTypeId.HYBRID]
+        }
+    });
+
+    var dataObject = JSON.parse(document.getElementById('dataobj').value);
+    var from = {lat: dataObject.from_details[0].lat, lng: dataObject.from_details[0].lng};
+    var to = {lat: dataObject.to_details[0].lat, lng: dataObject.to_details[0].lng};
+    var waypoints = []
+
+    if(dataObject.rider_trips) {
+        for(var i = 0; i < dataObject.rider_trips.length; i++) {
+
+            if(dataObject.confirmed_riders.includes(dataObject.rider_trips[i].username)) {
+                waypoints.push({
+                    location: {lat: dataObject.rider_trips[i].from_lat, lng: dataObject.rider_trips[i].from_lng},
+                    stopover: true
+                });
+    
+                waypoints.push({
+                    location: {lat: dataObject.rider_trips[i].to_lat, lng: dataObject.rider_trips[i].to_lng},
+                    stopover: true
+                });
+            }
+            
+        }
+    }
+
+    directionsRenderer.setMap(map);
+    
+    directionsService.route({
+        origin: from,
+        destination: to,
+        waypoints: waypoints,
+        optimizeWaypoints: true,
+        travelMode: 'DRIVING'
+    }, function(response, status) {
+        if(status === 'OK') {
+            directionsRenderer.setDirections(response);
+        } else {
+            window.alert('Directions request failed');
+        }
+    });
+}
+
 function placeMarker(location) {
     var marker = createMarker(location);
     
