@@ -55,10 +55,11 @@ block content
 							.col
 								p="Date: " + ad.date
 							.col
+								// TODO: readonly joined and sent buttons
 								if ad.confirmed_riders.includes(username)
-									a.btn.btn-secondary.bt-lg.btn-block(href="#" readonly) Joined
+									a.btn.btn-secondary.bt-lg.btn-block(href="#") Joined
 								else if ad.interested_riders.includes(username)
-									a.btn.btn-secondary.bt-lg.btn-block(href="#" readonly) Sent
+									a.btn.btn-secondary.bt-lg.btn-block(href="#") Sent
 								else
 									a.btn.btn-secondary.bt-lg.btn-block(href=
 										"/rides/request-ride/" + ad.id + "/" + filter.from_lat + "/" + filter.from_lng + "/" + filter.to_lat + "/" + filter.to_lng) Request
