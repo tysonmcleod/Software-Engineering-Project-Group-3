@@ -37,7 +37,6 @@ block content
 				each ad, i in data
 					#form-group
 					#chooseRide
-
 						.row
 							.col
 								p= "From: " + ad.from
@@ -56,5 +55,10 @@ block content
 							.col
 								p="Date: " + ad.date
 							.col
-								a.btn.btn-secondary.bt-lg.btn-block(href=
-									"/rides/request-ride/"+ ad.id + "/" + filter.from_lat + "/" + filter.from_lng + "/" + filter.to_lat + "/" + filter.to_lng) Request
+								if ad.confirmed_riders.includes(username)
+									a.btn.btn-secondary.bt-lg.btn-block(href="#" readonly) Joined
+								else if ad.interested_riders.includes(username)
+									a.btn.btn-secondary.bt-lg.btn-block(href="#" readonly) Sent
+								else
+									a.btn.btn-secondary.bt-lg.btn-block(href=
+										"/rides/request-ride/" + ad.id + "/" + filter.from_lat + "/" + filter.from_lng + "/" + filter.to_lat + "/" + filter.to_lng) Request

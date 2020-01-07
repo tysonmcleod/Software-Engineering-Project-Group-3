@@ -17,7 +17,7 @@ router.get('/', function(req, res, next) {
 	let from_query = {};
 	let to_query = {};
 	let date_query = {};
-	const username = res.locals.user;
+	const localUser = res.locals.user;
 	let radius = 0;
 
 	if(req.query.radius){
@@ -99,7 +99,7 @@ router.get('/', function(req, res, next) {
 	.sort('date')
 	.sort('departure')
 	.then(advertisements => {
-		res.render("display-all-advertisements", {	data: advertisements, filter: filter, username:username });
+		res.render("display-all-advertisements", {	data: advertisements, filter: filter, username:localUser.username });
 	})
 	.catch(err => {
 		res.json({
@@ -151,7 +151,7 @@ router.get('/request-ride/:id/:from_lat/:from_lng/:to_lat/:to_lng', async (req, 
 		from_lng:  req.params.from_lng,
 		to_lat:  req.params.to_lat,
 		to_lng: req.params.to_lng
-	}
+	};
 
 	let ad = await Advertisement.findById(id);
 
@@ -214,7 +214,7 @@ router.post('/accept-rider/:id/:username', async (req, res) => {
 	if(!ad.confirmed_riders.includes(new_rider)){
 		ad.confirmed_riders.push(new_rider);
 		ad.interested_riders.pull(new_rider);
-		
+
 		const trip = ad.rider_trips.find(x => x.username == new_rider);
 		ad.confirmed_rider_trips.push(trip);
 		ad.rider_trips.pull(trip);
@@ -254,8 +254,23 @@ router.post('/reject-rider/:id/:username', async (req, res) => {
     res.redirect("/rides/manage-users-ads/" + id);
 });
 
+router.post('/not-accept-rider/:id/:username', async (req, res) => {
+	const id = req.params.id;
+	const rider = req.params.username;
 
+	let ad = await Advertisement.findById(id);
 
+	if(ad.interested_riders.includes(rider)){
+		ad.interested_riders.pull(rider);
+		ad.save(function(err){
+			if(err){
+				console.log(err);
+				return;
+			}
+		});
+	}
+	res.redirect("/rides/manage-users-ads/" + id);
+});
 
 router.get('/make-advertisement', async function(req, res, next) {
 
@@ -354,9 +369,6 @@ router.get('/manage-users-rides', async (req, res) => {
 	})
 });
 
-
-
-
 router.get('/manage-users-ads/:id', async (req, res) => {
 	const id = req.params.id;
 	const test = res.locals.user;
@@ -374,7 +386,6 @@ router.get('/manage-users-ads/:id', async (req, res) => {
 		})
 	})
 });
-
 
 router.get('/show-ads/:id', (req, res) => {
 	const id = req.params.id
