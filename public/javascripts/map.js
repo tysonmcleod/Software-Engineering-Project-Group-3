@@ -251,6 +251,9 @@ function showAllRoutes() {
                 polylineOptions: {
                     strokeColor: random_color,
                     strokeOpacity: 1.0
+                },
+                markerOptions: {
+                    visible: false
                 }
             });
         }
