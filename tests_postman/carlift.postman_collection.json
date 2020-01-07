@@ -25,12 +25,12 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "http://localhost:3000/rides/?date=2020-01-30",
+					"raw": "http://localhost:8000/rides/?date=2020-01-30",
 					"protocol": "http",
 					"host": [
 						"localhost"
 					],
-					"port": "3000",
+					"port": "8000",
 					"path": [
 						"rides",
 						""
@@ -65,12 +65,12 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "http://localhost:3000/",
+					"raw": "http://localhost:8000/",
 					"protocol": "http",
 					"host": [
 						"localhost"
 					],
-					"port": "3000",
+					"port": "8000",
 					"path": [
 						""
 					]
@@ -98,12 +98,12 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "http://localhost:3000/users/register",
+					"raw": "http://localhost:8000/users/register",
 					"protocol": "http",
 					"host": [
 						"localhost"
 					],
-					"port": "3000",
+					"port": "8000",
 					"path": [
 						"users",
 						"register"
@@ -146,12 +146,12 @@
 					"urlencoded": []
 				},
 				"url": {
-					"raw": "http://localhost:3000/users/login",
+					"raw": "http://localhost:8000/users/login",
 					"protocol": "http",
 					"host": [
 						"localhost"
 					],
-					"port": "3000",
+					"port": "8000",
 					"path": [
 						"users",
 						"login"
@@ -217,12 +217,12 @@
 					]
 				},
 				"url": {
-					"raw": "http://localhost:3000/users/login",
+					"raw": "http://localhost:8000/users/login",
 					"protocol": "http",
 					"host": [
 						"localhost"
 					],
-					"port": "3000",
+					"port": "8000",
 					"path": [
 						"users",
 						"login"
@@ -276,12 +276,12 @@
 					]
 				},
 				"url": {
-					"raw": "http://localhost:3000/users/login",
+					"raw": "http://localhost:8000/users/login",
 					"protocol": "http",
 					"host": [
 						"localhost"
 					],
-					"port": "3000",
+					"port": "8000",
 					"path": [
 						"users",
 						"login"
@@ -325,12 +325,12 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "http://localhost:3000/users/profile",
+					"raw": "http://localhost:8000/users/profile",
 					"protocol": "http",
 					"host": [
 						"localhost"
 					],
-					"port": "3000",
+					"port": "8000",
 					"path": [
 						"users",
 						"profile"
@@ -359,12 +359,12 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "http://localhost:3000/users/editProfile",
+					"raw": "http://localhost:8000/users/editProfile",
 					"protocol": "http",
 					"host": [
 						"localhost"
 					],
-					"port": "3000",
+					"port": "8000",
 					"path": [
 						"users",
 						"editProfile"
@@ -440,12 +440,12 @@
 					]
 				},
 				"url": {
-					"raw": "http://localhost:3000/users/update",
+					"raw": "http://localhost:8000/users/update",
 					"protocol": "http",
 					"host": [
 						"localhost"
 					],
-					"port": "3000",
+					"port": "8000",
 					"path": [
 						"users",
 						"update"
@@ -521,12 +521,12 @@
 					]
 				},
 				"url": {
-					"raw": "http://localhost:3000/users/update",
+					"raw": "http://localhost:8000/users/update",
 					"protocol": "http",
 					"host": [
 						"localhost"
 					],
-					"port": "3000",
+					"port": "8000",
 					"path": [
 						"users",
 						"update"
@@ -570,12 +570,12 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "http://localhost:3000/users/logout",
+					"raw": "http://localhost:8000/users/logout",
 					"protocol": "http",
 					"host": [
 						"localhost"
 					],
-					"port": "3000",
+					"port": "8000",
 					"path": [
 						"users",
 						"logout"
