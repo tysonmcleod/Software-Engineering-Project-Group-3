@@ -324,6 +324,8 @@ router.get('/make-advertisement', async function(req, res, next) {
 	new_ad.available_seats = req.query.available_seats;
 	new_ad.from_details = new_from;
 	new_ad.to_details = new_to;
+	new_ad.radius = req.query.radius;
+	new_ad.price = req.query.price;
 	console.log(new_ad);
 
 	Advertisement.create(new_ad)
