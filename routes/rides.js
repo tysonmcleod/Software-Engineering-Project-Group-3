@@ -92,7 +92,7 @@ router.get('/', function(req, res, next) {
 	.sort('date')
 	.sort('departure')
 	.then(advertisements => {
-		res.render("display-all-advertisements", {	data: advertisements, filter: filter, username:localUser.username });
+		res.render("display-all-advertisements", {	data: advertisements, filter: filter, username:localUser.username, apiKey: GoogleAPIKey });
 	})
 	.catch(err => {
 		res.json({
