@@ -33,6 +33,16 @@ const User = new mongoose.Schema({
     type: Number,
     default: 0,
     required: true
+  },
+  driverRating:{
+    type: Number,
+    default: 0,
+    required: true
+  },
+  driverVotes:{
+    type: Number,
+    default: 0,
+    required: true
   }
 });
 
