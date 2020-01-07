@@ -138,15 +138,13 @@ router.get('/update-ride/:id', async (req, res) => {
 });
 
 router.get('/request-ride/:id/:from_lat/:from_lng/:to_lat/:to_lng', async (req, res) => {
+	
 	if(!req.isAuthenticated()){
 			res.redirect("/users/login");
 		}
 
-	const lat = req.params.lat;
-	const lng = req.params.lng;
 	const id = req.params.id;
 	const testUser2 = res.locals.user;
-	console.log(res.locals.user);
 	const testUser = testUser2.username;
 
 	const temp = {
