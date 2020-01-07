@@ -6,14 +6,16 @@
 	},
 	"item": [
 		{
-			"name": "http://localhost:8000/rides/?date=2020-01-30",
+			"name": "http://localhost:3000/rides/?date=2020-01-30",
 			"event": [
 				{
 					"listen": "test",
 					"script": {
 						"id": "e70aa66e-12b9-4c61-8845-ae829e2f5e76",
 						"exec": [
-							"tests[\"Status code is 200\"] = responseCode.code === 200;"
+							"tests[\"Status code is 200\"] = responseCode.code === 200;",
+							"",
+							"tests[\"content-type header is present\"] = postman.getResponseHeader(\"content-type\");"
 						],
 						"type": "text/javascript"
 					}
@@ -23,12 +25,12 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "http://localhost:8000/rides/?date=2020-01-30",
+					"raw": "http://localhost:3000/rides/?date=2020-01-30",
 					"protocol": "http",
 					"host": [
 						"localhost"
 					],
-					"port": "8000",
+					"port": "3000",
 					"path": [
 						"rides",
 						""
@@ -38,6 +40,545 @@
 							"key": "date",
 							"value": "2020-01-30"
 						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get homepage",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "64dc27b9-a50b-4ea6-884e-54b1114542e9",
+						"exec": [
+							"tests[\"Status code is 200\"] = responseCode.code === 200;",
+							"",
+							"tests[\"content-type header is present\"] = postman.getResponseHeader(\"content-type\");"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:3000/",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get register page",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "73e76fe3-1191-4040-96ef-d797cff5cbea",
+						"exec": [
+							"tests[\"Status code is 200\"] = responseCode.code === 200;",
+							"",
+							"tests[\"content-type header is present\"] = postman.getResponseHeader(\"content-type\");"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:3000/users/register",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"users",
+						"register"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get login page",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "0efa8d4f-ab3a-40f7-b0e4-ea397f81cbaf",
+						"exec": [
+							"tests[\"Status code is 200\"] = responseCode.code === 200;",
+							"",
+							"tests[\"content-type header is present\"] = postman.getResponseHeader(\"content-type\");"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/x-www-form-urlencoded",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": []
+				},
+				"url": {
+					"raw": "http://localhost:3000/users/login",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"users",
+						"login"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Unsuccessful login",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "1feb6351-35e8-41b6-90d8-c1da59ba0b52",
+						"exec": [
+							"tests[\"Status code is 200\"] = responseCode.code === 200;",
+							"",
+							"tests[\"content-type header is present\"] = postman.getResponseHeader(\"content-type\");",
+							"",
+							"console.log(pm.response);"
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "0ae7e855-4035-41c6-afb9-4aafd070c726",
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"followRedirects": true
+			},
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/x-www-form-urlencoded",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "username",
+							"value": "hmm",
+							"type": "text"
+						},
+						{
+							"key": "password",
+							"value": "incorrect",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "http://localhost:3000/users/login",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"users",
+						"login"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Successful login",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "2600ce5e-e9eb-46df-ab74-db94e2ccdb89",
+						"exec": [
+							"tests[\"Status code is 200\"] = responseCode.code === 200;",
+							"",
+							"tests[\"content-type header is present\"] = postman.getResponseHeader(\"content-type\");"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"followRedirects": true
+			},
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/x-www-form-urlencoded",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "username",
+							"value": "hmm",
+							"type": "text"
+						},
+						{
+							"key": "password",
+							"value": "hmm",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "http://localhost:3000/users/login",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"users",
+						"login"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get user profile",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "f0d54905-baa4-4a46-a28d-61b6aaf02ef8",
+						"exec": [
+							"tests[\"Status code is 200\"] = responseCode.code === 200;",
+							"",
+							"tests[\"content-type header is present\"] = postman.getResponseHeader(\"content-type\");"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "password",
+							"value": "hmm",
+							"type": "string"
+						},
+						{
+							"key": "username",
+							"value": "hmm",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:3000/users/profile",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"users",
+						"profile"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get edit profile",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "3010b92e-0591-409c-b5b8-982e92387ee5",
+						"exec": [
+							"tests[\"Status code is 200\"] = responseCode.code === 200;",
+							"",
+							"tests[\"content-type header is present\"] = postman.getResponseHeader(\"content-type\");"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:3000/users/editProfile",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"users",
+						"editProfile"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Update user profile",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "85d544b4-bdf5-44a7-a4c5-018d0afa59ea",
+						"exec": [
+							"tests[\"Status code is 200\"] = responseCode.code === 200;",
+							"",
+							"tests[\"content-type header is present\"] = postman.getResponseHeader(\"content-type\");"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "password",
+							"value": "hmm",
+							"type": "string"
+						},
+						{
+							"key": "username",
+							"value": "hmm",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/x-www-form-urlencoded",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "firstname",
+							"value": "newfirst",
+							"type": "text"
+						},
+						{
+							"key": "lastname",
+							"value": "newlast",
+							"type": "text"
+						},
+						{
+							"key": "username",
+							"value": "hmm",
+							"type": "text"
+						},
+						{
+							"key": "email",
+							"value": "new@email.com",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "http://localhost:3000/users/update",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"users",
+						"update"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Restore user profile",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "85d544b4-bdf5-44a7-a4c5-018d0afa59ea",
+						"exec": [
+							"tests[\"Status code is 200\"] = responseCode.code === 200;",
+							"",
+							"tests[\"content-type header is present\"] = postman.getResponseHeader(\"content-type\");"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "password",
+							"value": "hmm",
+							"type": "string"
+						},
+						{
+							"key": "username",
+							"value": "hmm",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"type": "text",
+						"value": "application/x-www-form-urlencoded"
+					}
+				],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "firstname",
+							"value": "hmm",
+							"type": "text"
+						},
+						{
+							"key": "lastname",
+							"value": "hmm",
+							"type": "text"
+						},
+						{
+							"key": "username",
+							"value": "hmm",
+							"type": "text"
+						},
+						{
+							"key": "email",
+							"value": "hmm@hmm.com",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "http://localhost:3000/users/update",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"users",
+						"update"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Logout",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "99c0b442-9da7-4d9e-ac2c-42643fad1967",
+						"exec": [
+							"tests[\"Status code is 200\"] = responseCode.code === 200;",
+							"",
+							"tests[\"content-type header is present\"] = postman.getResponseHeader(\"content-type\");"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "password",
+							"value": "hmm",
+							"type": "string"
+						},
+						{
+							"key": "username",
+							"value": "hmm",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:3000/users/logout",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"users",
+						"logout"
 					]
 				}
 			},
