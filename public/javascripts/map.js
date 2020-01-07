@@ -59,21 +59,17 @@ function showRoute(from, to, riders) {
     var to = {lat: dataObject.to_details[0].lat, lng: dataObject.to_details[0].lng};
     var waypoints = []
 
-    if(dataObject.rider_trips) {
-        for(var i = 0; i < dataObject.rider_trips.length; i++) {
+    if(dataObject.confirmed_rider_trips) {
+        for(var i = 0; i < dataObject.confirmed_rider_trips.length; i++) {
 
-            if(dataObject.confirmed_riders.includes(dataObject.rider_trips[i].username)) {
                 waypoints.push({
-                    location: {lat: dataObject.rider_trips[i].from_lat, lng: dataObject.rider_trips[i].from_lng},
+                    location: {lat: dataObject.confirmed_rider_trips[i].from_lat, lng: dataObject.confirmed_rider_trips[i].from_lng},
                     stopover: true
                 });
-    
                 waypoints.push({
-                    location: {lat: dataObject.rider_trips[i].to_lat, lng: dataObject.rider_trips[i].to_lng},
+                    location: {lat: dataObject.confirmed_rider_trips[i].to_lat, lng: dataObject.confirmed_rider_trips[i].to_lng},
                     stopover: true
-                });
-            }
-            
+                });            
         }
     }
 

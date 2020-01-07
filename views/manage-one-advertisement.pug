@@ -27,7 +27,7 @@ block content
 						.col
 							label Available seats:
 							input.form-control(name='available_seats', type=number, value=data.available_seats, readonly)
-							
+
 					.row
 						.col
 							label Departure:
@@ -42,7 +42,7 @@ block content
 					#form-group
 					.row
 						input.btn.btn-secondary.bt-lg.btn-block(type='submit', value='Remove ride')
-	
+
 	#testSecondPage
 		if data.confirmed_riders
 			#createForm2
@@ -51,7 +51,7 @@ block content
 					#form-group
 					.row
 						.col
-							p="Username: " + c_rider
+							a.mngOneAd(href='/users/profile/' + c_rider + '/' + data.id + '/false') #{c_rider}
 						.col
 							form(method= 'POST', action='/rides/reject-rider/'+data.id +'/'+c_rider)
 								input.btn.btn-secondary.bt-lg.btn-block(type='submit', value='Remove from ride')
@@ -64,11 +64,15 @@ block content
 					#form-group
 						.row
 							.col
-								p="Username: " + p_rider
+								a.mngOneAd(href='/users/profile/' + p_rider + '/' + data.id + "/true") #{p_rider}
 							.col
 								if data.available_seats != 0
-									form(method= 'POST', action='/rides/accept-rider/'+data.id +'/'+p_rider)
+									form(method= 'POST', action='/rides/accept-rider/' + data.id + '/' + p_rider)
 										input.btn.btn-secondary.bt-lg.btn-block(type='submit', value='Add to ride')
+							.col
+								form(method= 'POST', action='/rides/not-accept-rider/' + data.id + '/' + p_rider)
+									input.btn.btn-secondary.bt-lg.btn-block(type='submit', value='Reject')
+
 
 	script(type='text/javascript', src='/javascripts/map.js')
 	script(async, defer, type='text/javascript', src=`https://maps.googleapis.com/maps/api/js?key=${apiKey}&callback=showRoute`)

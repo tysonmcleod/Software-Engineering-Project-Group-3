@@ -12,8 +12,6 @@ router.post('/', async (req, res) => {
     console.log(sender + " sent to " + receiver + ":");
     console.log(msg);
 
-
-
     // Check if a conversation between sender and receiver already exists
     const chat = await Messages.findOne({$and: [{participants: sender}, {participants: receiver}]});
 
@@ -81,7 +79,6 @@ router.get('/all', async (req, res) => {
 });
 
 // Get chat between two users
-// TODO: request params instead of path parameters
 router.get('/:id1/:id2', async (req, res) => {
     const id1 = req.params.id1;
     const id2 = req.params.id2;

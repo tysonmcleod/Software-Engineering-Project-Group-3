@@ -1,12 +1,11 @@
 extends layout
 
 block content
-	
+
 	div#dataObject(data-objData=data)
 	input#dataobj(type='hidden', value=data)
 
 	#createadPage
-
 		#createdadPageForm
 			#createForm
 				#form-group
@@ -24,14 +23,16 @@ block content
 					.col-6
 						p= "Available seats:" + data.available_seats
 					.col-6
-						p= "Driver: " + data.driver
+						span Driver: #[a.mngOneAd(href='/users/profile/'+data.driver+'/'+data.id+'/false') #{data.driver}]
 				.row
 					.col
 						if data.confirmed_riders
-							p="Riders: "+ data.confirmed_riders
+							span="Riders: "
+							for rider in data.confirmed_riders
+								a.mngOneAd(href='/users/profile/' + rider + '/' + data.id + '/false') #{rider}
+								span=" "
 					.col
-						p="Date: "+ data.date
-
+						p="Date: " + data.date
 
 		script(type='text/javascript', src='/javascripts/map.js')
 		script(async, defer, type='text/javascript', src=`https://maps.googleapis.com/maps/api/js?key=${apiKey}&callback=showRoute`)
