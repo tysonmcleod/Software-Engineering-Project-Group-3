@@ -1,13 +1,19 @@
 extends layout
 
 block content
+  -var today = new Date()
+  -var dd = String(today.getDate()).padStart(2, '0');
+  -var mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
+  -var yyyy = today.getFullYear();
+  -today = yyyy + '-' + mm + '-' + dd;
+
   #createadPage
     script(type='text/javascript', src='/javascripts/map.js')
     script(async, defer, type='text/javascript', src=`https://maps.googleapis.com/maps/api/js?key=${apiKey}&callback=initMap`)
 
     div#map
     #createForm
-    form(method= 'GET', action='send-ad')
+    form(method= 'GET', action='make-advertisement')
       #form-group
       .row
         .col
@@ -23,10 +29,10 @@ block content
       .row
         .col
           label Date:
-          input.form-control(name='date', type='date', required, min=`${today}`)
+          input.form-control(name='date', type='date', required, min=`${today}`, value=today)
         .col
           label Available seats:
-          input.form-control(name='available_seats', type='number', required, placeholder='0')
+          input.form-control(name='available_seats', type='number', required, value=4)
       #shadyForm
       .row
         .col

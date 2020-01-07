@@ -2,10 +2,11 @@ extends layout
 
 block content
 
-	div(data-objData=data)
+	div#dataObject(data-objData=data)
+	input#dataobj(type='hidden', value=data)
+
 	#createadPage
 		#createdadPageForm
-			h1 Info
 			#createForm
 				#form-group
 				.row
@@ -33,12 +34,9 @@ block content
 					.col
 						p="Date: " + data.date
 
-					p="Data about trip"
 
-					p From: #{data.from_details}
-					p To: #{data.to_details}
 		script(type='text/javascript', src='/javascripts/map.js')
-		script(async, defer, type='text/javascript', src=`https://maps.googleapis.com/maps/api/js?key=${apiKey}&callback=initMap`)
+		script(async, defer, type='text/javascript', src=`https://maps.googleapis.com/maps/api/js?key=${apiKey}&callback=showRoute`)
 		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
 		div(id='map')

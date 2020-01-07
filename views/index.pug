@@ -1,7 +1,11 @@
 extends layout
 
 block content
-  
+  -var today = new Date()
+  -var dd = String(today.getDate()).padStart(2, '0');
+  -var mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
+  -var yyyy = today.getFullYear();
+  -today = yyyy + '-' + mm + '-' + dd;
 
   #indexPage
       script(type='text/javascript', src='/javascripts/map.js')
@@ -29,7 +33,7 @@ block content
                   input#tocoords(type='hidden', name='tocoords')
 
                 #form-group
-                  input#date.form-control(type='date', min=`${today}`, name='date')
+                  input#date.form-control(type='date', min=`${today}`, name='date', value=today)
 
 
             #indexButton
