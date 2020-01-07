@@ -111,7 +111,7 @@ app.use(function(err, req, res, next) {http://localhost:8000/
 });
 
 
-app.set('port', (8000));
+app.set('port', 3000);
 
 app.listen(app.get('port'), function(){
 	console.log('Server started on port '+app.get('port'));
