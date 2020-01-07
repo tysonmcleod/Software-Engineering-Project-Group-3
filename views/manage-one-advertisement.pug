@@ -73,7 +73,7 @@ block content
 									form(method= 'POST', action='/rides/accept-rider/' + data.id + '/' + p_rider)
 										input.btn.btn-secondary.bt-lg.btn-block(type='submit', value='Add to ride')
 							.col
-								form(method= 'POST', action='/rides/reject-rider/' + data.id + '/' + p_rider)
+								form(method= 'POST', action='/rides/not-accept-rider/' + data.id + '/' + p_rider)
 									input.btn.btn-secondary.bt-lg.btn-block(type='submit', value='Reject')
 
 	script(type='text/javascript', src='/javascripts/map.js')
