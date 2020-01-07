@@ -45,8 +45,12 @@ function showRoute(from, to, riders) {
     var directionsService = new google.maps.DirectionsService;
     var directionsRenderer = new google.maps.DirectionsRenderer;
 
+    var dataObject = JSON.parse(document.getElementById('dataobj').value);
+
+    var latlng = new google.maps.LatLng(parseFloat(dataObject.from_details[0].lat), parseFloat(dataObject.from_details[0].lng));
+
     map = new google.maps.Map(document.getElementById('map'), {
-        center: uppsala,
+        center: latlng,
         zoom: 10,
         streetViewControl: false,
         mapTypeControlOptions: {
@@ -54,7 +58,6 @@ function showRoute(from, to, riders) {
         }
     });
 
-    var dataObject = JSON.parse(document.getElementById('dataobj').value);
     var from = {lat: dataObject.from_details[0].lat, lng: dataObject.from_details[0].lng};
     var to = {lat: dataObject.to_details[0].lat, lng: dataObject.to_details[0].lng};
     var waypoints = []

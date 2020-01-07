@@ -13,6 +13,16 @@ const Advertisement = new mongoose.Schema({
     	lng: Number,
     	post_address: Number
  	}],
+ 	'clique': {
+ 		from_lat_min: Number,
+	 	from_lat_max: Number,
+	 	from_lng_min: Number,
+	 	from_lng_max: Number,
+	 	to_lat_min: Number,
+	 	to_lat_max: Number,
+	 	to_lng_min: Number,
+	 	to_lng_max: Number
+	 },
 	'to': {type:String, trim:true, default:''},
 	'driver': {type:String, trim:true, default:''},
 	'confirmed_riders': [{type:String, trim:true}],
