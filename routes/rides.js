@@ -430,6 +430,28 @@ router.post('/rate-rider/:id/:driverUsername/:riderUsername/:rating', async (req
 		}
 	});
 
+	let user = await User.findOne({username: riderUsername});
+	console.log('Rating and votes of rider' + riderUsername + ' before new rating.');
+	console.log(user.rating);
+	console.log(user.votes);
+
+	if (user.votes == 0)
+		user.rating = user.rating + Number(rating);
+	else
+		user.rating = (user.rating + Number(rating)) / 2;
+	user.votes = user.votes + 1;
+
+	console.log('Rating and votes of rider' + riderUsername + ' after new rating.');
+	console.log(user.rating);
+	console.log(user.votes);
+
+	user.save(function(err){
+		if(err){
+			console.log(err);
+			res.redirect("/rides/manage-users-ads/" + id);
+		}
+	});
+
 	res.redirect("/rides/manage-users-ads/" + id);
 });
 
