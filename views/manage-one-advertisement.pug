@@ -51,8 +51,7 @@ block content
 					#form-group
 					.row
 						.col
-							span="Username: "
-								a.mngOneAd(href='/users/profile/' + c_rider + '/' + data.id + '/false') #{c_rider}
+							a.mngOneAd(href='/users/profile/' + c_rider + '/' + data.id + '/false') #{c_rider}
 						.col
 							form(method= 'POST', action='/rides/reject-rider/'+data.id +'/'+c_rider)
 								input.btn.btn-secondary.bt-lg.btn-block(type='submit', value='Remove from ride')
@@ -65,9 +64,7 @@ block content
 					#form-group
 						.row
 							.col
-								span="Username: "
-									a.mngOneAd(href='/users/profile/' + p_rider + '/' + data.id + "/true") #{p_rider}
-						.row
+								a.mngOneAd(href='/users/profile/' + p_rider + '/' + data.id + "/true") #{p_rider}
 							.col
 								if data.available_seats != 0
 									form(method= 'POST', action='/rides/accept-rider/' + data.id + '/' + p_rider)
@@ -75,6 +72,7 @@ block content
 							.col
 								form(method= 'POST', action='/rides/not-accept-rider/' + data.id + '/' + p_rider)
 									input.btn.btn-secondary.bt-lg.btn-block(type='submit', value='Reject')
+
 
 	script(type='text/javascript', src='/javascripts/map.js')
 	script(async, defer, type='text/javascript', src=`https://maps.googleapis.com/maps/api/js?key=${apiKey}&callback=showRoute`)

@@ -17,7 +17,11 @@ router.get('/', function(req, res, next) {
 	let from_query = {};
 	let to_query = {};
 	let date_query = {};
-	const localUser = res.locals.user;
+	let localUser = {};
+	if(res.locals.user){
+		localUser = res.locals.user;
+	}
+	
 	let radius = 0;
 
 	if(req.query.radius){
@@ -134,15 +138,13 @@ router.get('/update-ride/:id', async (req, res) => {
 });
 
 router.get('/request-ride/:id/:from_lat/:from_lng/:to_lat/:to_lng', async (req, res) => {
+	
 	if(!req.isAuthenticated()){
 			res.redirect("/users/login");
 		}
 
-	const lat = req.params.lat;
-	const lng = req.params.lng;
 	const id = req.params.id;
 	const testUser2 = res.locals.user;
-	console.log(res.locals.user);
 	const testUser = testUser2.username;
 
 	const temp = {
@@ -158,7 +160,7 @@ router.get('/request-ride/:id/:from_lat/:from_lng/:to_lat/:to_lng', async (req, 
 	if(!ad.interested_riders.includes(testUser)){
 		ad.interested_riders.push(testUser);
 		ad.rider_trips.push(temp);
-
+		console.log(ad.interested_riders);
 		ad.save(function(err){
           if(err){
             console.log(err);
@@ -167,7 +169,7 @@ router.get('/request-ride/:id/:from_lat/:from_lng/:to_lat/:to_lng', async (req, 
       	});
     }
 
-	res.redirect("/rides/manage-users-rides");
+	res.redirect("back");
 });
 
 
@@ -262,6 +264,11 @@ router.post('/not-accept-rider/:id/:username', async (req, res) => {
 
 	if(ad.interested_riders.includes(rider)){
 		ad.interested_riders.pull(rider);
+		console.log(ad.rider_trips);
+		const trip = ad.rider_trips.find(x => x.username == rider);
+		ad.rider_trips.pull(trip);
+		console.log(ad.rider_trips);
+
 		ad.save(function(err){
 			if(err){
 				console.log(err);
