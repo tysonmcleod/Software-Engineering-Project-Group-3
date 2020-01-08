@@ -61,7 +61,7 @@ block content
 							.col
 								a.mngOneAd(href='/users/profile/' + c_rider + '/' + data.id + '/false') #{c_rider}
 							.col
-								form(method= 'POST', action='/rides/reject-rider/' + data.id + '/' + c_rider)
+								form(method= 'POST', action='/rides/rate-rider/'+data.id+'/'+data.driver+'/'+c_rider+'/4')
 									input.btn.btn-secondary.bt-lg.btn-block(type='submit', value='Rate rider')
 	else
 		#testSecondPage
@@ -74,7 +74,7 @@ block content
 							.col
 								a.mngOneAd(href='/users/profile/' + c_rider + '/' + data.id + '/false') #{c_rider}
 							.col
-								form(method= 'POST', action='/rides/reject-rider/'+data.id +'/'+c_rider)
+								form(method= 'POST', action='/rides/reject-rider/' + data.id + '/' + c_rider)
 									input.btn.btn-secondary.bt-lg.btn-block(type='submit', value='Remove from ride')
 
 		#testSecondPage

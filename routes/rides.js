@@ -409,6 +409,30 @@ router.get('/show-ads/:id', (req, res) => {
 	})
 });
 
+router.post('/rate-rider/:id/:driverUsername/:riderUsername/:rating', async (req, res) => {
+	const id = req.params.id;
+	const driverUsername = req.params.driverUsername;
+	const riderUsername = req.params.riderUsername;
+	const rating = req.params.rating;
+
+	let ad = await Advertisement.findById(id);
+
+	console.log(ad.rate_riders);
+
+	riderIndex = ad.confirmed_riders.indexOf(riderUsername);
+	ad.rate_riders[riderIndex] = Number(rating);
+	console.log(ad.rate_riders);
+
+	ad.save(function(err){
+		if(err){
+			console.log(err);
+			res.redirect("/rides/manage-users-ads/" + id);
+		}
+	});
+
+	res.redirect("/rides/manage-users-ads/" + id);
+});
+
 function getCurrentDate() {
 	var date = new Date();
 	var year = date.getFullYear();
