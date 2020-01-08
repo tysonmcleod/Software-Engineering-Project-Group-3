@@ -55,14 +55,20 @@ block content
 			if data.confirmed_riders
 				#createForm2
 					h4="Confirmed Riders: "
-					each c_rider, p in data.confirmed_riders
+					- for (let i=0; i < data.confirmed_riders.length; i++)
+						- c_rider = data.confirmed_riders[i]
+						- rating = data.rate_riders[i]
 						#form-group
 						.row
 							.col
 								a.mngOneAd(href='/users/profile/' + c_rider + '/' + data.id + '/false') #{c_rider}
 							.col
-								form(method= 'POST', action='/rides/rate-rider/'+data.id+'/'+data.driver+'/'+c_rider+'/4')
-									input.btn.btn-secondary.bt-lg.btn-block(type='submit', value='Rate rider')
+								if rating==-1
+									form(method= 'POST', action='/rides/rate-rider/'+data.id+'/'+data.driver+'/'+c_rider+'/4')
+										input.btn.btn-secondary.bt-lg.btn-block(type='submit', value='Rate rider')
+								else
+									form(method= 'POST', action='/rides/rate-rider/' + data.id + '/' + data.driver + '/' + c_rider + '/4')
+										input.btn.btn-secondary.bt-lg.btn-block(type='submit', value='Not Rate')
 	else
 		#testSecondPage
 			if data.confirmed_riders

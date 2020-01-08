@@ -385,6 +385,7 @@ router.get('/manage-users-ads/:id', async (req, res) => {
 	Advertisement.findById(id)
 	.then(advertisement => {
 		console.log(advertisement.rider_trips);
+		console.log(advertisement)
 		res.render("manage-one-advertisement", {	data: advertisement, username: username, apiKey: GoogleAPIKey});
 	})
 	.catch(err => {
@@ -417,21 +418,19 @@ router.post('/rate-rider/:id/:driverUsername/:riderUsername/:rating', async (req
 
 	let ad = await Advertisement.findById(id);
 
-	console.log(ad.rate_riders);
-
 	riderIndex = ad.confirmed_riders.indexOf(riderUsername);
 	ad.rate_riders[riderIndex] = Number(rating);
-	console.log(ad.rate_riders);
 
-	ad.save(function(err){
-		if(err){
-			console.log(err);
-			res.redirect("/rides/manage-users-ads/" + id);
-		}
-	});
+	var updateObj = { $set: {} };
+	updateObj.$set["rate_riders."+riderIndex] = Number(rating);
+
+	let savedAd = await Advertisement.findByIdAndUpdate(id, updateObj);
+
+	console.log(savedAd);
+
 
 	let user = await User.findOne({username: riderUsername});
-	console.log('Rating and votes of rider' + riderUsername + ' before new rating.');
+	console.log('Rating and votes of rider ' + riderUsername + ' before new rating.');
 	console.log(user.rating);
 	console.log(user.votes);
 
@@ -441,16 +440,20 @@ router.post('/rate-rider/:id/:driverUsername/:riderUsername/:rating', async (req
 		user.rating = (user.rating + Number(rating)) / 2;
 	user.votes = user.votes + 1;
 
-	console.log('Rating and votes of rider' + riderUsername + ' after new rating.');
-	console.log(user.rating);
-	console.log(user.votes);
+	let updatedUser = {
+		rating: user.rating,
+		votes: user.votes
+	};
 
-	user.save(function(err){
-		if(err){
-			console.log(err);
-			res.redirect("/rides/manage-users-ads/" + id);
-		}
-	});
+	console.log('Rating and votes of rider ' + riderUsername + ' after new rating.');
+
+	try {
+		const savedUser = await User.findOneAndUpdate({username: riderUsername}, updatedUser, {new: true});
+		console.log(savedUser);
+	} catch (err) {
+		res.status(500).json({message: err.message})
+		// TODO: render to error not found pug file
+	}
 
 	res.redirect("/rides/manage-users-ads/" + id);
 });
