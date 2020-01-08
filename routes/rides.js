@@ -232,7 +232,7 @@ router.post('/accept-rider/:id/:username', async (req, res) => {
     }
     res.redirect("/rides/manage-users-ads/"+ id);
 });
-
+// todo: remove one -1 value from rate_riders array
 router.post('/reject-rider/:id/:username', async (req, res) => {
 	const id = req.params.id;
 	const new_rider = req.params.username;
