@@ -215,6 +215,7 @@ router.post('/accept-rider/:id/:username', async (req, res) => {
 
 	if(!ad.confirmed_riders.includes(new_rider)){
 		ad.confirmed_riders.push(new_rider);
+		ad.rate_riders.push(-1);
 		ad.interested_riders.pull(new_rider);
 
 		const trip = ad.rider_trips.find(x => x.username == new_rider);
