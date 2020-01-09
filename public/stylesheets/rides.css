@@ -80,6 +80,7 @@ a.mngOneAd:active {
   counter-increment: rateme 1;
 }
 
-.stars-rate::after {
-  /*content: counter(rateme) '/5';*/
-}
+/*.stars-rate::after {*/
+/*  counter-reset: rateme 0;*/
+/*  !*content: counter(rateme) '/5';*!*/
+/*}*/

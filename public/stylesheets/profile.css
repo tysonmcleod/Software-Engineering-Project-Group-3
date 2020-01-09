@@ -45,6 +45,7 @@
 .star {
   color: goldenrod;
   font-size: 2.0rem;
+  font-weight: 900;
 }
 .star::before {
   content: '\2606'; /* star outline */
