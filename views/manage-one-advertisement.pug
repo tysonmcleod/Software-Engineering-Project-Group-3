@@ -67,7 +67,7 @@ block content
 							.col
 								if rating==-1
 									form(method='POST', action='/rides/rate-rider/'+data.id+'/'+data.driver+'/'+c_rider, id='form_rate_id')
-										input.form-control(name='starRating', hidden=true)
+										input.form-control(name='starRating' hidden=true)
 										h5.stars-rate(data-rating=Math.round(rating))
 											span.star-rate &nbsp;
 											span.star-rate &nbsp;
@@ -75,7 +75,6 @@ block content
 											span.star-rate &nbsp;
 											span.star-rate &nbsp;
 										script.
-											//initial setup
 											document.addEventListener('DOMContentLoaded', function () {
 												var stars1 = document.querySelectorAll('.star-rate');
 												stars1.forEach(function (star1) {
@@ -86,7 +85,6 @@ block content
 												target1.dispatchEvent(new MouseEvent('click'));
 											});
 											function setRating(ev) {
-												// ev.preventDefault();
 												var span1 = ev.currentTarget;
 												var stars1 = document.querySelectorAll('.star-rate');
 												var match1 = false;
