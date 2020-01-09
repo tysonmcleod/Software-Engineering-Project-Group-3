@@ -276,33 +276,28 @@ router.get('/make-advertisement', async function(req, res, next) {
 	const radius_km = req.query.radius;
 	const radius = radius_km/100;
 
+	console.log(req.query);
+
 	if(req.query.available_seats == "" || req.query.available_seats == null){
 		req.query.available_seats = 0;
 	}
 
 	if(req.query.fromcoords){
 		const str = JSON.parse(req.query.fromcoords);
-		console.log(str.geometry.location.lat);
-		console.log(str.geometry.location.lng);
 		var arr = str.formatted_address.split(',');
-		console.log(arr[1].substr(1,6));
-		new_from.post_address = parseInt(arr[1].substr(1,3).concat(arr[1].substr(5,6)));
 		new_from.lat = parseFloat(str.geometry.location.lat);
 		new_from.lng = parseFloat(str.geometry.location.lng);
 		new_ad.from = arr[1].substr(8);
+		new_ad.fromfrom = arr[0];
 	}
 
 	if(req.query.tocoords){
-		console.log(req.query.tocoords);
 		const str = JSON.parse(req.query.tocoords);
-		console.log(str.geometry.location.lat);
-		console.log(str.geometry.location.lng);
 		var arr2 = str.formatted_address.split(',');
-		console.log(arr2[1].substr(1,6));
-		new_to.post_address = parseInt(arr2[1].substr(1,3).concat(arr2[1].substr(5,6)));
 		new_to.lat = parseFloat(str.geometry.location.lat);
 		new_to.lng = parseFloat(str.geometry.location.lng);
 		new_ad.to = arr2[1].substr(8);
+		new_ad.toto = arr2[0];
 	}
 
 	const user3 = res.locals.user;

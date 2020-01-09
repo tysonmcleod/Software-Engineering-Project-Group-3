@@ -8,6 +8,7 @@ const Advertisement = new mongoose.Schema({
     	lng: Number,
     	post_address: Number
  	}],
+ 	'fromfrom': String,
  	'to_details': [{
     	lat: Number,
     	lng: Number,
@@ -23,6 +24,7 @@ const Advertisement = new mongoose.Schema({
 	 	to_lng_min: Number,
 	 	to_lng_max: Number
 	 },
+	'toto': String,
 	'to': {type:String, trim:true, default:''},
 	'driver': {type:String, trim:true, default:''},
 	'confirmed_riders': [{type:String, trim:true}],
