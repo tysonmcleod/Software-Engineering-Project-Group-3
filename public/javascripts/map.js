@@ -188,10 +188,18 @@ function showAllRoutes() {
             }
         }
 
+        let index = p.toString();
+        //document.getElementById("0").style.background = "blue";
+
         function renderDirections(result, index) { 
             var directionsRenderer = new google.maps.DirectionsRenderer();
             var random_color = CSS_COLOR_NAMES[Math.floor(Math.random() * CSS_COLOR_NAMES.length)];
             used_colors.push(random_color);
+
+            document.getElementById(index).style.background = random_color;            
+
+            //document.getElementById("0").style.background-color = "blue";            
+
             directionsRenderer.setMap(map);
             directionsRenderer.setDirections(result);
             directionsRenderer.setOptions({
@@ -213,7 +221,7 @@ function showAllRoutes() {
             travelMode: 'DRIVING'
         }, function(response, status) {
             if(status === 'OK') {
-                renderDirections(response, p);
+                renderDirections(response, index);
             } else {
                 window.alert('Directions request failed');
             }

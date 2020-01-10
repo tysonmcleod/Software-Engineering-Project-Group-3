@@ -40,6 +40,8 @@ block content
 				each ad, i in data
 					#form-group
 					#chooseRide
+
+						div(id=i)=i
 						.row
 							.col
 								p= "From: " + ad.fromfrom + ", " + ad.from
