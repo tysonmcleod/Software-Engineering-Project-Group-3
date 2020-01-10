@@ -51,6 +51,7 @@ router.get('/', function(req, res, next) {
 		filter.from = arr[1].substr(8);
 		filter.from_lat = lat_from;
 		filter.from_lng = lng_from;
+		filter.fromfrom = arr[0];
 		from_query = {"clique.from_lat_min": {$lt: lat_from}, "clique.from_lat_max": {$gt: lat_from}, "clique.from_lng_min": {$lt: lng_from}, "clique.from_lng_max": {$gt: lng_from}};
 	}
 	else if(req.query.from_lat){
@@ -58,6 +59,7 @@ router.get('/', function(req, res, next) {
 		lng_from = parseFloat(req.query.from_lng);
 		filter.from_lat = lat_from;
 		filter.from_lng = lng_from;
+		filter.fromfrom = req.query.fromfrom;
 		from_query = {"clique.from_lat_min": {$lt: lat_from}, "clique.from_lat_max": {$gt: lat_from}, "clique.from_lng_min": {$lt: lng_from}, "clique.from_lng_max": {$gt: lng_from}};
 	}
 
@@ -72,6 +74,7 @@ router.get('/', function(req, res, next) {
 		filter.to = arr2[1].substr(8);
 		filter.to_lat = lat_to;
 		filter.to_lng = lng_to;
+		filter.toto = arr2[0];
 		to_query = {"clique.to_lat_min": {$lt: lat_to}, "clique.to_lat_max": {$gt: lat_to}, "clique.to_lng_min": {$lt: lng_to}, "clique.to_lng_max": {$gt: lng_to}};
 	}
 	else if(req.query.to_lat){
@@ -79,6 +82,7 @@ router.get('/', function(req, res, next) {
 		lng_to = parseFloat(req.query.to_lng);
 		filter.to_lat = lat_to;
 		filter.to_lng = lng_to;
+		filter.toto = req.query.toto;
 		to_query = {"clique.to_lat_min": {$lt: lat_to}, "clique.to_lat_max": {$gt: lat_to}, "clique.to_lng_min": {$lt: lng_to}, "clique.to_lng_max": {$gt: lng_to}};	}
 
 	if(Object.keys(filter).length === 0){

@@ -6,7 +6,7 @@ block content
 	input#dataobj(type='hidden', value=data)
 	#ridePage
 
-		h1 #{filter.from} &#8594 #{filter.to}
+		h1 #{filter.fromfrom}, #{filter.from}  &#8594 #{filter.toto}, #{filter.to}
 
 		form(method= 'GET', action='/rides/')
 
@@ -20,9 +20,11 @@ block content
 
 			input.form-control(name='from_lat', type='hidden', value=filter.from_lat)
 			input.form-control(name='from_lng', type='hidden', value=filter.from_lng)
+			input.form-control(name='fromfrom', type='hidden', value=filter.fromfrom)
 
 			input.form-control(name='to_lat', type='hidden', value=filter.to_lat)
 			input.form-control(name='to_lng', type='hidden', value=filter.to_lng)
+			input.form-control(name='toto', type='hidden', value=filter.toto)
 
 			#ridePageDate
 				input.form-control(name='date', type='date', value=filter.date)
