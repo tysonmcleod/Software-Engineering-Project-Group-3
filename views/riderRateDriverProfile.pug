@@ -81,8 +81,8 @@ block content
                         .col-xs-8.col-sm-8.col-md-8
                             form(method='POST', action='/rides/rate-driver/' + adId, id='form_rate_id')
                                 input.form-control(name='starRating', hidden=true)
-                                input.form-control(name='driverUsername', hidden=true, value=driver, type="text")
-                                input.form-control(name='riderUsername', hidden=true, value=data.username, type="text")
+                                input.form-control(name='driverUsername', hidden=true, value=data.username, type="text")
+                                input.form-control(name='riderUsername', hidden=true, value=rider, type="text")
                                 h5.font-weight-bold.stars-rate(give-rating=0)
                                     span.star-rate &nbsp;
                                     span.star-rate &nbsp;
@@ -110,13 +110,11 @@ block content
                                             } else {
                                                 star1.classList.add('rated');
                                             }
-                                            //are we currently looking at the span that was clicked
                                             if (star1 === span1) {
                                                 match1 = true;
                                                 num1 = index1 + 1;
                                             }
                                         });
-                                        // document.querySelectorAll('.star-rate').setAttribute('give-rating', num1);
                                         document.getElementById('form_rate_id').elements.namedItem('starRating').value = num1;
                                         document.getElementById("form_rate_id").submit();// Form submission
                                     }

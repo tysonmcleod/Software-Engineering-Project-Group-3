@@ -458,6 +458,53 @@ router.post('/rate-rider/:id', async (req, res) => {
 	res.redirect("/rides/manage-users-ads/" + id);
 });
 
+router.post('/rate-driver/:id', async (req, res) => {
+	const id = req.params.id;
+	const driverUsername = req.body.driverUsername;
+	const riderUsername = req.body.riderUsername;
+	const rating = req.body.starRating;
+
+	let ad = await Advertisement.findById(id);
+
+	riderIndex = ad.confirmed_riders.indexOf(riderUsername);
+	ad.riders_rate_driver[riderIndex] = Number(rating);
+
+	var updateObj = { $set: {} };
+	updateObj.$set["riders_rate_driver."+riderIndex] = Number(rating);
+
+	let savedAd = await Advertisement.findByIdAndUpdate(id, updateObj);
+
+	console.log(savedAd);
+
+	let user = await User.findOne({username: driverUsername});
+	console.log('Rating and votes of driver ' + driverUsername + ' before new rating.');
+	console.log(user.driverRating);
+	console.log(user.driverVotes);
+
+	if (user.driverVotes == 0)
+		user.driverRating = user.driverRating + Number(rating);
+	else
+		user.driverRating = (user.driverRating + Number(rating)) / 2;
+	user.driverVotes = user.driverVotes + 1;
+
+	let updatedUser = {
+		driverRating: user.driverRating,
+		driverVotes: user.driverVotes
+	};
+
+	console.log('Rating and votes of driver ' + driverUsername + ' after new rating.');
+
+	try {
+		const savedUser = await User.findOneAndUpdate({username: driverUsername}, updatedUser, {new: true});
+		console.log(savedUser);
+	} catch (err) {
+		res.status(500).json({message: err.message})
+		// TODO: render to error not found pug file
+	}
+
+	res.redirect("/rides/manage-users-rides");
+});
+
 function getCurrentDate() {
 	var date = new Date();
 	var year = date.getFullYear();

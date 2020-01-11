@@ -107,7 +107,7 @@ block content
 												a.btn.btn-secondary.bt-lg.btn-block(href="show-ads/"+ad.id) Info
 											br
 											.row
-												form(method='POST', action='/users/rate-rider/' + ad.id)
+												form(method='POST', action='/users/rate-driver/' + ad.id)
 													input.form-control(name='driverUsername', hidden=true, value=ad.driver, type="text")
 													input.form-control(name='riderUsername', hidden=true, value=rider, type="text")
 													input.btn.btn-secondary.bt-lg.btn-block(type='submit', value='Rate '+ad.driver)
