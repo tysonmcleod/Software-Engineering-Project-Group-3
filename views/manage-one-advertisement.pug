@@ -57,7 +57,7 @@ block content
 					h4="Confirmed Riders: "
 					- for (let i=0; i < data.confirmed_riders.length; i++)
 						- c_rider = data.confirmed_riders[i]
-						- var rating = data.rate_riders[i]
+						- let rating = data.rate_riders[i]
 						#form-group
 						.row
 							.col
@@ -66,89 +66,12 @@ block content
 								p=Math.round(rating)
 							.col
 								if rating==-1
-									div(class='row-'+i)
-										form(method='POST', action='/rides/rate-rider/'+data.id+'/'+data.driver+'/'+c_rider, id='form_rate_id')
-											input.form-control(name='starRating' hidden=true)
-
-											h5.stars-rate(data-rating=Math.round(rating))
-												span.star-rate &nbsp;
-												span.star-rate &nbsp;
-												span.star-rate &nbsp;
-												span.star-rate &nbsp;
-												span.star-rate &nbsp;
-											script.
-												document.addEventListener('DOMContentLoaded', function () {
-													var doc = document.querySelectorAll('.row-'+i);
-													var stars1 = doc.querySelectorAll('.star-rate');
-													stars1.forEach(function (star1) {
-														star1.addEventListener('click', setRating);
-													});
-													var rating1 = parseInt(doc.querySelector('.stars-rate').getAttribute('data-rating'));
-													var target1 = stars1[rating1 - 1];
-													target1.dispatchEvent(new MouseEvent('click'));
-												});
-												function setRating(ev) {
-													var span1 = ev.currentTarget;
-													var doc = document.querySelectorAll('.row-'+i);
-													var stars1 = doc.querySelectorAll('.star-rate');
-													var match1 = false;
-													var num1 = 0;
-													stars1.forEach(function (star1, index1) {
-														if (match1) {
-															star1.classList.remove('rated');
-														} else {
-															star1.classList.add('rated');
-														}
-														//are we currently looking at the span that was clicked
-														if (star1 === span1) {
-															match1 = true;
-															num1 = index1 + 1;
-														}
-													});
-													doc.querySelector('.stars-rate').setAttribute('data-rating', num1);
-													doc.getElementById('form_rate_id').elements.namedItem('starRating').value = num1;
-													doc.getElementById("form_rate_id").submit();// Form submission
-												}
+									form(method='POST', action='/users/rate-rider/' + data.id)
+										input.form-control(name='driverUsername', hidden=true, value=data.driver, type="text")
+										input.form-control(name='riderUsername', hidden=true, value=c_rider, type="text")
+										input.btn.btn-secondary.bt-lg.btn-block(type='submit', value='Give rating')
 								else
-									div(class='row_'+i)
-										h5.stars(given-rating=Math.round(rating))
-											span.star &nbsp;
-											span.star &nbsp;
-											span.star &nbsp;
-											span.star &nbsp;
-											span.star &nbsp;
-										script.
-											//initial setup
-											document.addEventListener('DOMContentLoaded', function () {
-												var doc = document.querySelectorAll('.row_'+i);
-												var stars2 = doc.querySelectorAll('.star');
-												stars2.forEach(function (star2) {
-													star2.addEventListener('show', getRating);
-												});
-												var rating2 = parseInt(doc.querySelector('.stars').getAttribute('given-rating'));
-												var target2 = stars2[rating2 - 1];
-												target2.dispatchEvent(new MouseEvent('show'));
-											});
-											function getRating(ev) {
-												// ev.preventDefault();
-												var span2 = ev.currentTarget;
-												var doc = document.querySelectorAll('.row_'+i);
-												var stars2 = doc.querySelectorAll('.star');
-												var match2 = false;
-												var num2 = 0;
-												stars2.forEach(function (star2, index2) {
-													if (match2) {
-														star2.classList.remove('rated');
-													} else {
-														star2.classList.add('rated');
-													}
-													if (star2 === span2) {
-														match2 = true;
-														num2 = index2 + 1;
-													}
-												});
-												doc.querySelector('.stars').setAttribute('given-rating', num2);
-											}
+									input.btn.btn-secondary.bt-lg.btn-block(value=rating+'/5' readonly)
 	else
 		#testSecondPage
 			if data.confirmed_riders

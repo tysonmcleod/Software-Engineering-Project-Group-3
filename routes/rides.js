@@ -410,11 +410,9 @@ router.get('/show-ads/:id', (req, res) => {
 	})
 });
 
-router.post('/rate-rider/:id/:driverUsername/:riderUsername', async (req, res) => {
+router.post('/rate-rider/:id', async (req, res) => {
 	const id = req.params.id;
-	const driverUsername = req.params.driverUsername;
-	const riderUsername = req.params.riderUsername;
-	// const rating = req.params.rating;
+	const riderUsername = req.body.riderUsername;
 	const rating = req.body.starRating;
 
 	let ad = await Advertisement.findById(id);
