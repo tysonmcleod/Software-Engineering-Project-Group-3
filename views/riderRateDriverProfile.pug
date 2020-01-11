@@ -33,7 +33,7 @@ block content
                         .col-xs-4.col-sm-4.col-md-4
                             h5.rating Rating:
                         .col-xs-8.col-sm-8.col-md-8
-                            h5.font-weight-bold.stars(data-rating=Math.round(data.rating))
+                            h5.font-weight-bold.stars(data-rating=Math.round(data.rating/data.votes))
                                 span.star &nbsp;
                                 span.star &nbsp;
                                 span.star &nbsp;
@@ -116,5 +116,5 @@ block content
                                             }
                                         });
                                         document.getElementById('form_rate_id').elements.namedItem('starRating').value = num1;
-                                        document.getElementById("form_rate_id").submit();// Form submission
+                                        document.getElementById("form_rate_id").submit();
                                     }
