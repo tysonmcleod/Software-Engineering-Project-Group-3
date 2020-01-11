@@ -5,6 +5,7 @@ var Advertisement = require('../models/Advertisement');
 var User = require('../models/user');
 var bcrypt = require('bcryptjs');
 var passport = require('passport');
+var Messages = require('../models/messages');
 
 const keyFile = require('../APIkey.json');
 const GoogleAPIKey = keyFile.APIKey;
@@ -200,7 +201,7 @@ router.get('/derequest-ride/:id', async (req, res) => {
 });
 
 
-router.post('/accept-rider/:id/:username', async (req, res) => {
+router.post('/accept-rider/:id/:username/:driver', async (req, res) => {
 	const id = req.params.id;
 	const new_rider = req.params.username;
 
@@ -222,10 +223,55 @@ router.post('/accept-rider/:id/:username', async (req, res) => {
           }
       	});
     }
+
+   	const sender = req.params.driver
+    const receiver = req.params.username;
+    const msg = "Hi! Your request on ad " + id + " has been accepted.";
+    const msgDate = new Date();
+
+    console.log(sender + " sent to " + receiver + ":");
+    console.log(msg);
+
+        // Check if a conversation between sender and receiver already exists
+    const chat = await Messages.findOne({$and: [{participants: sender}, {participants: receiver}]});
+
+    
+    // if it exists then add the message
+    if (chat != null) {
+        chat.messages.push(msg);
+        chat.senders.push(sender);
+        chat.dates.push(msgDate);
+        chat.lastMsgDate = msgDate;
+
+        try {
+            const savedChat = await chat.save();
+            console.log("Updated conversation between users " + sender + " and " + receiver);
+            console.log(savedChat);
+        } catch (err) {
+            res.status(400).json({ message: err.message })
+        }
+    } else {
+        // otherwise create it from scratch
+        const newChat = new Messages({
+            participants: [sender, receiver],
+            messages: [msg],
+            senders: [sender],
+            dates: [msgDate],
+            lastMsgDate: msgDate
+        });
+
+        try {
+            const newSavedChat = await newChat.save();
+            console.log("New conversation between users " + sender + " and " + receiver);
+            console.log(newSavedChat);
+        } catch (err) {
+            res.status(400).json({ message: err.message })
+        }
+    }
     res.redirect("/rides/manage-users-ads/"+ id);
 });
 
-router.post('/reject-rider/:id/:username', async (req, res) => {
+router.post('/reject-rider/:id/:username/:driver', async (req, res) => {
 	const id = req.params.id;
 	const new_rider = req.params.username;
 	
@@ -245,6 +291,51 @@ router.post('/reject-rider/:id/:username', async (req, res) => {
             return;
           }
       	});
+    }
+
+    const sender = req.params.driver
+    const receiver = req.params.username;
+    const msg = "Hi! Your request on ad " + id + " has been rejected.";
+    const msgDate = new Date();
+
+    console.log(sender + " sent to " + receiver + ":");
+    console.log(msg);
+
+        // Check if a conversation between sender and receiver already exists
+    const chat = await Messages.findOne({$and: [{participants: sender}, {participants: receiver}]});
+
+    
+    // if it exists then add the message
+    if (chat != null) {
+        chat.messages.push(msg);
+        chat.senders.push(sender);
+        chat.dates.push(msgDate);
+        chat.lastMsgDate = msgDate;
+
+        try {
+            const savedChat = await chat.save();
+            console.log("Updated conversation between users " + sender + " and " + receiver);
+            console.log(savedChat);
+        } catch (err) {
+            res.status(400).json({ message: err.message })
+        }
+    } else {
+        // otherwise create it from scratch
+        const newChat = new Messages({
+            participants: [sender, receiver],
+            messages: [msg],
+            senders: [sender],
+            dates: [msgDate],
+            lastMsgDate: msgDate
+        });
+
+        try {
+            const newSavedChat = await newChat.save();
+            console.log("New conversation between users " + sender + " and " + receiver);
+            console.log(newSavedChat);
+        } catch (err) {
+            res.status(400).json({ message: err.message })
+        }
     }
     res.redirect("/rides/manage-users-ads/" + id);
 });
