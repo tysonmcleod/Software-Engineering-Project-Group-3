@@ -35,7 +35,8 @@ const Advertisement = new mongoose.Schema({
 	'available_seats': {type:Number, trim:true, default:0},
 	'departure': {type:String, trim:true, default:''},
 	'arrival': {type:String, trim:true, default:''},
-	'rate_riders': [{type: Number}]
+	'rate_riders': [{type: Number}],
+	'riders_rate_driver': [{type: Number}]
 });
 
 module.exports = mongoose.model('Advertisement', Advertisement);
