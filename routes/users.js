@@ -134,7 +134,7 @@ router.get('/profile/:username/:adId/:interest', async (req, res) => {
         console.log("Display profile of user: " + user.username);
         console.log(user);
         console.log(interest);
-        if (interest === true)
+        if (interest === 'true')
             res.render("checkoutInterestedProfile", {
                 firstname: user.firstname,
                 lastname: user.lastname,
