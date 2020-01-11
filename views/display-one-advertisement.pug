@@ -11,9 +11,9 @@ block content
 				#form-group
 				.row
 					.col-6
-						p= "From: " + data.from
+						p= "From: " + data.fromfrom + ", " + data.from
 					.col-6
-						p= "To: " + data.to
+						p= "To: " + data.toto + ", " + data.to
 				.row
 						.col-6
 							p= "Departure: " + data.departure
@@ -23,16 +23,21 @@ block content
 					.col-6
 						p= "Available seats:" + data.available_seats
 					.col-6
-						span Driver: #[a.mngOneAd(href='/users/profile/'+data.driver+'/'+data.id+'/false') #{data.driver}]
+						p Driver: #[a.mngOneAd(href='/users/profile/'+data.driver+'/'+data.id+'/false') #{data.driver}]
 				.row
 					.col
 						if data.confirmed_riders
-							span="Riders: "
+							p="Riders: "
 							for rider in data.confirmed_riders
 								a.mngOneAd(href='/users/profile/' + rider + '/' + data.id + '/false') #{rider}
 								span=" "
 					.col
 						p="Date: " + data.date
+				.row
+					.col
+						p="Pick-up and delivery zone: " + data.radius*100 + " km"
+					.col
+						p="Price: " + data.price + " SEK"
 
 		script(type='text/javascript', src='/javascripts/map.js')
 		script(async, defer, type='text/javascript', src=`https://maps.googleapis.com/maps/api/js?key=${apiKey}&callback=showRoute`)

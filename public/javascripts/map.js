@@ -1,6 +1,64 @@
 var uppsala = {lat: 59.85882, lng: 17.63889};
 var markers = [null, null];
 var geocoder = null;
+const CSS_COLOR_NAMES = [
+  "Brown",
+  "CadetBlue",
+  "Chocolate",
+  "Coral",
+  "CornflowerBlue",
+  "Crimson",
+  "Cyan",
+  "DarkBlue",
+  "DarkCyan",
+  "DarkGoldenRod",
+  "DarkGray",
+  "DarkGrey",
+  "DarkGreen",
+  "DarkKhaki",
+  "DarkMagenta",
+  "DarkOliveGreen",
+  "DarkOrange",
+  "DarkOrchid",
+  "DarkRed",
+  "DarkViolet",
+  "DeepPink",
+  "DeepSkyBlue",
+  "DodgerBlue",
+  "FireBrick",
+  "ForestGreen",
+  "Fuchsia",
+  "Gainsboro",
+  "Gold",
+  "GoldenRod",
+  "Gray",
+  "Green",
+  "HotPink",
+  "IndianRed",
+  "Indigo",
+  "Khaki",
+  "Maroon",
+  "MidnightBlue",
+  "Navy",
+  "Olive",
+  "Orange",
+  "Peru",
+  "Pink",
+  "Plum",
+  "Purple",
+  "Red",
+  "RosyBrown",
+  "RoyalBlue",
+  "SaddleBrown",
+  "Sienna",
+  "Silver",
+  "SkyBlue",
+  "SpringGreen",
+  "SteelBlue",
+  "Teal",
+  "Thistle",
+  "Violet",
+];
 
 function createMarker(location) {
     var marker = new google.maps.Marker({
@@ -41,12 +99,16 @@ function initMap() {
 	});
 }
 
-function showRoute(from, to, riders) {
+function showRoute() {
     var directionsService = new google.maps.DirectionsService;
     var directionsRenderer = new google.maps.DirectionsRenderer;
 
+    var dataObject = JSON.parse(document.getElementById('dataobj').value);
+
+    var latlng = new google.maps.LatLng(parseFloat(dataObject.from_details[0].lat), parseFloat(dataObject.from_details[0].lng));
+
     map = new google.maps.Map(document.getElementById('map'), {
-        center: uppsala,
+        center: latlng,
         zoom: 10,
         streetViewControl: false,
         mapTypeControlOptions: {
@@ -54,7 +116,6 @@ function showRoute(from, to, riders) {
         }
     });
 
-    var dataObject = JSON.parse(document.getElementById('dataobj').value);
     var from = {lat: dataObject.from_details[0].lat, lng: dataObject.from_details[0].lng};
     var to = {lat: dataObject.to_details[0].lat, lng: dataObject.to_details[0].lng};
     var waypoints = []
@@ -74,7 +135,7 @@ function showRoute(from, to, riders) {
     }
 
     directionsRenderer.setMap(map);
-    
+
     directionsService.route({
         origin: from,
         destination: to,
@@ -88,6 +149,76 @@ function showRoute(from, to, riders) {
             window.alert('Directions request failed');
         }
     });
+
+}
+
+function showAllRoutes() {
+    var directionsService = new google.maps.DirectionsService;
+
+    let dataObject2 = JSON.parse(document.getElementById('dataobj').value);
+    let used_colors = [];
+
+    const map = new google.maps.Map(document.getElementById('map'), {
+        center: uppsala,
+        zoom: 10,
+        streetViewControl: false,
+        mapTypeControlOptions: {
+            mapTypeIds: [google.maps.MapTypeId.ROADMAP, google.maps.MapTypeId.HYBRID]
+        }
+    });
+
+    for(var p = 0; p < dataObject2.length; p++) {
+        let dataObject = dataObject2[p];
+
+        var from = {lat: dataObject.from_details[0].lat, lng: dataObject.from_details[0].lng};
+        var to = {lat: dataObject.to_details[0].lat, lng: dataObject.to_details[0].lng};
+        var waypoints = []
+
+        if(dataObject.confirmed_rider_trips) {
+            for(var i = 0; i < dataObject.confirmed_rider_trips.length; i++) {
+
+                    waypoints.push({
+                        location: {lat: dataObject.confirmed_rider_trips[i].from_lat, lng: dataObject.confirmed_rider_trips[i].from_lng},
+                        stopover: true
+                    });
+                    waypoints.push({
+                        location: {lat: dataObject.confirmed_rider_trips[i].to_lat, lng: dataObject.confirmed_rider_trips[i].to_lng},
+                        stopover: true
+                    });            
+            }
+        }
+
+        function renderDirections(result, index) { 
+            var directionsRenderer = new google.maps.DirectionsRenderer();
+            var random_color = CSS_COLOR_NAMES[Math.floor(Math.random() * CSS_COLOR_NAMES.length)];
+            used_colors.push(random_color);
+            directionsRenderer.setMap(map);
+            directionsRenderer.setDirections(result);
+            directionsRenderer.setOptions({
+                polylineOptions: {
+                    strokeColor: random_color,
+                    strokeOpacity: 1.0
+                },
+                markerOptions: {
+                    visible: true
+                }
+            });
+        }
+
+        directionsService.route({
+            origin: from,
+            destination: to,
+            waypoints: waypoints,
+            optimizeWaypoints: true,
+            travelMode: 'DRIVING'
+        }, function(response, status) {
+            if(status === 'OK') {
+                renderDirections(response, p);
+            } else {
+                window.alert('Directions request failed');
+            }
+        });
+    }
 }
 
 function placeMarker(location) {
