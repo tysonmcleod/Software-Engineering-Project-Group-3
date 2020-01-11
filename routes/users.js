@@ -198,4 +198,24 @@ router.post('/update', async (req, res) => {
     }
 });
 
+router.post('/rate-rider/:id', async (req, res) => {
+    const id = req.params.id;
+    const driverUsername = req.body.driverUsername;
+    const riderUsername = req.body.riderUsername;
+
+    let user = await User.findOne({username: riderUsername});
+
+    res.render("driverRateRiderProfile", {data: user, driver: driverUsername, adId: id})
+});
+
+router.post('/rate-driver/:id', async (req, res) => {
+    const id = req.params.id;
+    const driverUsername = req.body.driverUsername;
+    const riderUsername = req.body.riderUsername;
+
+    let user = await User.findOne({username: driverUsername});
+
+    res.render("riderRateDriverProfile", {data: user, rider: riderUsername, adId: id})
+});
+
 module.exports = router;

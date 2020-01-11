@@ -204,6 +204,8 @@ router.post('/accept-rider/:id/:username', async (req, res) => {
 
 	if(!ad.confirmed_riders.includes(new_rider)){
 		ad.confirmed_riders.push(new_rider);
+		ad.rate_riders.push(-1);
+		ad.riders_rate_driver.push(-1);
 		ad.interested_riders.pull(new_rider);
 
 		const trip = ad.rider_trips.find(x => x.username == new_rider);
@@ -220,7 +222,7 @@ router.post('/accept-rider/:id/:username', async (req, res) => {
     }
     res.redirect("/rides/manage-users-ads/"+ id);
 });
-
+// todo: remove one -1 value from rate_riders array
 router.post('/reject-rider/:id/:username', async (req, res) => {
 	const id = req.params.id;
 	const new_rider = req.params.username;
@@ -382,6 +384,7 @@ router.get('/manage-users-ads/:id', async (req, res) => {
 	Advertisement.findById(id)
 	.then(advertisement => {
 		console.log(advertisement.rider_trips);
+		console.log(advertisement)
 		res.render("manage-one-advertisement", {	data: advertisement, username: username, apiKey: GoogleAPIKey});
 	})
 	.catch(err => {
@@ -404,6 +407,100 @@ router.get('/show-ads/:id', (req, res) => {
 			message: 'Advertisement ' + id + ' not found.'
 		})
 	})
+});
+
+router.post('/rate-rider/:id', async (req, res) => {
+	const id = req.params.id;
+	const riderUsername = req.body.riderUsername;
+	const rating = req.body.starRating;
+
+	let ad = await Advertisement.findById(id);
+
+	riderIndex = ad.confirmed_riders.indexOf(riderUsername);
+	ad.rate_riders[riderIndex] = Number(rating);
+
+	var updateObj = { $set: {} };
+	updateObj.$set["rate_riders."+riderIndex] = Number(rating);
+
+	let savedAd = await Advertisement.findByIdAndUpdate(id, updateObj);
+
+	console.log(savedAd);
+
+
+	let user = await User.findOne({username: riderUsername});
+	console.log('Rating and votes of rider ' + riderUsername + ' before new rating.');
+	console.log(user.rating);
+	console.log(user.votes);
+
+	if (user.votes == 0)
+		user.rating = user.rating + Number(rating);
+	else
+		user.rating = (user.rating + Number(rating)) / 2;
+	user.votes = user.votes + 1;
+
+	let updatedUser = {
+		rating: user.rating,
+		votes: user.votes
+	};
+
+	console.log('Rating and votes of rider ' + riderUsername + ' after new rating.');
+
+	try {
+		const savedUser = await User.findOneAndUpdate({username: riderUsername}, updatedUser, {new: true});
+		console.log(savedUser);
+	} catch (err) {
+		res.status(500).json({message: err.message})
+		// TODO: render to error not found pug file
+	}
+
+	res.redirect("/rides/manage-users-ads/" + id);
+});
+
+router.post('/rate-driver/:id', async (req, res) => {
+	const id = req.params.id;
+	const driverUsername = req.body.driverUsername;
+	const riderUsername = req.body.riderUsername;
+	const rating = req.body.starRating;
+
+	let ad = await Advertisement.findById(id);
+
+	riderIndex = ad.confirmed_riders.indexOf(riderUsername);
+	ad.riders_rate_driver[riderIndex] = Number(rating);
+
+	var updateObj = { $set: {} };
+	updateObj.$set["riders_rate_driver."+riderIndex] = Number(rating);
+
+	let savedAd = await Advertisement.findByIdAndUpdate(id, updateObj);
+
+	console.log(savedAd);
+
+	let user = await User.findOne({username: driverUsername});
+	console.log('Rating and votes of driver ' + driverUsername + ' before new rating.');
+	console.log(user.driverRating);
+	console.log(user.driverVotes);
+
+	if (user.driverVotes == 0)
+		user.driverRating = user.driverRating + Number(rating);
+	else
+		user.driverRating = (user.driverRating + Number(rating)) / 2;
+	user.driverVotes = user.driverVotes + 1;
+
+	let updatedUser = {
+		driverRating: user.driverRating,
+		driverVotes: user.driverVotes
+	};
+
+	console.log('Rating and votes of driver ' + driverUsername + ' after new rating.');
+
+	try {
+		const savedUser = await User.findOneAndUpdate({username: driverUsername}, updatedUser, {new: true});
+		console.log(savedUser);
+	} catch (err) {
+		res.status(500).json({message: err.message})
+		// TODO: render to error not found pug file
+	}
+
+	res.redirect("/rides/manage-users-rides");
 });
 
 function getCurrentDate() {
