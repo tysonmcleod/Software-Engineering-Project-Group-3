@@ -1,0 +1,122 @@
+extends layout
+
+block content
+    .container
+        #profilePage
+            .jumbotron
+                .row
+                    .col-6
+                        #profilepageImage
+                            img(src='/images/blank-profile-picture.png' width="96" height="96")
+                #userDetails
+                    .row.offset-1
+                        .col-xs-4.col-sm-4.col-md-4
+                            h5.first-name First name:
+                        .col-xs-8.col-sm-8.col-md-8
+                            h5.font-weight-bold #{data.firstname}
+                    .row.offset-1
+                        .col-xs-4.col-sm-4.col-md-4
+                            h5.last-name Last name:
+                        .col-xs-8.col-sm-8.col-md-8
+                            h5.font-weight-bold #{data.lastname}
+                    .row.offset-1
+                        .col-xs-4.col-sm-4.col-md-4
+                            h5.username Username:
+                        .col-xs-8.col-sm-8.col-md-8
+                            h5.font-weight-bold #{data.username}
+                    .row.offset-1
+                        .col-xs-4.col-sm-4.col-md-4
+                            h5.email Email:
+                        .col-xs-8.col-sm-8.col-md-8
+                            h5.font-weight-bold #{data.email}
+                    .row.offset-1
+                        .col-xs-4.col-sm-4.col-md-4
+                            h5.rating Rating:
+                        .col-xs-8.col-sm-8.col-md-8
+                            h5.font-weight-bold.stars(data-rating=Math.round(data.rating))
+                                span.star &nbsp;
+                                span.star &nbsp;
+                                span.star &nbsp;
+                                span.star &nbsp;
+                                span.star &nbsp;
+                            script.
+                                //initial setup
+                                document.addEventListener('DOMContentLoaded', function () {
+                                    let stars = document.querySelectorAll('.star');
+                                    stars.forEach(function (star) {
+                                        star.addEventListener('show', getRating);
+                                    });
+                                    let rating = parseInt(document.querySelector('.stars').getAttribute('data-rating'));
+                                    let target = stars[rating - 1];
+                                    target.dispatchEvent(new MouseEvent('show'));
+                                });
+                                function getRating(ev) {
+                                    let span = ev.currentTarget;
+                                    let stars = document.querySelectorAll('.star');
+                                    let match = false;
+                                    let num = 0;
+                                    stars.forEach(function (star, index) {
+                                        if (match) {
+                                            star.classList.remove('rated');
+                                        } else {
+                                            star.classList.add('rated');
+                                        }
+                                        if (star === span) {
+                                            match = true;
+                                            num = index + 1;
+                                        }
+                                    });
+                                    document.querySelector('.stars').setAttribute('data-rating', num);
+                                }
+                    .row.offset-1
+                        .col-xs-4.col-sm-4.col-md-4
+                            h5
+                        .col-xs-8.col-sm-8.col-md-8
+                            h5.font-weight-bold (#{data.votes} votes)
+
+                #userDetails
+                    .row.offset-1
+                        .col-xs-4.col-sm-4.col-md-4
+                            h5.first-name Rate #{data.firstname}:
+                        .col-xs-8.col-sm-8.col-md-8
+                            form(method='POST', action='/rides/rate-driver/' + adId, id='form_rate_id')
+                                input.form-control(name='starRating', hidden=true)
+                                input.form-control(name='driverUsername', hidden=true, value=driver, type="text")
+                                input.form-control(name='riderUsername', hidden=true, value=data.username, type="text")
+                                h5.font-weight-bold.stars-rate(give-rating=0)
+                                    span.star-rate &nbsp;
+                                    span.star-rate &nbsp;
+                                    span.star-rate &nbsp;
+                                    span.star-rate &nbsp;
+                                    span.star-rate &nbsp;
+                                script.
+                                    document.addEventListener('DOMContentLoaded', function () {
+                                        var stars1 = document.querySelectorAll('.star-rate');
+                                        stars1.forEach(function (star1) {
+                                            star1.addEventListener('click', setRating);
+                                        });
+                                        var rating1 = parseInt(document.querySelector('.stars-rate').getAttribute('give-rating'));
+                                        var target1 = stars1[rating1 - 1];
+                                        target1.dispatchEvent(new MouseEvent('click'));
+                                    });
+                                    function setRating(ev) {
+                                        var span1 = ev.currentTarget;
+                                        var stars1 = document.querySelectorAll('.star-rate');
+                                        var match1 = false;
+                                        var num1 = 0;
+                                        stars1.forEach(function (star1, index1) {
+                                            if (match1) {
+                                                star1.classList.remove('rated');
+                                            } else {
+                                                star1.classList.add('rated');
+                                            }
+                                            //are we currently looking at the span that was clicked
+                                            if (star1 === span1) {
+                                                match1 = true;
+                                                num1 = index1 + 1;
+                                            }
+                                        });
+                                        // document.querySelectorAll('.star-rate').setAttribute('give-rating', num1);
+                                        document.getElementById('form_rate_id').elements.namedItem('starRating').value = num1;
+                                        document.getElementById("form_rate_id").submit();// Form submission
+                                    }
