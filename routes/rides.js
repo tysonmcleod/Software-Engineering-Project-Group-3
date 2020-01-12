@@ -5,11 +5,13 @@ var Advertisement = require('../models/Advertisement');
 var User = require('../models/user');
 var bcrypt = require('bcryptjs');
 var passport = require('passport');
+var Messages = require('../models/messages');
 
 const keyFile = require('../APIkey.json');
 const GoogleAPIKey = keyFile.APIKey;
 
 User = User.model;
+// Messages = Messages.model;
 
 router.get('/', function(req, res, next) {
 
@@ -158,6 +160,11 @@ router.get('/request-ride/:id/:from_lat/:from_lng/:to_lat/:to_lng', async (req, 
       	});
     }
 
+	const msg = "Hello "+ad.driver+"!\n" +
+		"I'd like to join your ride!\n\n" +
+		testUser;
+	await automaticRideMessage(testUser, ad.driver, msg);
+
 	res.redirect("back");
 });
 
@@ -220,6 +227,12 @@ router.post('/accept-rider/:id/:username', async (req, res) => {
           }
       	});
     }
+
+	const msg = "Hello "+new_rider+"!\n"+
+		"Welcome to my ride!\n\n"+
+		ad.driver;
+	await automaticRideMessage(ad.driver, new_rider, msg);
+
     res.redirect("/rides/manage-users-ads/"+ id);
 });
 // todo: remove one -1 value from rate_riders array
@@ -267,6 +280,13 @@ router.post('/not-accept-rider/:id/:username', async (req, res) => {
 			}
 		});
 	}
+
+	const msg = "Hello "+rider+",\n"+
+		"Unfortunately you cannot join the ride.\n"+
+		"Hope to see you in a future ride!\n\n"+
+		ad.driver;
+	await automaticRideMessage(ad.driver, rider, msg);
+
 	res.redirect("/rides/manage-users-ads/" + id);
 });
 
@@ -396,10 +416,13 @@ router.get('/manage-users-ads/:id', async (req, res) => {
 });
 
 router.get('/show-ads/:id', (req, res) => {
-	const id = req.params.id
+	const id = req.params.id;
+	const test = res.locals.user;
+	const username = test.username;
+
 	Advertisement.findById(id)
 	.then(advertisement => {
-		res.render("display-one-advertisement", {	data: advertisement, apiKey: GoogleAPIKey});
+		res.render("display-one-advertisement", {	data: advertisement, apiKey: GoogleAPIKey, username: username});
 	})
 	.catch(err => {
 		res.json({
@@ -512,5 +535,56 @@ function getCurrentDate() {
 	return(`${year}-${month}-${day}`);
 }
 
+async function automaticRideMessage(sender, receiver, msg) {
+	const msgDate = new Date();
+
+	console.log(sender + " sent automatic msg to driver " + receiver + ":");
+	console.log(msg);
+
+	// Check if a conversation between sender and receiver already exists
+	const chat = await Messages.findOne({$and: [{participants: sender}, {participants: receiver}]});
+
+	// If message body is empty then redirect to conversation's page
+	if (!msg.length) {
+		try {
+			console.log("Conversation between users " + sender + " and " + receiver + "does not change.");
+			res.redirect("/messages/" + sender + "/" + receiver);
+		} catch (err) {
+			res.status(400).json({ message: err.message })
+		}
+	}
+	// if it exists then add the message
+	else if (chat != null) {
+		chat.messages.push(msg);
+		chat.senders.push(sender);
+		chat.dates.push(msgDate);
+		chat.lastMsgDate = msgDate;
+
+		try {
+			const savedChat = await chat.save();
+			console.log("Updated conversation between users " + sender + " and " + receiver);
+			console.log(savedChat);
+		} catch (err) {
+			res.status(400).json({ message: err.message })
+		}
+	} else {
+		// otherwise create it from scratch
+		const newChat = new Messages({
+			participants: [sender, receiver],
+			messages: [msg],
+			senders: [sender],
+			dates: [msgDate],
+			lastMsgDate: msgDate
+		});
+
+		try {
+			const newSavedChat = await newChat.save();
+			console.log("New conversation between users " + sender + " and " + receiver);
+			console.log(newSavedChat);
+		} catch (err) {
+			res.status(400).json({ message: err.message })
+		}
+	}
+}
 
 module.exports = router;
