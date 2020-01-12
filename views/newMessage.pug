@@ -18,14 +18,13 @@ block content
                             input.form-control(name='sender', type='text', value=username, hidden=true)
                             input.form-control(id='receiver', name='receiver', hidden=true)
                         .col-2
-                            button.btn.btn-secondary.bt-lg.btn-block(onclick='myFunction') Send
+                            button.btn.btn-secondary.bt-lg.btn-block(type='button' onclick='myFunction()') Send
 
                         script.
                             let inputReceiver = document.getElementById('receiver');
                             let x = document.getElementById('mySelect').value;
                             function myFunction() {
                                 inputReceiver.value = x;
-                                // document.getElementById('sendMsg').elements.namedItem('receiver').value = x;
-                                // document.getElementById('receiver').value = x;
+                                document.getElementById('receiver').value = x
                                 document.getElementById('sendMsg').submit();
                             }
