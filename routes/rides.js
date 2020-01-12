@@ -226,7 +226,7 @@ router.post('/accept-rider/:id/:username/:driver', async (req, res) => {
 
    	const sender = req.params.driver
     const receiver = req.params.username;
-    const msg = "Hi! Your request on ad " + id + " has been accepted.";
+    const msg = "Hi! Your request on ad from " + ad.fromfrom + " to " + ad.toto + " on " + ad.date + " has been accepted.";
     const msgDate = new Date();
 
     console.log(sender + " sent to " + receiver + ":");
@@ -295,7 +295,7 @@ router.post('/reject-rider/:id/:username/:driver', async (req, res) => {
 
     const sender = req.params.driver
     const receiver = req.params.username;
-    const msg = "Hi! Your request on ad " + id + " has been rejected.";
+    const msg = "Hi! Your request on ad " + ad.fromfrom + " to " + ad.toto + " on " + ad.date + " has been rejected.";
     const msgDate = new Date();
 
     console.log(sender + " sent to " + receiver + ":");
