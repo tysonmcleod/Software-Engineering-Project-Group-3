@@ -1,6 +1,9 @@
 var express = require('express');
 var router = express.Router();
 var Messages = require('../models/messages');
+var User = require('../models/user');
+
+User = User.model;
 
 // Create message
 router.post('/', async (req, res) => {
@@ -90,6 +93,20 @@ router.get('/:id1/:id2', async (req, res) => {
     } catch (err) {
         res.status(500).json({ message: err.message })
     }
+});
+
+router.get('/newMessage', async (req, res) => {
+    const user = res.locals.user;
+    const username = user.username;
+
+    try {
+        const users = await User.find();
+        console.log(users);
+        res.render("newMessage", {data: users, username: username})
+    } catch (err) {
+        res.status(500).json({ message: err.message })
+    }
+
 });
 
 module.exports = router;
