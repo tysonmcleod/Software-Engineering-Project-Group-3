@@ -107,10 +107,9 @@ block content
 												a.btn.btn-secondary.bt-lg.btn-block(href="show-ads/"+ad.id) Info
 											br
 											.row
-												- index
 												- riderIndex = ad.confirmed_riders.indexOf(rider);
 												- rating = ad.riders_rate_driver[riderIndex];
-												if (!rating || rating == -1)
+												if (rating == -1)
 													form(method='POST', action='/users/rate-driver/' + ad.id)
 														input.form-control(name='driverUsername', hidden=true, value=ad.driver, type="text")
 														input.form-control(name='riderUsername', hidden=true, value=rider, type="text")

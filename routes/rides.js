@@ -432,11 +432,8 @@ router.post('/rate-rider/:id', async (req, res) => {
 	console.log(user.rating);
 	console.log(user.votes);
 
-	if (user.votes == 0)
-		user.rating = user.rating + Number(rating);
-	else
-		user.rating = (user.rating + Number(rating)) / 2;
-	user.votes = user.votes + 1;
+	user.rating += Number(rating);
+	user.votes++;
 
 	let updatedUser = {
 		rating: user.rating,
@@ -479,11 +476,8 @@ router.post('/rate-driver/:id', async (req, res) => {
 	console.log(user.driverRating);
 	console.log(user.driverVotes);
 
-	if (user.driverVotes == 0)
-		user.driverRating = user.driverRating + Number(rating);
-	else
-		user.driverRating = (user.driverRating + Number(rating)) / 2;
-	user.driverVotes = user.driverVotes + 1;
+	user.driverRating += Number(rating)
+	user.driverVotes++;
 
 	let updatedUser = {
 		driverRating: user.driverRating,

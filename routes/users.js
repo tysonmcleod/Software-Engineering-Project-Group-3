@@ -118,7 +118,9 @@ router.get('/profile', async (req, res) => {
         email: user.email,
         password: user.password,
         rating: user.rating,
-        votes: user.votes
+        votes: user.votes,
+        driverRating: user.driverRating,
+        driverVotes: user.driverVotes
     })
 });
 
@@ -132,7 +134,7 @@ router.get('/profile/:username/:adId/:interest', async (req, res) => {
         console.log("Display profile of user: " + user.username);
         console.log(user);
         console.log(interest);
-        if (interest === true)
+        if (interest === 'true')
             res.render("checkoutInterestedProfile", {
                 firstname: user.firstname,
                 lastname: user.lastname,
@@ -141,7 +143,9 @@ router.get('/profile/:username/:adId/:interest', async (req, res) => {
                 password: user.password,
                 rating: user.rating,
                 votes: user.votes,
-                adId: adId
+                adId: adId,
+                driverRating: user.driverRating,
+                driverVotes: user.driverVotes
             });
         else
             res.render("checkoutProfile", {
@@ -151,7 +155,9 @@ router.get('/profile/:username/:adId/:interest', async (req, res) => {
                 email: user.email,
                 password: user.password,
                 rating: user.rating,
-                votes: user.votes
+                votes: user.votes,
+                driverRating: user.driverRating,
+                driverVotes: user.driverVotes
             })
     } catch (err) {
         res.status(500).json({message: err.message})
