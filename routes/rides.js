@@ -163,7 +163,12 @@ router.get('/request-ride/:id/:from_lat/:from_lng/:to_lat/:to_lng', async (req, 
       	});
     }
 
-	res.redirect("back");
+
+	const msg = "Hello "+ ad.driver +",\n"+ testUser + " is interested in joining your trip from " + ad.fromfrom + " to " + ad.toto + " on " + ad.date;
+
+	await automaticRideMessage(testUser, ad.driver, msg);
+
+	res.redirect("/rides/manage-users-rides");
 });
 
 
@@ -197,6 +202,13 @@ router.get('/derequest-ride/:id', async (req, res) => {
         }
      	});
 	}
+
+	const msg = "Hello "+ ad.driver +",\n"+
+		"unfortunately, " + testUser + " is no longer interested in joining your trip from " + ad.fromfrom + " to " + ad.toto + " on " + ad.date;
+
+	await automaticRideMessage(testUser, ad.driver, msg);
+
+
     res.redirect("/rides/manage-users-rides");
 });
 
@@ -224,50 +236,10 @@ router.post('/accept-rider/:id/:username/:driver', async (req, res) => {
       	});
     }
 
-   	const sender = req.params.driver
-    const receiver = req.params.username;
-    const msg = "Hi! Your request on ad from " + ad.fromfrom + " to " + ad.toto + " on " + ad.date + " has been accepted.";
-    const msgDate = new Date();
+    const msg = "Hello! Your request on ad from " + ad.fromfrom + " to " + ad.toto + " on " + ad.date + " has been accepted.";
 
-    console.log(sender + " sent to " + receiver + ":");
-    console.log(msg);
+	await automaticRideMessage(ad.driver, new_rider, msg);
 
-        // Check if a conversation between sender and receiver already exists
-    const chat = await Messages.findOne({$and: [{participants: sender}, {participants: receiver}]});
-
-    
-    // if it exists then add the message
-    if (chat != null) {
-        chat.messages.push(msg);
-        chat.senders.push(sender);
-        chat.dates.push(msgDate);
-        chat.lastMsgDate = msgDate;
-
-        try {
-            const savedChat = await chat.save();
-            console.log("Updated conversation between users " + sender + " and " + receiver);
-            console.log(savedChat);
-        } catch (err) {
-            res.status(400).json({ message: err.message })
-        }
-    } else {
-        // otherwise create it from scratch
-        const newChat = new Messages({
-            participants: [sender, receiver],
-            messages: [msg],
-            senders: [sender],
-            dates: [msgDate],
-            lastMsgDate: msgDate
-        });
-
-        try {
-            const newSavedChat = await newChat.save();
-            console.log("New conversation between users " + sender + " and " + receiver);
-            console.log(newSavedChat);
-        } catch (err) {
-            res.status(400).json({ message: err.message })
-        }
-    }
     res.redirect("/rides/manage-users-ads/"+ id);
 });
 
@@ -293,50 +265,10 @@ router.post('/reject-rider/:id/:username/:driver', async (req, res) => {
       	});
     }
 
-    const sender = req.params.driver
-    const receiver = req.params.username;
     const msg = "Hi! Your request on ad " + ad.fromfrom + " to " + ad.toto + " on " + ad.date + " has been rejected.";
-    const msgDate = new Date();
 
-    console.log(sender + " sent to " + receiver + ":");
-    console.log(msg);
+	await automaticRideMessage(ad.driver, new_rider, msg);
 
-        // Check if a conversation between sender and receiver already exists
-    const chat = await Messages.findOne({$and: [{participants: sender}, {participants: receiver}]});
-
-    
-    // if it exists then add the message
-    if (chat != null) {
-        chat.messages.push(msg);
-        chat.senders.push(sender);
-        chat.dates.push(msgDate);
-        chat.lastMsgDate = msgDate;
-
-        try {
-            const savedChat = await chat.save();
-            console.log("Updated conversation between users " + sender + " and " + receiver);
-            console.log(savedChat);
-        } catch (err) {
-            res.status(400).json({ message: err.message })
-        }
-    } else {
-        // otherwise create it from scratch
-        const newChat = new Messages({
-            participants: [sender, receiver],
-            messages: [msg],
-            senders: [sender],
-            dates: [msgDate],
-            lastMsgDate: msgDate
-        });
-
-        try {
-            const newSavedChat = await newChat.save();
-            console.log("New conversation between users " + sender + " and " + receiver);
-            console.log(newSavedChat);
-        } catch (err) {
-            res.status(400).json({ message: err.message })
-        }
-    }
     res.redirect("/rides/manage-users-ads/" + id);
 });
 
@@ -360,6 +292,11 @@ router.post('/not-accept-rider/:id/:username', async (req, res) => {
 			}
 		});
 	}
+
+	 const msg = "Hi! Your request on ad " + ad.fromfrom + " to " + ad.toto + " on " + ad.date + " has been deleted.";
+
+	await automaticRideMessage(ad.driver, rider, msg);
+
 	res.redirect("/rides/manage-users-ads/" + id);
 });
 
@@ -516,5 +453,56 @@ function getCurrentDate() {
 	return(`${year}-${month}-${day}`);
 }
 
+async function automaticRideMessage(sender, receiver, msg) {
+	const msgDate = new Date();
+
+	console.log(sender + " sent automatic msg to driver " + receiver + ":");
+	console.log(msg);
+
+	// Check if a conversation between sender and receiver already exists
+	const chat = await Messages.findOne({$and: [{participants: sender}, {participants: receiver}]});
+
+	// If message body is empty then redirect to conversation's page
+	if (!msg.length) {
+		try {
+			console.log("Conversation between users " + sender + " and " + receiver + "does not change.");
+			res.redirect("/messages/" + sender + "/" + receiver);
+		} catch (err) {
+			res.status(400).json({ message: err.message })
+		}
+	}
+	// if it exists then add the message
+	else if (chat != null) {
+		chat.messages.push(msg);
+		chat.senders.push(sender);
+		chat.dates.push(msgDate);
+		chat.lastMsgDate = msgDate;
+
+		try {
+			const savedChat = await chat.save();
+			console.log("Updated conversation between users " + sender + " and " + receiver);
+			console.log(savedChat);
+		} catch (err) {
+			console.log("Creation of conversation failed");
+		}
+	} else {
+		// otherwise create it from scratch
+		const newChat = new Messages({
+			participants: [sender, receiver],
+			messages: [msg],
+			senders: [sender],
+			dates: [msgDate],
+			lastMsgDate: msgDate
+		});
+
+		try {
+			const newSavedChat = await newChat.save();
+			console.log("New conversation between users " + sender + " and " + receiver);
+			console.log(newSavedChat);
+		} catch (err) {
+			console.log("Creation of conversation failed");
+		}
+	}
+}
 
 module.exports = router;
