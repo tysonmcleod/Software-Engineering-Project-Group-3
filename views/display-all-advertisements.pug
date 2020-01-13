@@ -4,7 +4,7 @@ block content
 	
 	div#dataObject(data-objData=data)
 	input#dataobj(type='hidden', value=data)
-	
+
 	#ridePage
 		h1 #{filter.fromfrom}, #{filter.from}  &#8594 #{filter.toto}, #{filter.to}
 
@@ -68,7 +68,7 @@ block content
 									a.btn.btn-secondary.bt-lg.btn-block(href=
 										"/rides/request-ride/" + ad.id + "/" + filter.from_lat + "/" + filter.from_lng + "/" + filter.to_lat + "/" + filter.to_lng) Request
 	
-	#ridePageMap
+	#rideridePage
 		script(type='text/javascript', src='/javascripts/map.js')
 		script(async, defer, type='text/javascript', src=`https://maps.googleapis.com/maps/api/js?key=${apiKey}&callback=showAllRoutes`)
 		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
