@@ -61,9 +61,9 @@ block content
 								p="Date: " + ad.date
 							.col
 								if ad.confirmed_riders.includes(username)
-									a.btn.btn-secondary.bt-lg.btn-block(href="#" readonly) Joined
+									input.btn.btn-secondary.bt-lg.btn-block(value='Joined' readonly)
 								else if ad.interested_riders.includes(username)
-									a.btn.btn-secondary.bt-lg.btn-block(href="#" readonly) Sent
+									input.btn.btn-secondary.bt-lg.btn-block(value='Sent' readonly)
 								else
 									a.btn.btn-secondary.bt-lg.btn-block(href=
 										"/rides/request-ride/" + ad.id + "/" + filter.from_lat + "/" + filter.from_lng + "/" + filter.to_lat + "/" + filter.to_lng) Request
