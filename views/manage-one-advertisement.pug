@@ -83,7 +83,7 @@ block content
 							.col
 								a.mngOneAd(href='/users/profile/' + c_rider + '/' + data.id + '/false') #{c_rider}
 							.col
-								form(method= 'POST', action='/rides/reject-rider/' + data.id + '/' + c_rider)
+								form(method= 'POST', action='/rides/reject-rider/' + data.id + '/' + c_rider + '/' + data.driver)
 									input.btn.btn-secondary.bt-lg.btn-block(type='submit', value='Remove from ride')
 
 		#testSecondPage
@@ -97,7 +97,7 @@ block content
 									a.mngOneAd(href='/users/profile/' + p_rider + '/' + data.id + "/true") #{p_rider}
 								.col
 									if data.available_seats != 0
-										form(method= 'POST', action='/rides/accept-rider/' + data.id + '/' + p_rider)
+										form(method= 'POST', action='/rides/accept-rider/' + data.id + '/' + p_rider + '/' + data.driver)
 											input.btn.btn-secondary.bt-lg.btn-block(type='submit', value='Add to ride')
 								.col
 									form(method= 'POST', action='/rides/not-accept-rider/' + data.id + '/' + p_rider)
