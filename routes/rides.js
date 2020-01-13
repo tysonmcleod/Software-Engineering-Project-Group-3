@@ -164,7 +164,7 @@ router.get('/request-ride/:id/:from_lat/:from_lng/:to_lat/:to_lng', async (req, 
     }
 
 
-	const msg = "Hello "+ ad.driver +",\n"+ testUser + " is interested in joining your trip from " + ad.fromfrom + " to " + ad.toto + " on " + ad.date;
+	const msg = "Hello! I am  interested in joining your ride from " + ad.fromfrom + " to " + ad.toto + " on " + ad.date;
 
 	await automaticRideMessage(testUser, ad.driver, msg);
 
@@ -203,8 +203,7 @@ router.get('/derequest-ride/:id', async (req, res) => {
      	});
 	}
 
-	const msg = "Hello "+ ad.driver +",\n"+
-		"unfortunately, " + testUser + " is no longer interested in joining your trip from " + ad.fromfrom + " to " + ad.toto + " on " + ad.date;
+	const msg = "Hello! Unfortunately, I am no longer interested in joining your ride from " + ad.fromfrom + " to " + ad.toto + " on " + ad.date;
 
 	await automaticRideMessage(testUser, ad.driver, msg);
 
@@ -236,7 +235,7 @@ router.post('/accept-rider/:id/:username/:driver', async (req, res) => {
       	});
     }
 
-    const msg = "Hello! Your request on ad from " + ad.fromfrom + " to " + ad.toto + " on " + ad.date + " has been accepted.";
+    const msg = "Hello! Your request on the ride from " + ad.fromfrom + " to " + ad.toto + " on " + ad.date + " has been accepted.";
 
 	await automaticRideMessage(ad.driver, new_rider, msg);
 
@@ -265,7 +264,7 @@ router.post('/reject-rider/:id/:username/:driver', async (req, res) => {
       	});
     }
 
-    const msg = "Hi! Your request on ad " + ad.fromfrom + " to " + ad.toto + " on " + ad.date + " has been rejected.";
+    const msg = "Hello! Your confirmed ride from " + ad.fromfrom + " to " + ad.toto + " on " + ad.date + " has been rejected.";
 
 	await automaticRideMessage(ad.driver, new_rider, msg);
 
@@ -293,7 +292,7 @@ router.post('/not-accept-rider/:id/:username', async (req, res) => {
 		});
 	}
 
-	 const msg = "Hi! Your request on ad " + ad.fromfrom + " to " + ad.toto + " on " + ad.date + " has been deleted.";
+	 const msg = "Hello! Your request on the ride from " + ad.fromfrom + " to " + ad.toto + " on " + ad.date + " has been deleted.";
 
 	await automaticRideMessage(ad.driver, rider, msg);
 
@@ -468,7 +467,7 @@ async function automaticRideMessage(sender, receiver, msg) {
 			console.log("Conversation between users " + sender + " and " + receiver + "does not change.");
 			res.redirect("/messages/" + sender + "/" + receiver);
 		} catch (err) {
-			res.status(400).json({ message: err.message })
+			console.log("Creation of conversation failed");
 		}
 	}
 	// if it exists then add the message
