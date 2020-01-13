@@ -3,61 +3,17 @@ var markers = [null, null];
 var geocoder = null;
 const CSS_COLOR_NAMES = [
   "Brown",
-  "CadetBlue",
-  "Chocolate",
-  "Coral",
-  "CornflowerBlue",
-  "Crimson",
   "Cyan",
   "DarkBlue",
-  "DarkCyan",
-  "DarkGoldenRod",
-  "DarkGray",
-  "DarkGrey",
-  "DarkGreen",
-  "DarkKhaki",
-  "DarkMagenta",
   "DarkOliveGreen",
-  "DarkOrange",
-  "DarkOrchid",
   "DarkRed",
-  "DarkViolet",
-  "DeepPink",
-  "DeepSkyBlue",
-  "DodgerBlue",
-  "FireBrick",
-  "ForestGreen",
-  "Fuchsia",
-  "Gainsboro",
-  "Gold",
-  "GoldenRod",
-  "Gray",
   "Green",
-  "HotPink",
-  "IndianRed",
-  "Indigo",
-  "Khaki",
-  "Maroon",
-  "MidnightBlue",
   "Navy",
   "Olive",
   "Orange",
-  "Peru",
   "Pink",
-  "Plum",
   "Purple",
   "Red",
-  "RosyBrown",
-  "RoyalBlue",
-  "SaddleBrown",
-  "Sienna",
-  "Silver",
-  "SkyBlue",
-  "SpringGreen",
-  "SteelBlue",
-  "Teal",
-  "Thistle",
-  "Violet",
 ];
 
 function createMarker(location) {
@@ -188,10 +144,18 @@ function showAllRoutes() {
             }
         }
 
+        let index = p.toString();
+        //document.getElementById("0").style.background = "blue";
+
         function renderDirections(result, index) { 
             var directionsRenderer = new google.maps.DirectionsRenderer();
             var random_color = CSS_COLOR_NAMES[Math.floor(Math.random() * CSS_COLOR_NAMES.length)];
             used_colors.push(random_color);
+
+            document.getElementById(index).style.background = random_color;            
+
+            //document.getElementById("0").style.background-color = "blue";            
+
             directionsRenderer.setMap(map);
             directionsRenderer.setDirections(result);
             directionsRenderer.setOptions({
@@ -213,7 +177,7 @@ function showAllRoutes() {
             travelMode: 'DRIVING'
         }, function(response, status) {
             if(status === 'OK') {
-                renderDirections(response, p);
+                renderDirections(response, index);
             } else {
                 window.alert('Directions request failed');
             }

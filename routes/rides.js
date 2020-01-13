@@ -5,6 +5,7 @@ var Advertisement = require('../models/Advertisement');
 var User = require('../models/user');
 var bcrypt = require('bcryptjs');
 var passport = require('passport');
+var Messages = require('../models/messages');
 
 const keyFile = require('../APIkey.json');
 const GoogleAPIKey = keyFile.APIKey;
@@ -51,6 +52,7 @@ router.get('/', function(req, res, next) {
 		filter.from = arr[1].substr(8);
 		filter.from_lat = lat_from;
 		filter.from_lng = lng_from;
+		filter.fromfrom = arr[0];
 		from_query = {"clique.from_lat_min": {$lt: lat_from}, "clique.from_lat_max": {$gt: lat_from}, "clique.from_lng_min": {$lt: lng_from}, "clique.from_lng_max": {$gt: lng_from}};
 	}
 	else if(req.query.from_lat){
@@ -58,6 +60,7 @@ router.get('/', function(req, res, next) {
 		lng_from = parseFloat(req.query.from_lng);
 		filter.from_lat = lat_from;
 		filter.from_lng = lng_from;
+		filter.fromfrom = req.query.fromfrom;
 		from_query = {"clique.from_lat_min": {$lt: lat_from}, "clique.from_lat_max": {$gt: lat_from}, "clique.from_lng_min": {$lt: lng_from}, "clique.from_lng_max": {$gt: lng_from}};
 	}
 
@@ -72,6 +75,7 @@ router.get('/', function(req, res, next) {
 		filter.to = arr2[1].substr(8);
 		filter.to_lat = lat_to;
 		filter.to_lng = lng_to;
+		filter.toto = arr2[0];
 		to_query = {"clique.to_lat_min": {$lt: lat_to}, "clique.to_lat_max": {$gt: lat_to}, "clique.to_lng_min": {$lt: lng_to}, "clique.to_lng_max": {$gt: lng_to}};
 	}
 	else if(req.query.to_lat){
@@ -79,6 +83,7 @@ router.get('/', function(req, res, next) {
 		lng_to = parseFloat(req.query.to_lng);
 		filter.to_lat = lat_to;
 		filter.to_lng = lng_to;
+		filter.toto = req.query.toto;
 		to_query = {"clique.to_lat_min": {$lt: lat_to}, "clique.to_lat_max": {$gt: lat_to}, "clique.to_lng_min": {$lt: lng_to}, "clique.to_lng_max": {$gt: lng_to}};	}
 
 	if(Object.keys(filter).length === 0){
@@ -158,7 +163,12 @@ router.get('/request-ride/:id/:from_lat/:from_lng/:to_lat/:to_lng', async (req, 
       	});
     }
 
-	res.redirect("back");
+
+	const msg = "Hello! I am  interested in joining your ride from " + ad.fromfrom + " to " + ad.toto + " on " + ad.date;
+
+	await automaticRideMessage(testUser, ad.driver, msg);
+
+	res.redirect("/rides/manage-users-rides");
 });
 
 
@@ -192,11 +202,17 @@ router.get('/derequest-ride/:id', async (req, res) => {
         }
      	});
 	}
+
+	const msg = "Hello! Unfortunately, I am no longer interested in joining your ride from " + ad.fromfrom + " to " + ad.toto + " on " + ad.date;
+
+	await automaticRideMessage(testUser, ad.driver, msg);
+
+
     res.redirect("/rides/manage-users-rides");
 });
 
 
-router.post('/accept-rider/:id/:username', async (req, res) => {
+router.post('/accept-rider/:id/:username/:driver', async (req, res) => {
 	const id = req.params.id;
 	const new_rider = req.params.username;
 
@@ -220,10 +236,15 @@ router.post('/accept-rider/:id/:username', async (req, res) => {
           }
       	});
     }
+
+    const msg = "Hello! Your request on the ride from " + ad.fromfrom + " to " + ad.toto + " on " + ad.date + " has been accepted.";
+
+	await automaticRideMessage(ad.driver, new_rider, msg);
+
     res.redirect("/rides/manage-users-ads/"+ id);
 });
-// todo: remove one -1 value from rate_riders array
-router.post('/reject-rider/:id/:username', async (req, res) => {
+
+router.post('/reject-rider/:id/:username/:driver', async (req, res) => {
 	const id = req.params.id;
 	const new_rider = req.params.username;
 	
@@ -244,6 +265,11 @@ router.post('/reject-rider/:id/:username', async (req, res) => {
           }
       	});
     }
+
+    const msg = "Hello! Your confirmed ride from " + ad.fromfrom + " to " + ad.toto + " on " + ad.date + " has been rejected.";
+
+	await automaticRideMessage(ad.driver, new_rider, msg);
+
     res.redirect("/rides/manage-users-ads/" + id);
 });
 
@@ -267,6 +293,11 @@ router.post('/not-accept-rider/:id/:username', async (req, res) => {
 			}
 		});
 	}
+
+	 const msg = "Hello! Your request on the ride from " + ad.fromfrom + " to " + ad.toto + " on " + ad.date + " has been deleted.";
+
+	await automaticRideMessage(ad.driver, rider, msg);
+
 	res.redirect("/rides/manage-users-ads/" + id);
 });
 
@@ -512,5 +543,56 @@ function getCurrentDate() {
 	return(`${year}-${month}-${day}`);
 }
 
+async function automaticRideMessage(sender, receiver, msg) {
+	const msgDate = new Date();
+
+	console.log(sender + " sent automatic msg to driver " + receiver + ":");
+	console.log(msg);
+
+	// Check if a conversation between sender and receiver already exists
+	const chat = await Messages.findOne({$and: [{participants: sender}, {participants: receiver}]});
+
+	// If message body is empty then redirect to conversation's page
+	if (!msg.length) {
+		try {
+			console.log("Conversation between users " + sender + " and " + receiver + "does not change.");
+			res.redirect("/messages/" + sender + "/" + receiver);
+		} catch (err) {
+			console.log("Creation of conversation failed");
+		}
+	}
+	// if it exists then add the message
+	else if (chat != null) {
+		chat.messages.push(msg);
+		chat.senders.push(sender);
+		chat.dates.push(msgDate);
+		chat.lastMsgDate = msgDate;
+
+		try {
+			const savedChat = await chat.save();
+			console.log("Updated conversation between users " + sender + " and " + receiver);
+			console.log(savedChat);
+		} catch (err) {
+			console.log("Creation of conversation failed");
+		}
+	} else {
+		// otherwise create it from scratch
+		const newChat = new Messages({
+			participants: [sender, receiver],
+			messages: [msg],
+			senders: [sender],
+			dates: [msgDate],
+			lastMsgDate: msgDate
+		});
+
+		try {
+			const newSavedChat = await newChat.save();
+			console.log("New conversation between users " + sender + " and " + receiver);
+			console.log(newSavedChat);
+		} catch (err) {
+			console.log("Creation of conversation failed");
+		}
+	}
+}
 
 module.exports = router;
