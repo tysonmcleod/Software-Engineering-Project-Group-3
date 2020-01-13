@@ -69,7 +69,7 @@ router.get('/all', async (req, res) => {
     const username = user.username;
     console.log("Display all conversations of user: " + username);
     try {
-        const messages = await Messages.find({participants: username});
+        const messages = await Messages.find({participants: username}).sort({lastMsgDate: -1});
         console.log(messages);
         console.log(!messages.length);
         if (!messages.length)
