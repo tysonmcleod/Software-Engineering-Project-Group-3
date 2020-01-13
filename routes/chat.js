@@ -100,7 +100,7 @@ router.get('/newMessage', async (req, res) => {
     const username = user.username;
 
     try {
-        const users = await User.find();
+        const users = await User.find().sort({username: 1});
         console.log(users);
         res.render("newMessage", {data: users, username: username})
     } catch (err) {
