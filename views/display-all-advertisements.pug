@@ -1,11 +1,12 @@
 extends layout
 
 block content
+	
+	div#dataObject(data-objData=data)
+	input#dataobj(type='hidden', value=data)
+
 	#ridePage
-
-		div(data-objData=data)
-
-		h1 #{filter.from} &#8594 #{filter.to}
+		h1 #{filter.fromfrom}, #{filter.from}  &#8594 #{filter.toto}, #{filter.to}
 
 		form(method= 'GET', action='/rides/')
 
@@ -19,24 +20,17 @@ block content
 
 			input.form-control(name='from_lat', type='hidden', value=filter.from_lat)
 			input.form-control(name='from_lng', type='hidden', value=filter.from_lng)
+			input.form-control(name='fromfrom', type='hidden', value=filter.fromfrom)
 
 			input.form-control(name='to_lat', type='hidden', value=filter.to_lat)
 			input.form-control(name='to_lng', type='hidden', value=filter.to_lng)
+			input.form-control(name='toto', type='hidden', value=filter.toto)
 
 			#ridePageDate
 				input.form-control(name='date', type='date', value=filter.date)
-			br
-			if filter.radius == 0.2
-				input(type="radio" name="radius" value="0.03")
-				|  5 km
-				input(type="radio", name="radius", value="0.2", checked="checked")
-				| 20 km
-			else
-				input(type="radio" name="radius" value="0.03", checked="checked")
-				|  5 km
-				input(type="radio", name="radius", value="0.2")
-				| 20 km
-			br
+
+			input(type="radio" name="radius" value="0.1", hidden="hidden")
+
 
 			#ridePageButton
 				input.btn.btn-secondary.bt-lg.btn-block(type='submit', value='Search')
@@ -46,25 +40,37 @@ block content
 				each ad, i in data
 					#form-group
 					#chooseRide
+
+						div(id=i)="# " + i
 						.row
 							.col
-								p= "From: " + ad.from
+								p= "From: " + ad.fromfrom + ", " + ad.from
 							.col
-								p="To: " + ad.to
+								p= "To: " + ad.toto + ", " + ad.toto
 							.col
 								p="Available seats: " + ad.available_seats
 							.col
 								a.btn.btn-secondary.bt-lg.btn-block(href=
 									"/rides/show-ads/"+ ad.id) Info
-
 						.row
 							.col
 								p="Departure: " + ad.departure
 							.col
 								p="Arrival: " + ad.arrival
 							.col
-								#dateDisplay
-									p="Date: " + ad.date
+								p="Date: " + ad.date
 							.col
-								a.btn.btn-secondary.bt-lg.btn-block(href=
-									"/rides/hop-on-ride/"+ ad.id) Request
+								if ad.confirmed_riders.includes(username)
+									input.btn.btn-secondary.bt-lg.btn-block(value='Joined' readonly)
+								else if ad.interested_riders.includes(username)
+									input.btn.btn-secondary.bt-lg.btn-block(value='Sent' readonly)
+								else
+									a.btn.btn-secondary.bt-lg.btn-block(href=
+										"/rides/request-ride/" + ad.id + "/" + filter.from_lat + "/" + filter.from_lng + "/" + filter.to_lat + "/" + filter.to_lng) Request
+	
+	#rideridePage
+		script(type='text/javascript', src='/javascripts/map.js')
+		script(async, defer, type='text/javascript', src=`https://maps.googleapis.com/maps/api/js?key=${apiKey}&callback=showAllRoutes`)
+		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+		div(id='map')

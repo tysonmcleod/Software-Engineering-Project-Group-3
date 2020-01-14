@@ -115,5 +115,11 @@ block content
                             h5
                         .col-xs-8.col-sm-8.col-md-8
                             h5.font-weight-bold (#{driverVotes} votes)
-                    #profileButton
-                    a.btn.btn-secondary.bt-lg.btn-block(href='/users/editProfile') Edit
+                .row.h5
+                .row.offset-3
+                    .col-xs-4.col-sm-4.col-md-4
+                        form(method= 'POST', action='/rides/join-ride/' + adId + '/' + username)
+                            input.btn.btn-secondary.bt-lg.btn-block(type='submit', value='Add to ride')
+                    .col-xs-4.col-sm-4.col-md-4
+                        form(method= 'POST', action='/rides/reject-rider/' + adId + '/' + username)
+                            input.btn.btn-secondary.bt-lg.btn-block(type='submit', value='Reject')

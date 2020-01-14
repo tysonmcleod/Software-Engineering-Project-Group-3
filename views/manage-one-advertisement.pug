@@ -3,45 +3,76 @@ extends layout
 block content
 	#container
 
-		div(data-objData=data)
+	div#dataObject(data-objData=data)
+	input#dataobj(type='hidden', value=data)
 
-		#testFirstPage
-			if data
+	-var today = new Date()
+	-var dd = String(today.getDate()).padStart(2, '0');
+	-var mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
 
-				#createForm2
-					h3="Ad information"
+	-var yyyy = today.getFullYear();
+	-today = yyyy + '-' + mm + '-' + dd;
+
+	#testFirstPage
+		if data
+			#createForm2
+				h3="Ad information"
+				br
+				form(method= 'GET', action='/rides/update-ride/'+data.id)
+					#form-group
+					.row
+						.col
+							label From:
+							input.form-control(name='from', type='text', value=data.fromfrom + ", " + data.from, readonly)
+						.col
+							label To:
+							input.form-control(name='to', type='text', value=data.toto + ", " + data.to, readonly)
+					.row
+						.col
+							label Date:
+							input.form-control(name='date', type=date, value=data.date)
+						.col
+							label Available seats:
+							input.form-control(name='available_seats', type=number, value=data.available_seats, readonly)
+
+					.row
+						.col
+							label Departure:
+							input.form-control(name='departure', type='time', value=data.departure)
+						.col
+							label Arriving:
+							input.form-control(name='arrival', type='time', value=data.arrival)
 					br
-					form(method= 'GET', action='/rides/update-ride/'+data.id)
-						#form-group
-						.row
-							.col
-								label From:
-								input.form-control(name='from', type='text', value=data.from)
-							.col
-								label To:
-								input.form-control(name='to', type='text', value=data.to)
-						.row
-							.col
-								label Date:
-								input.form-control(name='date', type=date, value=data.date)
-							.col
-								label Available seats:
-								input.form-control(name='available_seats', type='number', value=data.available_seats)
-						.row
-							.col
-								label Departure:
-								input.form-control(name='departure', type='time', value=data.departure)
-							.col
-								label Arriving:
-								input.form-control(name='arrival', type='time', value=data.arrival)
-						br
-						.row
-							input.btn.btn-secondary.bt-lg.btn-block(type='submit', value='Update ride')
-					form(method= 'GET', action='/rides/destroy-the-ride/' + data.id)
-						#form-group
-						.row
-							input.btn.btn-secondary.bt-lg.btn-block(type='submit', value='Remove ride')
+					.row
+						input.btn.btn-secondary.bt-lg.btn-block(type='submit', value='Update ride')
+				form(method= 'GET', action='/rides/delete-ride/' + data.id)
+					#form-group
+					.row
+						input.btn.btn-secondary.bt-lg.btn-block(type='submit', value='Remove ride')
 
+	if data.date < today
+		#testSecondPage
+			if data.confirmed_riders
+				#createForm2
+					h4="Confirmed Riders: "
+					- for (let i=0; i < data.confirmed_riders.length; i++)
+						- c_rider = data.confirmed_riders[i]
+						- let rating = data.rate_riders[i]
+						#form-group
+						.row
+							.col
+								a.mngOneAd(href='/users/profile/' + c_rider + '/' + data.id + '/false') #{c_rider}
+							.col
+								p=Math.round(rating)
+							.col
+								if rating==-1
+									form(method='POST', action='/users/rate-rider/' + data.id)
+										input.form-control(name='driverUsername', hidden=true, value=data.driver, type="text")
+										input.form-control(name='riderUsername', hidden=true, value=c_rider, type="text")
+										input.btn.btn-secondary.bt-lg.btn-block(type='submit', value='Give rating')
+								else
+									input.btn.btn-secondary.bt-lg.btn-block(value=rating+'/5' readonly)
+	else
 		#testSecondPage
 			if data.confirmed_riders
 				#createForm2
@@ -50,11 +81,10 @@ block content
 						#form-group
 						.row
 							.col
-								p="Username: " + c_rider
+								a.mngOneAd(href='/users/profile/' + c_rider + '/' + data.id + '/false') #{c_rider}
 							.col
-								form(method= 'POST', action='/rides/disjoin-ride/'+data.id +'/'+c_rider)
+								form(method= 'POST', action='/rides/reject-rider/' + data.id + '/' + c_rider + '/' + data.driver)
 									input.btn.btn-secondary.bt-lg.btn-block(type='submit', value='Remove from ride')
-
 
 		#testSecondPage
 			if data.interested_riders
@@ -64,8 +94,18 @@ block content
 						#form-group
 							.row
 								.col
-									p="Username: " + p_rider
+									a.mngOneAd(href='/users/profile/' + p_rider + '/' + data.id + "/true") #{p_rider}
 								.col
 									if data.available_seats != 0
-										form(method= 'POST', action='/rides/join-ride/'+data.id +'/'+p_rider)
+										form(method= 'POST', action='/rides/accept-rider/' + data.id + '/' + p_rider + '/' + data.driver)
 											input.btn.btn-secondary.bt-lg.btn-block(type='submit', value='Add to ride')
+								.col
+									form(method= 'POST', action='/rides/not-accept-rider/' + data.id + '/' + p_rider)
+										input.btn.btn-secondary.bt-lg.btn-block(type='submit', value='Reject')
+
+
+	script(type='text/javascript', src='/javascripts/map.js')
+	script(async, defer, type='text/javascript', src=`https://maps.googleapis.com/maps/api/js?key=${apiKey}&callback=showRoute`)
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+	div(id='map')

@@ -2,17 +2,18 @@ extends layout
 
 block content
 
-	div(data-objData=data)
+	div#dataObject(data-objData=data)
+	input#dataobj(type='hidden', value=data)
+
 	#createadPage
 		#createdadPageForm
-			h1 Info
 			#createForm
 				#form-group
 				.row
 					.col-6
-						p= "From: " + data.from
+						p= "From: " + data.fromfrom + ", " + data.from
 					.col-6
-						p= "To: " + data.to
+						p= "To: " + data.toto + ", " + data.to
 				.row
 						.col-6
 							p= "Departure: " + data.departure
@@ -22,13 +23,30 @@ block content
 					.col-6
 						p= "Available seats:" + data.available_seats
 					.col-6
-						p= "Driver: " + data.driver
+						p Driver: #[a.mngOneAd(href='/users/profile/'+data.driver+'/'+data.id+'/false') #{data.driver}]
 				.row
 					.col
 						if data.confirmed_riders
-							p="Riders: "+ data.confirmed_riders
+							p="Riders: "
+							for rider in data.confirmed_riders
+								a.mngOneAd(href='/users/profile/' + rider + '/' + data.id + '/false') #{rider}
+								span=" "
+					.col
+						p="Date: " + data.date
+				.row
+					.col
+						p="Pick-up and delivery zone: " + data.radius*100 + " km"
+					.col
+						p="Price: " + data.price + " SEK"
+				if (username != data.driver)
+					.row
+						.col
+						.col
+							a.btn.btn-secondary.bt-lg.btn-block(href='/messages/' + username + '/' + data.driver) Contact #{data.driver}
+						.col
+
 		script(type='text/javascript', src='/javascripts/map.js')
-		script(async, defer, type='text/javascript', src=`https://maps.googleapis.com/maps/api/js?key=${apiKey}&callback=initMap`)
+		script(async, defer, type='text/javascript', src=`https://maps.googleapis.com/maps/api/js?key=${apiKey}&callback=showRoute`)
 		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
 		div(id='map')

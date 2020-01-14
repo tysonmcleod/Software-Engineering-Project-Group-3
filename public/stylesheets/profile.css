@@ -45,11 +45,25 @@
 .star {
   color: goldenrod;
   font-size: 2.0rem;
+  font-weight: 900;
 }
 .star::before {
   content: '\2606'; /* star outline */
 }
 .star.rated::before {
+  /* the style for a selected star */
+  content: '\2605'; /* filled star */
+}
+
+.stard {
+  color: goldenrod;
+  font-size: 2.0rem;
+  font-weight: 900;
+}
+.stard::before {
+  content: '\2606'; /* star outline */
+}
+.stard.rated::before {
   /* the style for a selected star */
   content: '\2605'; /* filled star */
 }

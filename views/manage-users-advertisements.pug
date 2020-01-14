@@ -23,6 +23,40 @@ block content
 									.row
 										p= "Date: " + ad.date
 									.row
+										p= "From: " + ad.fromfrom + ", " + ad.from
+									.row
+										p= "To: " + ad.toto + ", " + ad.to
+
+								.col
+									.row
+										p= "Departure: " + ad.departure
+									.row
+										p= "Arrival: " + ad.arrival
+									.row
+										p= "Passengers: " + ad.confirmed_riders.length
+								.col
+									.row
+										a.btn.btn-secondary.bt-lg.btn-block(href= "manage-users-ads/" + ad.id) Edit
+									br
+									.row
+										a.btn.btn-secondary.bt-lg.btn-block(href='/rides/show-ads/' + ad.id) Info
+										br
+	#createadPage
+
+		h1="Old advertisements"
+		br
+		if data
+				-var index=0
+				each ad in data
+					if ad.driver == username && ad.date < today
+						-index = index+1
+						#form-group
+						#upcomingAds
+							.row
+								.col
+									.row
+										p= "Date: " + ad.date
+									.row
 										p= "From: " + ad.from
 									.row
 										p= "To: " + ad.to
@@ -39,39 +73,5 @@ block content
 										a.btn.btn-secondary.bt-lg.btn-block(href= "manage-users-ads/" + ad.id) Edit
 									br
 									.row
-										a.btn.btn-secondary.bt-lg.btn-block(href='/rides/show-ads/' + ad.id) More info
+										a.btn.btn-secondary.bt-lg.btn-block(href='/rides/show-ads/' + ad.id) Info
 										br
-	#createadPage
-
-		h1="Old advertisements"
-		br
-		if data
-			#upcomingAds
-				-var index=0
-				each ad in data
-					if ad.driver == username && ad.date < today
-						-index = index+1
-						#form-group
-						.row
-							.col
-								.row
-									p= "Date: " + ad.date
-								.row
-									p= "From: " + ad.from
-								.row
-									p= "To: " + ad.to
-
-							.col
-								.row
-									p= "Departure: " + ad.departure
-								.row
-									p= "Arrival: " + ad.arrival
-								.row
-									p= "Passengers: " + ad.confirmed_riders.length
-							.col
-								.row
-									a.btn.btn-secondary.bt-lg.btn-block(href= "manage-users-ads/" + ad.id) Edit
-								br
-								.row
-									a.btn.btn-secondary.bt-lg.btn-block(href='/rides/show-ads/' + ad.id) More info
-									br

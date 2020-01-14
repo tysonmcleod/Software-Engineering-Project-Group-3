@@ -7,6 +7,7 @@ block content
 	-var mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
 	-var yyyy = today.getFullYear();
 	-today = yyyy + '-' + mm + '-' + dd;
+	
 	#upcomingRides
 		#createAdPage
 			h1="Confirmed rides"
@@ -22,9 +23,9 @@ block content
 										.row
 											.col
 												.row
-													p= "From: " + ad.from
+													p= "From: " + ad.fromfrom + ", " + ad.from
 												.row
-													p="To: " + ad.to
+													p= "To: " + ad.toto + ", " + ad.to
 												.row
 													p=" Date: " + ad.date
 											.col
@@ -36,10 +37,10 @@ block content
 													p="Driver: " + ad.driver
 											.col
 												.row
-													a.btn.btn-secondary.bt-lg.btn-block(href="show-ads/"+ad.id) More info
+													a.btn.btn-secondary.bt-lg.btn-block(href="show-ads/"+ad.id) Info
 												br
 												.row
-													a.btn.btn-secondary.bt-lg.btn-block(href="hop-off-ride/"+ad.id) Remove request
+													a.btn.btn-secondary.bt-lg.btn-block(href="derequest-ride/"+ad.id) Remove request
 
 
 		#createAdPage
@@ -56,9 +57,9 @@ block content
 										.row
 											.col
 												.row
-													p= "From: " + ad.from
+													p= "From: " + ad.fromfrom + ", " + ad.from
 												.row
-													p="To: " + ad.to
+													p="To: " + ad.toto + ", " + ad.to
 												.row
 													p=" Date: " + ad.date
 											.col
@@ -70,10 +71,10 @@ block content
 													p="Driver: " + ad.driver
 											.col
 												.row
-													a.btn.btn-secondary.bt-lg.btn-block(href="show-ads/"+ad.id) More info
+													a.btn.btn-secondary.bt-lg.btn-block(href="show-ads/"+ad.id) Info
 												br
 												.row
-													a.btn.btn-secondary.bt-lg.btn-block(href="hop-off-ride/"+ad.id) Remove request
+													a.btn.btn-secondary.bt-lg.btn-block(href="derequest-ride/"+ad.id) Remove request
 
 	#upcomingRides
 		#createAdPage
@@ -85,13 +86,13 @@ block content
 						each ad in data
 							each rider in ad.confirmed_riders
 								#form-group
-								if username==rider
+								if username==rider && ad.date < today
 									.row
 										.col
 											.row
-												p= "From: " + ad.from
+												p= "From: " + ad.fromfrom + ", " + ad.from
 											.row
-												p="To: " + ad.to
+												p= "To: " + ad.toto + ", " + ad.to
 											.row
 												p=" Date: " + ad.date
 										.col
@@ -103,4 +104,16 @@ block content
 												p="Driver: " + ad.driver
 										.col
 											.row
-												a.btn.btn-secondary.bt-lg.btn-block(href="show-ads/"+ad.id) More info
+												a.btn.btn-secondary.bt-lg.btn-block(href="show-ads/"+ad.id) Info
+											br
+											.row
+												- riderIndex = ad.confirmed_riders.indexOf(rider);
+												- rating = ad.riders_rate_driver[riderIndex];
+												if (rating == -1)
+													form(method='POST', action='/users/rate-driver/' + ad.id)
+														input.form-control(name='driverUsername', hidden=true, value=ad.driver, type="text")
+														input.form-control(name='riderUsername', hidden=true, value=rider, type="text")
+														input.btn.btn-secondary.bt-lg.btn-block(type='submit', value='Rate '+ad.driver)
+												else
+													input.btn.btn-secondary.bt-lg.btn-block(value=rating+'/5' readonly)
+									br

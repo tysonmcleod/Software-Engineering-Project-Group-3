@@ -1,6 +1,9 @@
 var express = require('express');
 var router = express.Router();
 var Messages = require('../models/messages');
+var User = require('../models/user');
+
+User = User.model;
 
 // Create message
 router.post('/', async (req, res) => {
@@ -11,8 +14,6 @@ router.post('/', async (req, res) => {
 
     console.log(sender + " sent to " + receiver + ":");
     console.log(msg);
-
-
 
     // Check if a conversation between sender and receiver already exists
     const chat = await Messages.findOne({$and: [{participants: sender}, {participants: receiver}]});
@@ -68,7 +69,7 @@ router.get('/all', async (req, res) => {
     const username = user.username;
     console.log("Display all conversations of user: " + username);
     try {
-        const messages = await Messages.find({participants: username});
+        const messages = await Messages.find({participants: username}).sort({lastMsgDate: -1});
         console.log(messages);
         console.log(!messages.length);
         if (!messages.length)
@@ -81,7 +82,6 @@ router.get('/all', async (req, res) => {
 });
 
 // Get chat between two users
-// TODO: request params instead of path parameters
 router.get('/:id1/:id2', async (req, res) => {
     const id1 = req.params.id1;
     const id2 = req.params.id2;
@@ -89,10 +89,27 @@ router.get('/:id1/:id2', async (req, res) => {
     try {
         const messages = await Messages.findOne({$and: [{participants: id1}, {participants: id2}]});
         console.log(messages);
-        res.render("conversation", {results: messages, owner: id1, other: id2})
+        if (messages)
+            res.render("conversation", {results: messages, owner: id1, other: id2});
+        else
+            res.render("newMessageToDriver", {owner: id1, driver: id2});
     } catch (err) {
         res.status(500).json({ message: err.message })
     }
+});
+
+router.get('/newMessage', async (req, res) => {
+    const user = res.locals.user;
+    const username = user.username;
+
+    try {
+        const users = await User.find().sort({username: 1});
+        console.log(users);
+        res.render("newMessage", {data: users, username: username})
+    } catch (err) {
+        res.status(500).json({ message: err.message })
+    }
+
 });
 
 module.exports = router;

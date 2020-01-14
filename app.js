@@ -18,7 +18,6 @@ var msgsRouter = require('./routes/chat');
 var ridesRouter = require('./routes/rides');
 
 var app = express();
-const port = 3000;
 
 
 // view engine setup
@@ -110,6 +109,8 @@ app.use(function(err, req, res, next) {http://localhost:8000/
   res.status(err.status || 500);
   res.render('error');
 });
+
+
 
 
 app.set('port', (process.env.PORT || 8000));

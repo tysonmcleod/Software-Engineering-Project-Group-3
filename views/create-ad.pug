@@ -1,32 +1,38 @@
 extends layout
 
 block content
+  -var today = new Date()
+  -var dd = String(today.getDate()).padStart(2, '0');
+  -var mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
+  -var yyyy = today.getFullYear();
+  -today = yyyy + '-' + mm + '-' + dd;
+
   #createadPage
     script(type='text/javascript', src='/javascripts/map.js')
     script(async, defer, type='text/javascript', src=`https://maps.googleapis.com/maps/api/js?key=${apiKey}&callback=initMap`)
 
     div#map
     #createForm
-    form(method= 'GET', action='send-ad')
+    form(method= 'GET', action='make-advertisement')
       #form-group
       .row
         .col
           label From:
-          input#from-dest.form-control(name='from', type='text', placeholder='From', required, onchange=`formToMap('from')`)
+          input#from-dest.form-control(name='from', type='text', placeholder='From', readonly, onchange=`formToMap('from')`)
           input#fromcoords(type='hidden', name='fromcoords')
         .col
           label To:
-          input#to-dest.form-control(name='to', type='text', placeholder='To', required, onchange=`formToMap('to')`)
+          input#to-dest.form-control(name='to', type='text', placeholder='To', readonly, onchange=`formToMap('to')`)
           input#tocoords(type='hidden', name='tocoords')
 
       #form-group
       .row
         .col
           label Date:
-          input.form-control(name='date', type='date', required, min=`${today}`)
+          input.form-control(name='date', type='date', required, min=`${today}`, value=today)
         .col
           label Available seats:
-          input.form-control(name='available_seats', type='number', required, placeholder='0')
+          input.form-control(name='available_seats', type='number', required, value=4)
       #shadyForm
       .row
         .col
@@ -35,5 +41,13 @@ block content
         .col
           label Arriving:
           input.form-control(name='arrival', required, type='time')
+      #form-group
+      .row
+        .col
+          label Price per passenger (SEK):
+          input.form-control(name='price', required, type='number', min="0", value=0)
+        .col
+          label Pick-up & delivery radius zone (km):
+          input.form-control(name='radius', required, type='number', min="1", value=1)
       #createadPageButton
         input.btn.btn-secondary.bt-lg.btn-block(type='submit', value='Create ad')
