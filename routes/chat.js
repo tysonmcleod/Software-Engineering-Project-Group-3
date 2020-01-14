@@ -89,7 +89,10 @@ router.get('/:id1/:id2', async (req, res) => {
     try {
         const messages = await Messages.findOne({$and: [{participants: id1}, {participants: id2}]});
         console.log(messages);
-        res.render("conversation", {results: messages, owner: id1, other: id2})
+        if (messages)
+            res.render("conversation", {results: messages, owner: id1, other: id2});
+        else
+            res.render("newMessageToDriver", {owner: id1, driver: id2});
     } catch (err) {
         res.status(500).json({ message: err.message })
     }
