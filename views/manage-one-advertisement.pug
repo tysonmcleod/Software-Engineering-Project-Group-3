@@ -63,8 +63,6 @@ block content
 							.col
 								a.mngOneAd(href='/users/profile/' + c_rider + '/' + data.id + '/false') #{c_rider}
 							.col
-								p=Math.round(rating)
-							.col
 								if rating==-1
 									form(method='POST', action='/users/rate-rider/' + data.id)
 										input.form-control(name='driverUsername', hidden=true, value=data.driver, type="text")
