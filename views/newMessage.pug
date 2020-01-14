@@ -1,0 +1,34 @@
+extends layout
+
+block content
+    .main.container.clearfix
+        h2 New message
+        form(method= 'POST', action='/messages/', id='sendMsg')
+            table.table-bordered.table
+                tbody
+                    .row.h5
+                        .col-1 To:
+                        .col
+                            select(id='mySelect')
+                                - usernames = []
+                                for usr in data
+                                    if (!usernames.includes(usr.username))
+                                        - usernames.push(usr.username)
+                                for usrnm in usernames
+                                    option(value=usrnm) #{usrnm}
+                    .row
+                        .col-10
+                            textarea(name='message', rows=4, cols=60, onfocus="this.value=''", placeholder="Type a message...")
+                            input.form-control(name='sender', type='text', value=username, hidden=true)
+                            input.form-control(id='receiver', name='receiver', hidden=true)
+                        .col-2
+                            button.btn.btn-secondary.bt-lg.btn-block(type='button' onclick='myFunction()') Send
+
+                        script.
+                            let inputReceiver = document.getElementById('receiver');
+                            let x = document.getElementById('mySelect').value;
+                            function myFunction() {
+                                inputReceiver.value = x;
+                                document.getElementById('receiver').value = x
+                                document.getElementById('sendMsg').submit();
+                            }

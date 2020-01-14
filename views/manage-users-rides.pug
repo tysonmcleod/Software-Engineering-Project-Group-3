@@ -86,7 +86,7 @@ block content
 						each ad in data
 							each rider in ad.confirmed_riders
 								#form-group
-								if username==rider
+								if username==rider && ad.date < today
 									.row
 										.col
 											.row

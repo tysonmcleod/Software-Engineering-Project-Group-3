@@ -38,6 +38,12 @@ block content
 						p="Pick-up and delivery zone: " + data.radius*100 + " km"
 					.col
 						p="Price: " + data.price + " SEK"
+				if (username != data.driver)
+					.row
+						.col
+						.col
+							a.btn.btn-secondary.bt-lg.btn-block(href='/messages/' + username + '/' + data.driver) Contact #{data.driver}
+						.col
 
 		script(type='text/javascript', src='/javascripts/map.js')
 		script(async, defer, type='text/javascript', src=`https://maps.googleapis.com/maps/api/js?key=${apiKey}&callback=showRoute`)

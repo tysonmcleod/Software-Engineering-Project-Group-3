@@ -427,10 +427,13 @@ router.get('/manage-users-ads/:id', async (req, res) => {
 });
 
 router.get('/show-ads/:id', (req, res) => {
-	const id = req.params.id
+	const id = req.params.id;
+	const test = res.locals.user;
+	const username = test.username;
+
 	Advertisement.findById(id)
 	.then(advertisement => {
-		res.render("display-one-advertisement", {	data: advertisement, apiKey: GoogleAPIKey});
+		res.render("display-one-advertisement", {	data: advertisement, apiKey: GoogleAPIKey, username: username});
 	})
 	.catch(err => {
 		res.json({
