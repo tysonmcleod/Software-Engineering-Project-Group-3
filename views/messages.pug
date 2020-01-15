@@ -1,6 +1,7 @@
 extends layout
 
 block content
+  #mainMessagepage
     .main.container.clearfix
         h2 Messages
         table.table-bordered.table
@@ -37,5 +38,5 @@ block content
                                                 span.time-right #{dateThisWeek}
 
 
-            .row.offset-9
-                a.btn.btn-secondary.bt-lg.btn-block(href='/messages/newMessage') New message
+            #messagepageBtn                                
+              a.btn.btn-secondary.bt-lg.btn-block(href='/messages/newMessage') New message
