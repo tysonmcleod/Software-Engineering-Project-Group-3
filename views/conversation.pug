@@ -1,6 +1,7 @@
 extends layout
 
 block content
+  #convo
     .main.container.clearfix
         h2 #{other}
         form(method= 'POST', action='/messages/')
@@ -36,9 +37,10 @@ block content
                                 span.time-left #{msgDate}
                         - i++
             .row
-                .col-10
+                .col.textAreawidth
                     textarea(name='message', rows=4, cols=60, onfocus="this.value=''", placeholder="Type a message...")
                     input.form-control(name='sender', type='text', value=owner, hidden=true)
                     input.form-control(name='receiver', type='text', value=other, hidden=true)
-                .col-2
-                    input.btn.btn-secondary.bt-lg.btn-block(type='submit', value='Send')
+
+            #convoBtn
+              input.btn.btn-secondary.bt-lg.btn-block(type='submit', value='Send')

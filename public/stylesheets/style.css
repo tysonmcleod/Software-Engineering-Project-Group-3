@@ -88,6 +88,10 @@ a {
 .navbar .navbar-text {
   color: #ffffff;
 }
+
+.navbar ul{
+  margin-top:8px;
+}
 .navbar .navbar-text a {
   color: #ddd4d4;
 }
